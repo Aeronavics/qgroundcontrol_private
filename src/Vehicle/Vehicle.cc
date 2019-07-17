@@ -3802,8 +3802,6 @@ void Vehicle::_updateHeadingToNextWP(void)
     else{
         _headingToNextWPFact.setRawValue(qQNaN());
     }
-
-    qDebug() << " Vehicle updateHeadingToNextWP "<< _currentIndex;
 }
 
 void Vehicle::_updateDistanceToGCS(void)
