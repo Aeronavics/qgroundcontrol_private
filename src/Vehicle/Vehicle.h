@@ -1512,7 +1512,6 @@ private:
     Fact _distanceToHomeFact;
     Fact _headingToNextWPFact;
     Fact _headingToHomeFact;
-    Fact _headingToNextWP;
     Fact _distanceToGCSFact;
     Fact _hobbsFact;
     Fact _throttlePctFact;
