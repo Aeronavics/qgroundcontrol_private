@@ -58,7 +58,8 @@ cp -L libdirectfb/usr/lib/x86_64-linux-gnu/libfusion-1.2.so.9 ${APPDIR}/usr/lib/
 cp -L libdirectfb/usr/lib/x86_64-linux-gnu/libdirect-1.2.so.9 ${APPDIR}/usr/lib/x86_64-linux-gnu/
 
 # copy libts-0.0-0
-wget -c --quiet http://ftp.us.debian.org/debian/pool/main/t/tslib/libts-0.0-0_1.0-11_amd64.deb
+wget -c --quiet http://old-releases.ubuntu.com/ubuntu/pool/universe/t/tslib/libts-0.0-0_1.0-11_amd64.deb
+
 mkdir libts
 dpkg -x libts-0.0-0_1.0-11_amd64.deb libts
 cp -L libts/usr/lib/x86_64-linux-gnu/libts-0.0.so.0 ${APPDIR}/usr/lib/x86_64-linux-gnu/
@@ -89,10 +90,10 @@ echo ${QGC_CUSTOM_APP_NAME} Version: ${VERSION}
 
 # Go out of AppImage
 cd ${TMPDIR}
-wget -c --quiet "https://github.com/probonopd/AppImageKit/releases/download/5/AppImageAssistant" # (64-bit)
-chmod a+x ./AppImageAssistant
-
-./AppImageAssistant ./$APP.AppDir/ ${TMPDIR}/$APP".AppImage"
+wget -c --quiet 'https://github.com/AppImage/AppImageKit/releases/download/12/appimagetool-x86_64.AppImage'
+chmod a+x ./appimagetool-x86_64.AppImage
+./appimagetool-x86_64.AppImage --appimage-extract
+./squashfs-root/AppRun ./$APP.AppDir ${TMPDIR}/$APP".AppImage"
 
 cp ${TMPDIR}/$APP".AppImage" ${OUTPUT_DIR}/$APP".AppImage"
 

@@ -1,307 +1,182 @@
 pipeline {
-  agent none
-  stages {
+	agent none
+	stages {
+		stage('build') {
+			parallel {
 
-    stage('build') {
-      parallel {
+				stage('Android Release') {
+					environment {
+						CCACHE_BASEDIR = "${env.WORKSPACE}"
+						QGC_CONFIG = 'release'
+						QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
+						GSTREAMER_ROOT_ANDROID = "/qgroundcontrol/gstreamerr"
+		                VERSION_NAME = getVersion()
+					}
+					agent {
+						docker {
+							image 'pelardon.aeronavics.com:8084/qgc_android'
+							args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
+						}
+					}
 
-        stage('Android Release') {
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            QGC_CONFIG = 'release'
-            QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
-          }
-          agent {
-            docker {
-              image 'mavlink/qgc-build-android:2019-02-03'
-              args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
-            }
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'git submodule deinit -f .'
-            sh 'git clean -ff -x -d .'
-            sh 'git submodule update --init --recursive --force'
-            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=${QGC_CONFIG} CONFIG+=WarningsAsErrorsOn'
-            sh 'cd build; make -j`nproc --all`'
-            sh 'ccache -s'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
+					steps {
+						sh 'git fetch --tags'
+                        sh 'echo $PATH'
+                        sh 'echo $CCACHE_BASEDIR'
+                        sh 'echo Version ${VERSION_NAME}'
+						withCredentials(bindings: [file(credentialsId: 'AndroidReleaseKey', variable: 'ANDROID_KEYSTORE')]) {
+							sh 'cp $ANDROID_KEYSTORE ${WORKSPACE}/android/android_release.keystore.h'
+						}
 
-        stage('Linux Debug') {
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            QGC_CONFIG = 'debug'
-            QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
-          }
-          agent {
-            docker {
-              image 'mavlink/qgc-build-linux:2019-02-03'
-              args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
-            }
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'git submodule deinit -f .'
-            sh 'git clean -ff -x -d .'
-            sh 'git submodule update --init --recursive --force'
-            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=${QGC_CONFIG} CONFIG+=WarningsAsErrorsOn'
-            sh 'cd build; make -j`nproc --all`'
-            sh 'ccache -s'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
+                        sh './tools/update_android_version.sh;'
+						sh 'export'
+						sh 'ccache -z'
+						sh 'git submodule deinit -f .'
+						sh 'git clean -ff -x -d .'
+                        sh 'git submodule update --init --recursive --force'
+                        sh 'wget --quiet http://192.168.2.144:8086/nexus/repository/gstreamer-android-qgroundcontrol/gstreamer/gstreamer-1.0-android-universal-1.14.4.tar.bz2'
+                        sh 'tar jxf gstreamer-1.0-android-universal-1.14.4.tar.bz2 -C ${WORKSPACE}' 
+                        withCredentials([string(credentialsId: 'ANDROID_STOREPASS', variable: 'ANDROID_STOREPASS')]) {
+                            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG}'
+                            sh 'cd build; make -j`nproc --all`'
+                        }
+						sh 'ccache -s'
+					}
+					post {
+						always {
+                            archiveArtifacts artifacts: 'build/release/package/*.apk'
+                            nexusArtifactUploader(
+                                credentialsId: 'qgc_uploader',
+                                groupId: 'qgroundcontrol',
+                                nexusUrl: 'pelardon.aeronavics.com:8086/nexus',
+                                nexusVersion: 'nexus3',
+                                protocol: 'http',
+                                repository: 'qgroundcontrol',
+                                version: "${VERSION_NAME}",
+                                artifacts: [
+                                    [artifactId: 'QGroundControl', classifier: "${env.GIT_COMMIT}", file: 'build/release/package/QGroundControl.apk', type: 'apk']
+                                ]
+                                )
+                        }
+						cleanup {
+						    sh 'rm -r ${WORKSPACE}/build || true'
+						    sh 'rm -r ${WORKSPACE}/gstreamer* || true'
+							sh 'git clean -ff -x -d .'
+						}
+					}
+				}
 
-        stage('Linux Debug (cmake)') {
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            CMAKE_BUILD_TYPE = 'Debug'
-            QT_VERSION = "5.11.0"
-            QT_MKSPEC = "gcc_64"
-          }
-          agent {
-            docker {
-              image 'mavlink/qgc-build-linux:2019-02-03'
-              args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
-            }
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'make distclean'
-            sh 'make submodulesclean'
-            sh 'make linux'
-            //sh 'make linux check' // TODO: needs Xvfb or similar
-            sh 'ccache -s'
-            sh 'make distclean'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
 
-        stage('Linux Release') {
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            QGC_CONFIG = 'release'
-            QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
-          }
-          agent {
-            docker {
-              image 'mavlink/qgc-build-linux:2019-02-03'
-              args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
-            }
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'git submodule deinit -f .'
-            sh 'git clean -ff -x -d .'
-            sh 'git submodule update --init --recursive --force'
-            withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
-              sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
-            }
-            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=${QGC_CONFIG} CONFIG+=WarningsAsErrorsOn'
-            sh 'cd build; make -j`nproc --all`'
-            sh 'ccache -s'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
+				stage('Linux Release') {
+					environment {
+						CCACHE_BASEDIR = "${env.WORKSPACE}"
+						QGC_CONFIG = 'release'
+						QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
+		                VERSION_NAME = getVersion()
+					}
+					agent {
+						docker {
+							image 'pelardon.aeronavics.com:8084/qgc_linux'
+							args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
+						}
+					}
+					steps {
+						sh 'git fetch --tags'
+                        sh 'echo Version ${VERSION_NAME}'
+						sh 'export'
+						sh 'ccache -z'
+						sh 'git submodule deinit -f .'
+						sh 'git clean -ff -x -d .'
+						sh 'git submodule update --init --recursive --force'
+						withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
+							sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
+						}
+						sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64'
+						sh 'cd build; make -j`nproc --all`'
+						sh 'ccache -s'
+                        sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'
+                        sh './deploy/create_linux_deb.sh ${WORKSPACE}/build/release/QGroundControl ${WORKSPACE}/deploy/control ${WORKSPACE}/build/release/package'
+					}
+					post {
+						always {
+							archiveArtifacts artifacts: 'build/**/*.AppImage'
+							archiveArtifacts artifacts: 'build/**/*.deb'
+                            nexusArtifactUploader(
+                                credentialsId: 'qgc_uploader',
+                                groupId: 'qgroundcontrol',
+                                nexusUrl: 'pelardon.aeronavics.com:8086/nexus',
+                                nexusVersion: 'nexus3',
+                                protocol: 'http',
+                                repository: 'qgroundcontrol',
+                                version: "${env.VERSION_NAME}",
+                                artifacts: [
+                                    [artifactId: 'QGroundControl', classifier: "${env.GIT_COMMIT}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
+                                    [artifactId: 'QGroundControl', classifier: "${env.GIT_COMMIT}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
+                                ]
+                                )
+						}
+						cleanup {
+						    sh 'rm -r ${WORKSPACE}/build || true'
+							sh 'git clean -ff -x -d .'
+						}
+					}
+				}
 
-        stage('Linux Release (cmake)') {
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            CMAKE_BUILD_TYPE = 'Release'
-            QT_VERSION = "5.11.0"
-            QT_MKSPEC = "gcc_64"
-          }
-          agent {
-            docker {
-              image 'mavlink/qgc-build-linux:2019-02-03'
-              args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
-            }
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'make distclean'
-            sh 'make submodulesclean'
-            sh 'make linux'
-            sh 'ccache -s'
-            sh 'make distclean'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
 
-        stage('OSX Debug') {
-          agent {
-            node {
-              label 'mac'
-            }
-          }
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            QGC_CONFIG = 'debug'
-            QMAKE_VER = "5.11.0/clang_64/bin/qmake"
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'git submodule deinit -f .'
-            sh 'git clean -ff -x -d .'
-            sh 'git submodule update --init --recursive --force'
-            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=${QGC_CONFIG} CONFIG+=WarningsAsErrorsOn'
-            sh 'cd build; make -j`sysctl -n hw.ncpu`'
-            sh 'ccache -s'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
 
-        stage('OSX Debug (cmake)') {
-          agent {
-            node {
-              label 'mac'
-            }
-          }
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            CMAKE_BUILD_TYPE = 'Debug'
-            QT_VERSION = "5.11.0"
-            QT_MKSPEC = "clang_64"
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'make distclean'
-            sh 'make submodulesclean'
-            sh 'make mac'
-            sh 'ccache -s'
-            sh 'make distclean'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
+				stage('Windows Release') {
+					agent {
+						node {
+							label 'windows'
+						}
 
-        stage('OSX Release') {
-          agent {
-            node {
-              label 'mac'
-            }
-          }
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            QGC_CONFIG = 'installer'
-            QMAKE_VER = "5.11.0/clang_64/bin/qmake"
-          }
-          stages {
-            stage('Clean Checkout') {
-              steps {
-                sh 'export'
-                sh 'ccache -z'
-                sh 'git submodule deinit -f .'
-                sh 'git clean -ff -x -d .'
-                sh 'git submodule update --init --recursive --force'
-              }
-            }
+					}
+					environment {
+						QGC_CONFIG = 'release'
+						QMAKE_VER = '5.11.0/gcc_64/bin/qmake'
+		                VERSION_NAME = getVersion()
+					}
+					steps {
+						bat 'git fetch --tags'
+						bat "call vcvarsall.bat"
+						withCredentials(bindings: [file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
+							sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
+						}
+						bat "call winbuild.bat"
+					}
+					post {
+						always {
+							archiveArtifacts artifacts: 'build/release/*installer*.exe'
+                            nexusArtifactUploader(
+                                credentialsId: 'qgc_uploader',
+                                groupId: 'qgroundcontrol',
+                                nexusUrl: 'pelardon.aeronavics.com:8086/nexus',
+                                nexusVersion: 'nexus3',
+                                protocol: 'http',
+                                repository: 'qgroundcontrol',
+                                version: "${env.VERSION_NAME}",
+                                artifacts: [
+                                    [artifactId: 'QGroundControl', classifier: "${env.GIT_COMMIT}", file: 'build/release/QGroundControl-installer.exe', type: 'exe'],
+                                ]
+                                )
+						}
+					}
+				}
+			}
+		}
+	}
+	environment {
+		CCACHE_CPP2 = '1'
+		CCACHE_DIR = '/tmp/ccache'
+		QT_FATAL_WARNINGS = '1'
+	}
 
-            stage('Add Airmap API key') {
-              steps {
-                withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
-                  sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
-                }
-              }
-              when {
-                anyOf {
-                  branch 'master';
-                  branch 'Stable_*'
-                }
-              }
-            }
 
-            stage('Build OSX Release') {
-              steps {
-                sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=${QGC_CONFIG} CONFIG+=WarningsAsErrorsOn'
-                sh 'cd build; make -j`sysctl -n hw.ncpu`'
-                archiveArtifacts(artifacts: 'build/**/*.dmg', fingerprint: true)
-                sh 'ccache -s'
-              }
-            }
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
+}
 
-        stage('OSX Release (cmake)') {
-          agent {
-            node {
-              label 'mac'
-            }
-          }
-          environment {
-            CCACHE_BASEDIR = "${env.WORKSPACE}"
-            CMAKE_BUILD_TYPE = 'Release'
-            QT_VERSION = "5.11.0"
-            QT_MKSPEC = "clang_64"
-          }
-          steps {
-            sh 'export'
-            sh 'ccache -z'
-            sh 'make distclean'
-            sh 'make submodulesclean'
-            sh 'make mac'
-            sh 'ccache -s'
-            sh 'make distclean'
-          }
-          post {
-            cleanup {
-              sh 'git clean -ff -x -d .'
-            }
-          }
-        }
-
-      } // parallel
-    } // stage('build')
-  } // stages
-
-  environment {
-    CCACHE_CPP2 = '1'
-    CCACHE_DIR = '/tmp/ccache'
-    QT_FATAL_WARNINGS = '1'
-  }
-
-  options {
-    buildDiscarder(logRotator(numToKeepStr: '10', artifactDaysToKeepStr: '30'))
-    timeout(time: 60, unit: 'MINUTES')
-  }
+def getVersion()
+{
+    tags = sh(returnStdout: true, script: "git describe --tags --abbrev=7").trim()
+    print tags
+    return tags
 }
