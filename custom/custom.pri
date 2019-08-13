@@ -22,20 +22,12 @@ DEFINES += GIT_VERSION=\"\\\"$$CUSTOM_QGC_VERSION\\\"\"
 
 message(Aeronavics QGC Version: $${CUSTOM_QGC_VERSION})
 
-# Build a single flight stack by disabling APM support
-#MAVLINK_CONF = common
-#CONFIG  += QGC_DISABLE_APM_MAVLINK
-#CONFIG  += QGC_DISABLE_APM_PLUGIN QGC_DISABLE_APM_PLUGIN_FACTORY
-#
-## We implement our own PX4 plugin factory
-#CONFIG  += QGC_DISABLE_PX4_PLUGIN_FACTORY
-
 # Branding
 
 DEFINES += CUSTOMHEADER=\"\\\"CustomPlugin.h\\\"\"
 DEFINES += CUSTOMCLASS=CustomPlugin
 
-TARGET   = CustomQGC
+TARGET   = QGroundControl
 DEFINES += QGC_APPLICATION_NAME=\"\\\"AeronavicsQGC\\\"\"
 
 DEFINES += QGC_ORG_NAME=\"\\\"qgroundcontrol.org\\\"\"
@@ -58,13 +50,9 @@ QML_IMPORT_PATH += \
 # Our own, custom sources
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \
-#    $$PWD/src/CustomQuickInterface.cc \
-#    $$PWD/src/CustomVideoManager.cc
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
-#    $$PWD/src/CustomQuickInterface.h \
-#    $$PWD/src/CustomVideoManager.h
 
 INCLUDEPATH += \
     $$PWD/src \
@@ -73,20 +61,8 @@ INCLUDEPATH += \
 # Custom Firmware/AutoPilot Plugin
 
 #INCLUDEPATH += \
-#    $$QGCROOT/custom/src/FirmwarePlugin \
-#    $$QGCROOT/custom/src/AutoPilotPlugin
 #
 #HEADERS+= \
-#    $$QGCROOT/custom/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraControl.h \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraManager.h \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePlugin.h \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
 #
 #SOURCES += \
-#    $$QGCROOT/custom/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraControl.cc \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraManager.cc \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
-#    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 
