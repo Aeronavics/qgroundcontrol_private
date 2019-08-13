@@ -49,8 +49,8 @@ QGC_APP_DESCRIPTION = "Aeronavics QGC Ground Station"
 QGC_APP_COPYRIGHT   = "Copyright (C) 2019 QGroundControl Development Team. All rights reserved."
 
 # Our own, custom resources
-#RESOURCES += \
-#    $$QGCROOT/custom/custom.qrc
+RESOURCES += \
+    $$QGCROOT/custom/custom.qrc
 
 QML_IMPORT_PATH += \
     $$QGCROOT/custom/res

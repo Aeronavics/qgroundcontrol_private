@@ -75,15 +75,15 @@ public:
 
     // Overrides from QGCCorePlugin
     QVariantList&           settingsPages                   () final;
-    //QGCOptions*             options                         () final;
-    //QString                 brandImageIndoor                () const final;
-    //QString                 brandImageOutdoor               () const final;
+    QGCOptions*             options                         () final;
+    QString                 brandImageIndoor                () const final;
+    QString                 brandImageOutdoor               () const final;
     //bool                    overrideSettingsGroupVisibility (QString name) final;
     //VideoManager*           createVideoManager              (QGCApplication* app, QGCToolbox* toolbox) final;
     //VideoReceiver*          createVideoReceiver             (QObject* parent) final;
     //QQmlApplicationEngine*  createRootWindow                (QObject* parent) final;
     //bool                    adjustSettingMetaData           (const QString& settingsGroup, FactMetaData& metaData) final;
-    //void                    paletteOverride                 (QString colorName, QGCPalette::PaletteColorInfo_t& colorInfo) final;
+    void                    paletteOverride                 (QString colorName, QGCPalette::PaletteColorInfo_t& colorInfo) final;
     // Overrides from QGCTool
     //void                    setToolbox                      (QGCToolbox* toolbox);
 
@@ -101,6 +101,6 @@ private:
         const char* iconFile = nullptr);
 
 private:
-    //CustomOptions*      _pOptions = nullptr;
+    CustomOptions*      _pOptions = nullptr;
     QVariantList        _customSettingsList; // Not to be mixed up with QGCCorePlugin implementation
 };
