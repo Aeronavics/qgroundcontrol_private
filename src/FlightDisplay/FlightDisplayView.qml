@@ -489,6 +489,7 @@ Item {
             }
         }
 
+
         Row {
             id:                     singleMultiSelector
             anchors.topMargin:      ScreenTools.toolbarHeight + _margins
@@ -502,8 +503,8 @@ Item {
             QGCRadioButton {
                 id:             singleVehicleView
                 text:           qsTr("Single")
-                checked:        true
                 textColor:      mapPal.text
+                checked:        true
             }
 
             QGCRadioButton {
@@ -513,12 +514,17 @@ Item {
         }
 
         FlightDisplayViewWidgets {
+            function f(a) {
+                console.log("a is ", a);
+                return 0;
+            }
             id:                 flightDisplayViewWidgets
             z:                  _mapAndVideo.z + 4
-            height:             availableHeight - (singleMultiSelector.visible ? singleMultiSelector.height + _margins : 0) - (ScreenTools.defaultFontPixelHeight * 0.5)
+            height:             availableHeight - (singleMultiSelector.visible ? f(singleMultiSelector.height)+singleMultiSelector.height + _margins : 0) - (ScreenTools.defaultFontPixelHeight * 0.5)
             anchors.left:       parent.left
             anchors.right:      altitudeSlider.visible ? altitudeSlider.left : parent.right
             anchors.bottom:     parent.bottom
+            anchors.top:        singleMultiSelector.visible? singleMultiSelector.bottom:undefined
             useLightColors:     isBackgroundDark
             missionController:  _missionController
             visible:            singleVehicleView.checked && !QGroundControl.videoManager.fullScreen
