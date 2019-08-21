@@ -3,13 +3,13 @@
         <file alias="QGCLogoWhite">res/Images/icon.svg</file>
     </qresource>
     <qresource prefix="/custom">
+        <file alias="CustomMavlinkSettings.qml">res/SettingsPage/MavlinkSettings.qml</file>
+        <file alias="CustomLogSettings.qml">res/SettingsPage/LogSettings.qml</file>
     </qresource>
     <qresource prefix="custom/img">
         <file alias="aeronavics.svg">res/Images/aeronavics.svg</file>
         <file alias="void.png">res/Images/void.png</file>
     </qresource>
     <qresource prefix="Custom/Widgets">
-    </qresource>
-    <qresource prefix="Custom/Camera">
     </qresource>
 </RCC>

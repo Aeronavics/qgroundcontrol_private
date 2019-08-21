@@ -52,7 +52,7 @@ public:
    // QUrl        planToolbarUrl                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomMainToolBar.qml"); }
     //-- Don't show instrument widget
     //CustomInstrumentWidget* instrumentWidget    () final { return nullptr; }
-    //bool        showMavlinkLogOptions           () const final { return false; }
+    bool        showMavlinkLogOptions           () const final { return false; }
 
     //bool        showFirmwareUpgrade             () const final;
     ////-- We handle multiple vehicles in a custom way

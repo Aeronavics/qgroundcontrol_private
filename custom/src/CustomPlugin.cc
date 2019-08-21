@@ -86,7 +86,7 @@ CustomPlugin::CustomPlugin(QGCApplication *app, QGCToolbox* toolbox)
     : QGCCorePlugin(app, toolbox)
 {
     _pOptions = new CustomOptions(this, this);
-    _showAdvancedUI = false;
+    _showAdvancedUI = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -146,8 +146,9 @@ CustomPlugin::settingsPages()
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif
-//        addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
-//        addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
+        addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
+        addSettingsEntry(tr("Log Upload"),  "qrc:/custom/CustomMavlinkSettings.qml");
+        addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
 //#if defined(QGC_ENABLE_QZXING)
 //        addSettingsEntry(tr("Barcode Test"),"qrc:/custom/BarcodeReader.qml");
 //#endif
