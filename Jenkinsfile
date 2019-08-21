@@ -10,6 +10,7 @@ pipeline {
                         QGC_CONFIG = 'release'
                         QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
                         GSTREAMER_ROOT_ANDROID = "/qgroundcontrol/gstreamerr"
+                        QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
                     agent {
                         docker {
@@ -32,7 +33,7 @@ pipeline {
                         sh 'git submodule deinit -f .'
                         sh 'git clean -ff -x -d .'
                         sh 'git submodule update --init --recursive --force'
-                        sh 'wget --quiet http://192.168.2.144:8086/nexus/repository/gstreamer-android-qgroundcontrol/gstreamer/gstreamer-1.0-android-universal-1.14.4.tar.bz2'
+                        sh 'wget --user=${QGC_REGISTRY_CREDS_USR} --password=${QGC_REGISTRY_CREDS_PSW} --quiet http://192.168.2.144:8086/nexus/repository/gstreamer-android-qgroundcontrol/gstreamer/gstreamer-1.0-android-universal-1.14.4.tar.bz2'
                         sh 'tar jxf gstreamer-1.0-android-universal-1.14.4.tar.bz2 -C ${WORKSPACE}' 
                         withCredentials([string(credentialsId: 'ANDROID_STOREPASS', variable: 'ANDROID_STOREPASS')]) {
                             sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG}'
