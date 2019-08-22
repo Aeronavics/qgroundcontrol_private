@@ -26,6 +26,7 @@
 #include "QmlComponentInfo.h"
 #include "QGCPalette.h"
 
+
 QGC_LOGGING_CATEGORY(CustomLog, "CustomLog")
 
 //CustomVideoReceiver::CustomVideoReceiver(QObject* parent)
@@ -42,19 +43,19 @@ QGC_LOGGING_CATEGORY(CustomLog, "CustomLog")
 //}
 
 //-----------------------------------------------------------------------------
-//static QObject*
-//customQuickInterfaceSingletonFactory(QQmlEngine*, QJSEngine*)
-//{
-//    qCDebug(CustomLog) << "Creating CustomQuickInterface instance";
-//    CustomQuickInterface* pIFace = new CustomQuickInterface();
-//    CustomPlugin* pPlug = dynamic_cast<CustomPlugin*>(qgcApp()->toolbox()->corePlugin());
-//    if(pPlug) {
-//        pIFace->init();
-//    } else {
-//        qCritical() << "Error obtaining instance of CustomPlugin";
-//    }
-//    return pIFace;
-//}
+static QObject*
+customQuickInterfaceSingletonFactory(QQmlEngine*, QJSEngine*)
+{
+    qCDebug(CustomLog) << "Creating CustomQuickInterface instance";
+    CustomQuickInterface* pIFace = new CustomQuickInterface();
+    CustomPlugin* pPlug = dynamic_cast<CustomPlugin*>(qgcApp()->toolbox()->corePlugin());
+    if(pPlug) {
+        pIFace->init();
+    } else {
+        qCritical() << "Error obtaining instance of CustomPlugin";
+    }
+    return pIFace;
+}
 
 //-----------------------------------------------------------------------------
 CustomOptions::CustomOptions(CustomPlugin*, QObject* parent)
@@ -95,16 +96,17 @@ CustomPlugin::~CustomPlugin()
 }
 
 //-----------------------------------------------------------------------------
-//void
-//CustomPlugin::setToolbox(QGCToolbox* toolbox)
-//{
-//    QGCCorePlugin::setToolbox(toolbox);
-//    qmlRegisterSingletonType<CustomQuickInterface>("CustomQuickInterface", 1, 0, "CustomQuickInterface", customQuickInterfaceSingletonFactory);
-//    //-- Disable automatic logging
-//    toolbox->mavlinkLogManager()->setEnableAutoStart(false);
-//    toolbox->mavlinkLogManager()->setEnableAutoUpload(false);
-//    connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
-//}
+void
+CustomPlugin::setToolbox(QGCToolbox* toolbox)
+{
+    QGCCorePlugin::setToolbox(toolbox);
+    qDebug()<< "CustomPlugin Set toolbox";
+    qmlRegisterSingletonType<CustomQuickInterface>("CustomQuickInterface", 1, 0, "CustomQuickInterface", customQuickInterfaceSingletonFactory);
+
+    //-- Disable automatic logging
+    toolbox->mavlinkLogManager()->setEnableAutoUpload(false);
+    //connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
+}
 
 //-----------------------------------------------------------------------------
 //void

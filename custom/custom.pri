@@ -50,9 +50,12 @@ QML_IMPORT_PATH += \
 # Our own, custom sources
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \
+    $$PWD/src/CustomQuickInterface.cc \
+
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
+    $$PWD/src/CustomQuickInterface.h \
 
 INCLUDEPATH += \
     $$PWD/src \

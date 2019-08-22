@@ -85,12 +85,12 @@ public:
     //bool                    adjustSettingMetaData           (const QString& settingsGroup, FactMetaData& metaData) final;
     void                    paletteOverride                 (QString colorName, QGCPalette::PaletteColorInfo_t& colorInfo) final;
     // Overrides from QGCTool
-    //void                    setToolbox                      (QGCToolbox* toolbox);
+    void                    setToolbox                      (QGCToolbox* toolbox);
 
     //const static QColor     _windowShadeEnabledLightColor;
     //const static QColor     _windowShadeEnabledDarkColor;
 
-private slots:
+  private slots:
     //void                    _advancedChanged                (bool advanced);
 
 private:
