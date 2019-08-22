@@ -27,7 +27,7 @@ class CustomQuickInterface : public QObject {
   public:
     CustomQuickInterface(QObject* parent = nullptr);
     ~CustomQuickInterface();
-    //Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
+    // Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
     //               setShowGimbalControl NOTIFY showGimbalControlChanged)
 
     Q_PROPERTY(QString customerId READ customerId WRITE setCustomerId NOTIFY
@@ -37,8 +37,8 @@ class CustomQuickInterface : public QObject {
     Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
                    setEnableAutoUpload NOTIFY enableAutoUploadChanged)
 
-    //bool showGimbalControl() { return _showGimbalControl; }
-    //void setShowGimbalControl(bool set);
+    // bool showGimbalControl() { return _showGimbalControl; }
+    // void setShowGimbalControl(bool set);
     void init();
 
     Q_INVOKABLE void uploadLog();
@@ -55,16 +55,16 @@ class CustomQuickInterface : public QObject {
     void setSerialNumber(QString serialNumber);
     void setEnableAutoUpload(bool enable);
   signals:
-   // void showGimbalControlChanged();
+    // void showGimbalControlChanged();
 
     void customerIdChanged();
     void serialNumberChanged();
     void enableAutoUploadChanged();
 
   private:
-    //bool _showGimbalControl = true;
-    QString                 _customerId;
-    QString                 _serialNumber;
-    QString                 _logPath;
-    bool                    _enableAutoUpload;
+    // bool _showGimbalControl = true;
+    QString _customerId;
+    QString _serialNumber;
+    QString _logPath;
+    bool    _enableAutoUpload;
 };
