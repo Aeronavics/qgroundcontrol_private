@@ -91,7 +91,7 @@ public:
     //const static QColor     _windowShadeEnabledDarkColor;
 
   private slots:
-    //void                    _advancedChanged                (bool advanced);
+    void                    _advancedChanged                (bool advanced);
 
 private:
     void
@@ -101,6 +101,6 @@ private:
         const char* iconFile = nullptr);
 
 private:
-    CustomOptions*      _pOptions = nullptr;
-    QVariantList        _customSettingsList; // Not to be mixed up with QGCCorePlugin implementation
+    CustomOptions*       _pOptions = nullptr;
+    QVariantList         _customSettingsList; // Not to be mixed up with QGCCorePlugin implementation
 };

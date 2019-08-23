@@ -18,17 +18,9 @@ Rectangle {
     color:          qgcPal.window
     anchors.fill:   parent
 
-    QGCLabel {
-        id:             customLabel
-        text:           qsTr("This is a custom setting !")
-        font.family:    ScreenTools.demiboldFontFamily
-    }
     Loader {
         id:             customLogSettings
-        anchors.top:    customLabel.bottom
-        anchors.bottom: parent.bottom
-        anchors.right:  parent.right
-        anchors.left:   parent.left
+        anchors.fill:   parent
         source : "qrc:/custom/CustomLogSettings.qml"
         visible: true
     }

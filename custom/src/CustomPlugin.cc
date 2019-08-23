@@ -18,6 +18,7 @@
 #include "CustomPlugin.h"
 #include "CustomQuickInterface.h"
 #include "CustomVideoManager.h"
+#include "CustomLogManager.h"
 
 #include "MultiVehicleManager.h"
 #include "QGCApplication.h"
@@ -49,8 +50,9 @@ customQuickInterfaceSingletonFactory(QQmlEngine*, QJSEngine*)
     qCDebug(CustomLog) << "Creating CustomQuickInterface instance";
     CustomQuickInterface* pIFace = new CustomQuickInterface();
     CustomPlugin* pPlug = dynamic_cast<CustomPlugin*>(qgcApp()->toolbox()->corePlugin());
+    QGCApplication* pApp=qgcApp();
     if(pPlug) {
-        pIFace->init();
+        pIFace->init(pApp);
     } else {
         qCritical() << "Error obtaining instance of CustomPlugin";
     }
@@ -99,22 +101,29 @@ CustomPlugin::~CustomPlugin()
 void
 CustomPlugin::setToolbox(QGCToolbox* toolbox)
 {
+
     QGCCorePlugin::setToolbox(toolbox);
-    qDebug()<< "CustomPlugin Set toolbox";
     qmlRegisterSingletonType<CustomQuickInterface>("CustomQuickInterface", 1, 0, "CustomQuickInterface", customQuickInterfaceSingletonFactory);
 
     //-- Disable automatic logging
     toolbox->mavlinkLogManager()->setEnableAutoUpload(false);
-    //connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
+    connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
+
+
+    //-- Start Log Sync
+    CustomLogManager * _customlogmanager = new CustomLogManager();
+
+    QGCApplication* pApp=qgcApp();
+    _customlogmanager->init(pApp);
 }
 
 //-----------------------------------------------------------------------------
-//void
-//CustomPlugin::_advancedChanged(bool changed)
-//{
-//    //-- We are now in "Advanced Mode" (or not)
-//    emit _pOptions->showFirmwareUpgradeChanged(changed);
-//}
+void
+CustomPlugin::_advancedChanged(bool changed)
+{
+    //-- We are now in "Advanced Mode" (or not)
+    emit _pOptions->showFirmwareUpgradeChanged(changed);
+}
 
 //-----------------------------------------------------------------------------
 void

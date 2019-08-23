@@ -27,9 +27,6 @@
 static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
 static const char* kCustomerIdKey         = "CustomerId";
 static const char* kSerialNumberKey       = "SerialNumber";
-static const char* kNexusKey              = "flight_uploader";
-static const char* kNexusURL = "https://services.aeronavics.com/nexus/service/"
-                               "rest/v1/components?repository=FlightLogs";
 static const char* kEnableAutoUploadKey = "EnableAutoUpload";
 
 //-----------------------------------------------------------------------------
@@ -43,10 +40,7 @@ CustomQuickInterface::~CustomQuickInterface() {
 }
 
 //-----------------------------------------------------------------------------
-void CustomQuickInterface::init() {
-    // QSettings settings;
-    // settings.beginGroup(kGroupName);
-    //_showGimbalControl = settings.value(kShowGimbalCtl, true).toBool();
+void CustomQuickInterface::init(QGCApplication* app) {
     //-- Get saved settings
     QSettings settings;
     settings.beginGroup(kCustomMAVLinkLogGroup);
@@ -56,10 +50,10 @@ void CustomQuickInterface::init() {
         settings.value(kSerialNumberKey, QString("Unknown")).toString());
     setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
 
-    // QString logExtension +=
-    // qgcApp()->toolbox()->settingsManager()->appSettings()->logFileExtension;
-    // QString logPath =
-    // qgcApp()->toolbox()->settingsManager()->appSettings()->logSavePath();
+    //_logPath =
+    //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
+    //qDebug()<< "LOG PATH : "<<_logPath ;
+    //syncLog();
 }
 
 //-----------------------------------------------------------------------------
@@ -103,5 +97,3 @@ void CustomQuickInterface::setEnableAutoUpload(bool enable) {
     emit enableAutoUploadChanged();
 }
 
-//-----------------------------------------------------------------------------
-void CustomQuickInterface::uploadLog() {}

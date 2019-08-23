@@ -39,10 +39,6 @@
 
      QGCPalette { id: qgcPal }
 
-     //CustomMAVLinkLogManager{
-     //    id: CustomQuickInterface
-     //}
-
      function saveItems()
      {
          CustomQuickInterface.customerId = customerIdField.text

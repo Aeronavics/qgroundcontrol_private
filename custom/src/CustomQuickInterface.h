@@ -27,8 +27,8 @@ class CustomQuickInterface : public QObject {
   public:
     CustomQuickInterface(QObject* parent = nullptr);
     ~CustomQuickInterface();
-    // Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
-    //               setShowGimbalControl NOTIFY showGimbalControlChanged)
+     //Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
+     //              setShowGimbalControl NOTIFY showGimbalControlChanged)
 
     Q_PROPERTY(QString customerId READ customerId WRITE setCustomerId NOTIFY
                                                                       customerIdChanged)
@@ -39,9 +39,7 @@ class CustomQuickInterface : public QObject {
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);
-    void init();
-
-    Q_INVOKABLE void uploadLog();
+    void init(QGCApplication* app);
 
     // Getters
 
