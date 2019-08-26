@@ -41,17 +41,17 @@
 
      function saveItems()
      {
-         CustomQuickInterface.customerId = customerIdField.text
+         CustomQuickInterface.networkId = networkIdField.text
          CustomQuickInterface.serialNumber = serialNumberField.text
      }
 
      MessageDialog {
-         id:         emptyCustomerIdDialog
+         id:         emptyNetworkIdDialog
          visible:    false
          icon:       StandardIcon.Warning
          standardButtons: StandardButton.Close
          title:      qsTr("MAVLink Logging")
-         text:       qsTr("Please enter an customerId before uploading MAVLink log files.")
+         text:       qsTr("Please enter an networkId before uploading MAVLink log files.")
      }
 
      QGCFlickable {
@@ -93,17 +93,17 @@
                      spacing:    _columnSpacing
                      anchors.centerIn: parent
                      //-----------------------------------------------------------------
-                     //-- CustomerId Field
+                     //-- NetworkId Field
                      Row {
                          spacing:    ScreenTools.defaultFontPixelWidth
                          QGCLabel {
                              width:              _labelWidth
-                             anchors.baseline:   customerIdField.baseline
-                             text:               qsTr("Customer id :")
+                             anchors.baseline:   networkIdField.baseline
+                             text:               qsTr("Network id :")
                          }
                          QGCTextField {
-                             id:         customerIdField
-                             text:       CustomQuickInterface.customerId
+                             id:         networkIdField
+                             text:       CustomQuickInterface.networkId
                              width:      _valueWidth
                              enabled:    !_disableDataPersistence
                              inputMethodHints:       Qt.ImhNoAutoUppercase 

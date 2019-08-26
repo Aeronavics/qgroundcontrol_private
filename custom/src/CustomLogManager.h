@@ -20,16 +20,19 @@ class CustomLogManager : public QObject {
 
     // Getters
 
-    QString customerId() { return _customerId; }
+    QString networkId() { return _networkId; }
     QString serialNumber() { return _serialNumber; }
     bool    enableAutoUpload() { return _enableAutoUpload; }
 
     void replyFinished(QNetworkReply* reply);
-    void getServerList(QString customer_id);
+    QList<QString> getServerList(QString network_id);
 
   private:
+    std::string queryLogServer(std::string network_id, std::string continuationToken);
+    int uploadLogServer(QString filePath, QString remoteFilePath, QString network_id);
+    QString md5sum(QFile &file);
 
-    QString _customerId;
+    QString _networkId;
     QString _serialNumber;
     QString _logPath;
     bool    _enableAutoUpload;

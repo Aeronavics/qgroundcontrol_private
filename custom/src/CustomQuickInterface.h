@@ -30,8 +30,8 @@ class CustomQuickInterface : public QObject {
      //Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
      //              setShowGimbalControl NOTIFY showGimbalControlChanged)
 
-    Q_PROPERTY(QString customerId READ customerId WRITE setCustomerId NOTIFY
-                                                                      customerIdChanged)
+    Q_PROPERTY(QString networkId READ networkId WRITE setNetworkId NOTIFY
+                                                                      networkIdChanged)
     Q_PROPERTY(QString serialNumber READ serialNumber WRITE setSerialNumber
                    NOTIFY serialNumberChanged)
     Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
@@ -43,25 +43,25 @@ class CustomQuickInterface : public QObject {
 
     // Getters
 
-    QString customerId() { return _customerId; }
+    QString networkId() { return _networkId; }
     QString serialNumber() { return _serialNumber; }
     bool    enableAutoUpload() { return _enableAutoUpload; }
 
     // Setters
 
-    void setCustomerId(QString customerId);
+    void setNetworkId(QString networkId);
     void setSerialNumber(QString serialNumber);
     void setEnableAutoUpload(bool enable);
   signals:
     // void showGimbalControlChanged();
 
-    void customerIdChanged();
+    void networkIdChanged();
     void serialNumberChanged();
     void enableAutoUploadChanged();
 
   private:
     // bool _showGimbalControl = true;
-    QString _customerId;
+    QString _networkId;
     QString _serialNumber;
     QString _logPath;
     bool    _enableAutoUpload;

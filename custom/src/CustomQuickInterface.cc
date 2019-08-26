@@ -25,7 +25,7 @@
 // static const char* kGroupName       = "CustomSettings";
 // static const char* kShowGimbalCtl   = "ShowGimbalCtl";
 static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
-static const char* kCustomerIdKey         = "CustomerId";
+static const char* kNetworkIdKey         = "NetworkId";
 static const char* kSerialNumberKey       = "SerialNumber";
 static const char* kEnableAutoUploadKey = "EnableAutoUpload";
 
@@ -44,8 +44,8 @@ void CustomQuickInterface::init(QGCApplication* app) {
     //-- Get saved settings
     QSettings settings;
     settings.beginGroup(kCustomMAVLinkLogGroup);
-    setCustomerId(
-        settings.value(kCustomerIdKey, QString("flight_uploader")).toString());
+    setNetworkId(
+        settings.value(kNetworkIdKey, QString("flight_uploader")).toString());
     setSerialNumber(
         settings.value(kSerialNumberKey, QString("Unknown")).toString());
     setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
@@ -69,13 +69,13 @@ void CustomQuickInterface::init(QGCApplication* app) {
 //    }
 //}
 
-void CustomQuickInterface::setCustomerId(QString customerId) {
-    qDebug() << "setCustomerId" << customerId;
-    _customerId = customerId;
+void CustomQuickInterface::setNetworkId(QString networkId) {
+    qDebug() << "setNetworkId" << networkId;
+    _networkId = networkId;
     QSettings settings;
     settings.beginGroup(kCustomMAVLinkLogGroup);
-    settings.setValue(kCustomerIdKey, customerId);
-    emit customerIdChanged();
+    settings.setValue(kNetworkIdKey, networkId);
+    emit networkIdChanged();
 }
 
 //-----------------------------------------------------------------------------
