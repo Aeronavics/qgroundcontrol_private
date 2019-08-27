@@ -20,7 +20,6 @@ pipeline {
                     }
 
                     steps {
-                        sh 'git fetch --tags'
                         sh 'echo $PATH'
                         sh 'echo $CCACHE_BASEDIR'
                         withCredentials(bindings: [file(credentialsId: 'AndroidReleaseKey', variable: 'ANDROID_KEYSTORE')]) {
