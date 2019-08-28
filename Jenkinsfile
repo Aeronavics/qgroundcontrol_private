@@ -80,7 +80,7 @@ pipeline {
                         withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
                             sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
                         }
-                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64'
+                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro LIBS+=" -L/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/armeabi-v7a/" INCLUDEPATH+=" /curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/include/ " CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64'
                         sh 'cd build; make -j`nproc --all`'
                         sh 'ccache -s'
                         sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'
