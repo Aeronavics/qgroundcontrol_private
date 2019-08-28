@@ -13,7 +13,9 @@ pipeline {
                         QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
                     agent {
-                        docker {
+                        docker{
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
+                            registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_android'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
                         }
@@ -62,13 +64,14 @@ pipeline {
                         QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
                     }
                     agent {
-                        docker {
+                        docker{
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
+                            registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_linux'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
                         }
                     }
                     steps {
-                        sh 'git fetch --tags'
                         sh 'export'
                         sh 'ccache -z'
                         sh 'git submodule deinit -f .'
