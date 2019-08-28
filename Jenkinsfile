@@ -14,7 +14,7 @@ pipeline {
                     }
                     agent {
                         docker{
-                            registryUrl 'pelardon.aeronavics.com:8084'
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
                             registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_android'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
@@ -66,7 +66,7 @@ pipeline {
                     }
                     agent {
                         docker{
-                            registryUrl 'pelardon.aeronavics.com:8084'
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
                             registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_linux'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
