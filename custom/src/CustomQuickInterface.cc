@@ -22,8 +22,6 @@
 
 #include <QSettings>
 
-// static const char* kGroupName       = "CustomSettings";
-// static const char* kShowGimbalCtl   = "ShowGimbalCtl";
 static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
 static const char* kNetworkIdKey         = "NetworkId";
 static const char* kSerialNumberKey       = "SerialNumber";
@@ -41,6 +39,7 @@ CustomQuickInterface::~CustomQuickInterface() {
 
 //-----------------------------------------------------------------------------
 void CustomQuickInterface::init(QGCApplication* app) {
+    (void) app;
     //-- Get saved settings
     QSettings settings;
     settings.beginGroup(kCustomMAVLinkLogGroup);
@@ -55,19 +54,6 @@ void CustomQuickInterface::init(QGCApplication* app) {
     //qDebug()<< "LOG PATH : "<<_logPath ;
     //syncLog();
 }
-
-//-----------------------------------------------------------------------------
-// void
-// CustomQuickInterface::setShowGimbalControl(bool set)
-//{
-//    if(_showGimbalControl != set) {
-//        _showGimbalControl = set;
-//        QSettings settings;
-//        settings.beginGroup(kGroupName);
-//        settings.setValue(kShowGimbalCtl,set);
-//        emit showGimbalControlChanged();
-//    }
-//}
 
 void CustomQuickInterface::setNetworkId(QString networkId) {
     qDebug() << "setNetworkId" << networkId;
