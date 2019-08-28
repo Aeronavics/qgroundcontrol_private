@@ -37,6 +37,8 @@ class SettingsManager;
 class ADSBVehicle;
 class QGCCameraManager;
 class Joystick;
+class VehicleObjectAvoidance;
+
 #if defined(QGC_AIRMAP_ENABLED)
 class AirspaceVehicleManager;
 #endif
@@ -484,7 +486,6 @@ private:
 #endif
 };
 
-
 class Vehicle : public FactGroup
 {
     Q_OBJECT
@@ -652,7 +653,8 @@ public:
     Q_PROPERTY(bool     takeoffVehicleSupported READ takeoffVehicleSupported                        CONSTANT)                   ///< Guided takeoff supported
     Q_PROPERTY(QString  gotoFlightMode          READ gotoFlightMode                                 CONSTANT)                   ///< Flight mode vehicle is in while performing goto
 
-    Q_PROPERTY(ParameterManager* parameterManager READ parameterManager CONSTANT)
+    Q_PROPERTY(ParameterManager*        parameterManager    READ parameterManager   CONSTANT)
+    Q_PROPERTY(VehicleObjectAvoidance*  objectAvoidance     READ objectAvoidance    CONSTANT)
 
     // FactGroup object model properties
 
@@ -669,6 +671,7 @@ public:
     Q_PROPERTY(Fact* altitudeAMSL       READ altitudeAMSL       CONSTANT)
     Q_PROPERTY(Fact* flightDistance     READ flightDistance     CONSTANT)
     Q_PROPERTY(Fact* distanceToHome     READ distanceToHome     CONSTANT)
+    Q_PROPERTY(Fact* headingToNextWP    READ headingToNextWP    CONSTANT)
     Q_PROPERTY(Fact* headingToHome      READ headingToHome      CONSTANT)
     Q_PROPERTY(Fact* distanceToGCS      READ distanceToGCS      CONSTANT)
     Q_PROPERTY(Fact* hobbs              READ hobbs              CONSTANT)
@@ -971,6 +974,7 @@ public:
     Fact* altitudeAMSL      (void) { return &_altitudeAMSLFact; }
     Fact* flightDistance    (void) { return &_flightDistanceFact; }
     Fact* distanceToHome    (void) { return &_distanceToHomeFact; }
+    Fact* headingToNextWP   (void) { return &_headingToNextWPFact; }
     Fact* headingToHome     (void) { return &_headingToHomeFact; }
     Fact* distanceToGCS     (void) { return &_distanceToGCSFact; }
     Fact* hobbs             (void) { return &_hobbsFact; }
@@ -989,8 +993,9 @@ public:
 
     void setConnectionLostEnabled(bool connectionLostEnabled);
 
-    ParameterManager* parameterManager(void) { return _parameterManager; }
-    ParameterManager* parameterManager(void) const { return _parameterManager; }
+    ParameterManager*       parameterManager() { return _parameterManager; }
+    ParameterManager*       parameterManager() const { return _parameterManager; }
+    VehicleObjectAvoidance* objectAvoidance()  { return _objectAvoidance; }
 
     static const int cMaxRcChannels = 18;
 
@@ -1243,6 +1248,7 @@ private slots:
     void _clearTrajectoryPoints(void);
     void _clearCameraTriggerPoints(void);
     void _updateDistanceHeadingToHome(void);
+    void _updateHeadingToNextWP(void);
     void _updateDistanceToGCS(void);
     void _updateHobbsMeter(void);
     void _vehicleParamLoaded(bool ready);
@@ -1295,6 +1301,7 @@ private:
     void _handleOrbitExecutionStatus(const mavlink_message_t& message);
     void _handleMessageInterval(const mavlink_message_t& message);
     void _handleGimbalOrientation(const mavlink_message_t& message);
+    void _handleObstacleDistance(const mavlink_message_t& message);
     // ArduPilot dialect messages
 #if !defined(NO_ARDUPILOT_DIALECT)
     void _handleCameraFeedback(const mavlink_message_t& message);
@@ -1425,7 +1432,8 @@ private:
     RallyPointManager*  _rallyPointManager;
     bool                _rallyPointManagerInitialRequestSent;
 
-    ParameterManager*   _parameterManager;
+    ParameterManager*       _parameterManager   = nullptr;
+    VehicleObjectAvoidance* _objectAvoidance    = nullptr;
 
 #if defined(QGC_AIRMAP_ENABLED)
     AirspaceVehicleManager* _airspaceVehicleManager;
@@ -1535,6 +1543,7 @@ private:
     Fact _flightDistanceFact;
     Fact _flightTimeFact;
     Fact _distanceToHomeFact;
+    Fact _headingToNextWPFact;
     Fact _headingToHomeFact;
     Fact _distanceToGCSFact;
     Fact _hobbsFact;
@@ -1565,6 +1574,7 @@ private:
     static const char* _flightDistanceFactName;
     static const char* _flightTimeFactName;
     static const char* _distanceToHomeFactName;
+    static const char* _headingToNextWPFactName;
     static const char* _headingToHomeFactName;
     static const char* _distanceToGCSFactName;
     static const char* _hobbsFactName;
