@@ -10,53 +10,76 @@
  *   @author Gus Grubba <gus@auterion.com>
  */
 
-#include "QGCApplication.h"
 #include "AppSettings.h"
-#include "SettingsManager.h"
 #include "MAVLinkLogManager.h"
-#include "QGCMapEngine.h"
-#include "QGCApplication.h"
 #include "PositionManager.h"
+#include "QGCApplication.h"
+#include "QGCMapEngine.h"
+#include "SettingsManager.h"
 
 #include "CustomPlugin.h"
 #include "CustomQuickInterface.h"
 
 #include <QSettings>
 
-static const char* kGroupName       = "CustomSettings";
-static const char* kShowGimbalCtl   = "ShowGimbalCtl";
+static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
+static const char* kNetworkIdKey         = "NetworkId";
+static const char* kSerialNumberKey       = "SerialNumber";
+static const char* kEnableAutoUploadKey = "EnableAutoUpload";
 
 //-----------------------------------------------------------------------------
-CustomQuickInterface::CustomQuickInterface(QObject* parent)
-    : QObject(parent)
-{
+CustomQuickInterface::CustomQuickInterface(QObject* parent) : QObject(parent) {
     qCDebug(CustomLog) << "CustomQuickInterface Created";
 }
 
 //-----------------------------------------------------------------------------
-CustomQuickInterface::~CustomQuickInterface()
-{
+CustomQuickInterface::~CustomQuickInterface() {
     qCDebug(CustomLog) << "CustomQuickInterface Destroyed";
 }
 
 //-----------------------------------------------------------------------------
-void
-CustomQuickInterface::init()
-{
+void CustomQuickInterface::init(QGCApplication* app) {
+    (void) app;
+    //-- Get saved settings
     QSettings settings;
-    settings.beginGroup(kGroupName);
-    _showGimbalControl = settings.value(kShowGimbalCtl, true).toBool();
+    settings.beginGroup(kCustomMAVLinkLogGroup);
+    setNetworkId(
+        settings.value(kNetworkIdKey, QString("flight_uploader")).toString());
+    setSerialNumber(
+        settings.value(kSerialNumberKey, QString("Unknown")).toString());
+    setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
+
+    //_logPath =
+    //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
+    //qDebug()<< "LOG PATH : "<<_logPath ;
+    //syncLog();
+}
+
+void CustomQuickInterface::setNetworkId(QString networkId) {
+    qDebug() << "setNetworkId" << networkId;
+    _networkId = networkId;
+    QSettings settings;
+    settings.beginGroup(kCustomMAVLinkLogGroup);
+    settings.setValue(kNetworkIdKey, networkId);
+    emit networkIdChanged();
 }
 
 //-----------------------------------------------------------------------------
-void
-CustomQuickInterface::setShowGimbalControl(bool set)
-{
-    if(_showGimbalControl != set) {
-        _showGimbalControl = set;
-        QSettings settings;
-        settings.beginGroup(kGroupName);
-        settings.setValue(kShowGimbalCtl,set);
-        emit showGimbalControlChanged();
-    }
+void CustomQuickInterface::setSerialNumber(QString serialNumber) {
+    qDebug() << "setSerialNumber" << serialNumber;
+    _serialNumber = serialNumber;
+    QSettings settings;
+    settings.beginGroup(kCustomMAVLinkLogGroup);
+    settings.setValue(kSerialNumberKey, serialNumber);
+    emit serialNumberChanged();
 }
+
+//-----------------------------------------------------------------------------
+void CustomQuickInterface::setEnableAutoUpload(bool enable) {
+    _enableAutoUpload = enable;
+    QSettings settings;
+    settings.beginGroup(kCustomMAVLinkLogGroup);
+    settings.setValue(kEnableAutoUploadKey, enable);
+    emit enableAutoUploadChanged();
+}
+

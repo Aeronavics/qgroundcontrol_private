@@ -18,6 +18,7 @@
 #include "CustomPlugin.h"
 #include "CustomQuickInterface.h"
 #include "CustomVideoManager.h"
+#include "CustomLogManager.h"
 
 #include "MultiVehicleManager.h"
 #include "QGCApplication.h"
@@ -25,6 +26,7 @@
 #include "AppMessages.h"
 #include "QmlComponentInfo.h"
 #include "QGCPalette.h"
+
 
 QGC_LOGGING_CATEGORY(CustomLog, "CustomLog")
 
@@ -42,19 +44,20 @@ QGC_LOGGING_CATEGORY(CustomLog, "CustomLog")
 //}
 
 //-----------------------------------------------------------------------------
-//static QObject*
-//customQuickInterfaceSingletonFactory(QQmlEngine*, QJSEngine*)
-//{
-//    qCDebug(CustomLog) << "Creating CustomQuickInterface instance";
-//    CustomQuickInterface* pIFace = new CustomQuickInterface();
-//    CustomPlugin* pPlug = dynamic_cast<CustomPlugin*>(qgcApp()->toolbox()->corePlugin());
-//    if(pPlug) {
-//        pIFace->init();
-//    } else {
-//        qCritical() << "Error obtaining instance of CustomPlugin";
-//    }
-//    return pIFace;
-//}
+static QObject*
+customQuickInterfaceSingletonFactory(QQmlEngine*, QJSEngine*)
+{
+    qCDebug(CustomLog) << "Creating CustomQuickInterface instance";
+    CustomQuickInterface* pIFace = new CustomQuickInterface();
+    CustomPlugin* pPlug = dynamic_cast<CustomPlugin*>(qgcApp()->toolbox()->corePlugin());
+    QGCApplication* pApp=qgcApp();
+    if(pPlug) {
+        pIFace->init(pApp);
+    } else {
+        qCritical() << "Error obtaining instance of CustomPlugin";
+    }
+    return pIFace;
+}
 
 //-----------------------------------------------------------------------------
 CustomOptions::CustomOptions(CustomPlugin*, QObject* parent)
@@ -86,7 +89,7 @@ CustomPlugin::CustomPlugin(QGCApplication *app, QGCToolbox* toolbox)
     : QGCCorePlugin(app, toolbox)
 {
     _pOptions = new CustomOptions(this, this);
-    _showAdvancedUI = false;
+    _showAdvancedUI = true;
 }
 
 //-----------------------------------------------------------------------------
@@ -95,24 +98,32 @@ CustomPlugin::~CustomPlugin()
 }
 
 //-----------------------------------------------------------------------------
-//void
-//CustomPlugin::setToolbox(QGCToolbox* toolbox)
-//{
-//    QGCCorePlugin::setToolbox(toolbox);
-//    qmlRegisterSingletonType<CustomQuickInterface>("CustomQuickInterface", 1, 0, "CustomQuickInterface", customQuickInterfaceSingletonFactory);
-//    //-- Disable automatic logging
-//    toolbox->mavlinkLogManager()->setEnableAutoStart(false);
-//    toolbox->mavlinkLogManager()->setEnableAutoUpload(false);
-//    connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
-//}
+void
+CustomPlugin::setToolbox(QGCToolbox* toolbox)
+{
+
+    QGCCorePlugin::setToolbox(toolbox);
+    qmlRegisterSingletonType<CustomQuickInterface>("CustomQuickInterface", 1, 0, "CustomQuickInterface", customQuickInterfaceSingletonFactory);
+
+    //-- Disable automatic logging
+    toolbox->mavlinkLogManager()->setEnableAutoUpload(false);
+    connect(qgcApp()->toolbox()->corePlugin(), &QGCCorePlugin::showAdvancedUIChanged, this, &CustomPlugin::_advancedChanged);
+
+
+    //-- Start Log Sync
+    CustomLogManager * _customlogmanager = new CustomLogManager();
+
+    QGCApplication* pApp=qgcApp();
+    _customlogmanager->init(pApp);
+}
 
 //-----------------------------------------------------------------------------
-//void
-//CustomPlugin::_advancedChanged(bool changed)
-//{
-//    //-- We are now in "Advanced Mode" (or not)
-//    emit _pOptions->showFirmwareUpgradeChanged(changed);
-//}
+void
+CustomPlugin::_advancedChanged(bool changed)
+{
+    //-- We are now in "Advanced Mode" (or not)
+    emit _pOptions->showFirmwareUpgradeChanged(changed);
+}
 
 //-----------------------------------------------------------------------------
 void
@@ -146,8 +157,9 @@ CustomPlugin::settingsPages()
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif
-//        addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
-//        addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
+        addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
+        addSettingsEntry(tr("Log Upload"),  "qrc:/custom/CustomMavlinkSettings.qml");
+        addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
 //#if defined(QGC_ENABLE_QZXING)
 //        addSettingsEntry(tr("Barcode Test"),"qrc:/custom/BarcodeReader.qml");
 //#endif

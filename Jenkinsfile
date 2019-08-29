@@ -13,14 +13,15 @@ pipeline {
                         QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
                     agent {
-                        docker {
+                        docker{
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
+                            registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_android'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
                         }
                     }
 
                     steps {
-                        sh 'git fetch --tags'
                         sh 'echo $PATH'
                         sh 'echo $CCACHE_BASEDIR'
                         withCredentials(bindings: [file(credentialsId: 'AndroidReleaseKey', variable: 'ANDROID_KEYSTORE')]) {
@@ -36,7 +37,7 @@ pipeline {
                         sh 'wget --user=${QGC_REGISTRY_CREDS_USR} --password=${QGC_REGISTRY_CREDS_PSW} --quiet http://192.168.2.144:8086/nexus/repository/gstreamer-android-qgroundcontrol/gstreamer/gstreamer-1.0-android-universal-1.14.4.tar.bz2'
                         sh 'tar jxf gstreamer-1.0-android-universal-1.14.4.tar.bz2 -C ${WORKSPACE}' 
                         withCredentials([string(credentialsId: 'ANDROID_STOREPASS', variable: 'ANDROID_STOREPASS')]) {
-                            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG}'
+                            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro LIBS+=" -L/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/armeabi-v7a/" INCLUDEPATH+=" /curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/include/ " CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG}'
                             sh 'cd build; make -j`nproc --all`'
                         }
                         sh 'ccache -s'
@@ -63,13 +64,14 @@ pipeline {
                         QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
                     }
                     agent {
-                        docker {
+                        docker{
+                            registryUrl 'http://pelardon.aeronavics.com:8084'
+                            registryCredentialsId 'aeronavics_registry_user'
                             image 'pelardon.aeronavics.com:8084/qgc_linux'
                             args '-v ${CCACHE_DIR}:${CCACHE_DIR}:rw'
                         }
                     }
                     steps {
-                        sh 'git fetch --tags'
                         sh 'export'
                         sh 'ccache -z'
                         sh 'git submodule deinit -f .'
@@ -78,7 +80,7 @@ pipeline {
                         withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
                             sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
                         }
-                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64'
+                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64'
                         sh 'cd build; make -j`nproc --all`'
                         sh 'ccache -s'
                         sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'

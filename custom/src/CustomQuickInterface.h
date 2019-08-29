@@ -14,27 +14,55 @@
 
 #include "Vehicle.h"
 
-#include <QObject>
-#include <QTimer>
 #include <QColor>
 #include <QGeoPositionInfo>
 #include <QGeoPositionInfoSource>
+#include <QObject>
+#include <QTimer>
 
 //-----------------------------------------------------------------------------
 // QtQuick Interface (UI)
-class CustomQuickInterface : public QObject
-{
+class CustomQuickInterface : public QObject {
     Q_OBJECT
-public:
+  public:
     CustomQuickInterface(QObject* parent = nullptr);
     ~CustomQuickInterface();
-    Q_PROPERTY(bool     showGimbalControl   READ showGimbalControl  WRITE setShowGimbalControl  NOTIFY showGimbalControlChanged)
+     //Q_PROPERTY(bool showGimbalControl READ showGimbalControl WRITE
+     //              setShowGimbalControl NOTIFY showGimbalControlChanged)
 
-    bool    showGimbalControl           () { return _showGimbalControl; }
-    void    setShowGimbalControl        (bool set);
-    void    init                        ();
-signals:
-    void    showGimbalControlChanged    ();
-private:
-    bool    _showGimbalControl  = true;
+    Q_PROPERTY(QString networkId READ networkId WRITE setNetworkId NOTIFY
+                                                                      networkIdChanged)
+    Q_PROPERTY(QString serialNumber READ serialNumber WRITE setSerialNumber
+                   NOTIFY serialNumberChanged)
+    Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
+                   setEnableAutoUpload NOTIFY enableAutoUploadChanged)
+
+    // bool showGimbalControl() { return _showGimbalControl; }
+    // void setShowGimbalControl(bool set);
+    void init(QGCApplication* app);
+
+    // Getters
+
+    QString networkId() { return _networkId; }
+    QString serialNumber() { return _serialNumber; }
+    bool    enableAutoUpload() { return _enableAutoUpload; }
+
+    // Setters
+
+    void setNetworkId(QString networkId);
+    void setSerialNumber(QString serialNumber);
+    void setEnableAutoUpload(bool enable);
+  signals:
+    // void showGimbalControlChanged();
+
+    void networkIdChanged();
+    void serialNumberChanged();
+    void enableAutoUploadChanged();
+
+  private:
+    // bool _showGimbalControl = true;
+    QString _networkId;
+    QString _serialNumber;
+    QString _logPath;
+    bool    _enableAutoUpload;
 };

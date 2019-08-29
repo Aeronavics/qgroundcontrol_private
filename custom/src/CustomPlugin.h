@@ -52,7 +52,7 @@ public:
    // QUrl        planToolbarUrl                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomMainToolBar.qml"); }
     //-- Don't show instrument widget
     //CustomInstrumentWidget* instrumentWidget    () final { return nullptr; }
-    //bool        showMavlinkLogOptions           () const final { return false; }
+    bool        showMavlinkLogOptions           () const final { return false; }
 
     //bool        showFirmwareUpgrade             () const final;
     ////-- We handle multiple vehicles in a custom way
@@ -85,13 +85,13 @@ public:
     //bool                    adjustSettingMetaData           (const QString& settingsGroup, FactMetaData& metaData) final;
     void                    paletteOverride                 (QString colorName, QGCPalette::PaletteColorInfo_t& colorInfo) final;
     // Overrides from QGCTool
-    //void                    setToolbox                      (QGCToolbox* toolbox);
+    void                    setToolbox                      (QGCToolbox* toolbox);
 
     //const static QColor     _windowShadeEnabledLightColor;
     //const static QColor     _windowShadeEnabledDarkColor;
 
-private slots:
-    //void                    _advancedChanged                (bool advanced);
+  private slots:
+    void                    _advancedChanged                (bool advanced);
 
 private:
     void
@@ -101,6 +101,6 @@ private:
         const char* iconFile = nullptr);
 
 private:
-    CustomOptions*      _pOptions = nullptr;
-    QVariantList        _customSettingsList; // Not to be mixed up with QGCCorePlugin implementation
+    CustomOptions*       _pOptions = nullptr;
+    QVariantList         _customSettingsList; // Not to be mixed up with QGCCorePlugin implementation
 };

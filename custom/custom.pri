@@ -50,13 +50,20 @@ QML_IMPORT_PATH += \
 # Our own, custom sources
 SOURCES += \
     $$PWD/src/CustomPlugin.cc \
+    $$PWD/src/CustomLogManager.cc \
+    $$PWD/src/CustomQuickInterface.cc \
+
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
+    $$PWD/src/CustomQuickInterface.h \
+    $$PWD/src/CustomLogManager.h \
 
 INCLUDEPATH += \
     $$PWD/src \
 
+
+LIBS += -lcurl
 #-------------------------------------------------------------------------------------
 # Custom Firmware/AutoPilot Plugin
 
