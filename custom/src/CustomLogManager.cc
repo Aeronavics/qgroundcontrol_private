@@ -148,7 +148,7 @@ CustomLogManager::queryLogServer(std::string network_id,
                                  std::string continuationToken = "") {
 
     CURL*       curl;
-    CURLcode    res;
+    CURLcode    res = CURLE_OK;
     std::string readBuffer;
 
     std::string URL = "https://services.aeronavics.com/nexus/service/rest/v1/";
