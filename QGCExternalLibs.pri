@@ -92,20 +92,6 @@ exists($$MAVLINKPATH/common) {
 INCLUDEPATH += libs/eigen
 DEFINES += NOMINMAX
 
-# Pairing
-MacBuild {
-    #- Pairing is generally not supported on macOS. This is here solely for development.
-    exists(/usr/local/Cellar/openssl/1.0.2s/include) {
-        INCLUDEPATH += /usr/local/Cellar/openssl/1.0.2s/include
-        LIBS += -L/usr/local/Cellar/openssl/1.0.2s/lib
-        LIBS += -lcrypto -lz
-    } else {
-        DEFINES += QGC_DISABLE_PAIRING
-    }
-} else {
-    LIBS += -lcrypto -lz
-}
-
 #
 # [REQUIRED] shapelib library
 INCLUDEPATH += libs/shapelib
@@ -127,7 +113,17 @@ MacBuild {
         -framework SDL2
 } else:LinuxBuild {
     PKGCONFIG = sdl2
+    LIBS+= -lgdal#/external/gdal/lib/libgdal.a -ldl -lpthread -lgeos_c -ljson-c
+	INCLUDEPATH+= /external/gdal/include/
 } else:WindowsBuild {
+    INCLUDEPATH += C:/OSGeo4W/include
+    LIBS += -LC:/OSGeo4W/lib
+    LIBS += -LC:/OSGeo4W/bin
+    LIBS += C:/OSGeo4W/lib/gdal_i.lib
+
+    message($$sprintf("GDAL ? '%1'.", $$INCLUDEPATH))
+
+
     INCLUDEPATH += $$BASEDIR/libs/lib/sdl2/msvc/include
     INCLUDEPATH += $$BASEDIR/libs/zlib/Windows/include
 
@@ -148,17 +144,53 @@ MacBuild {
 		-llibeay32
 }
 
+# Include Android OpenSSL libs in order to make Qt OpenSSL support work
 AndroidBuild {
-    contains(QT_ARCH, arm) {
+    equals(ANDROID_TARGET_ARCH, armeabi-v7a)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libssl.so
-        LIBS += $$ANDROID_EXTRA_LIBS
-        INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/include
-    } else {
+        INCLUDEPATH += $$BASEDIR/libs/gdal/android/include
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
+        LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.so
+        LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
+        #LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.a
+
+    } else:equals(ANDROID_TARGET_ARCH, arm64-v8a)  {
+        # Haven't figured out how to get 64 bit arm OpenSLL yet. This means things like terrain queries will not qork.
+    } else:equals(ANDROID_TARGET_ARCH, x86)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libssl.so
-        LIBS += $$ANDROID_EXTRA_LIBS
-        INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Android/arch-x86/include
+    } else {
+        error("Unsupported Android architecture: $${ANDROID_TARGET_ARCH}")
+    }
+}
+
+# Pairing
+contains(DEFINES, QGC_ENABLE_PAIRING) {
+    MacBuild {
+        #- Pairing is generally not supported on macOS. This is here solely for development.
+        exists(/usr/local/Cellar/openssl/1.0.2s/include) {
+            INCLUDEPATH += /usr/local/Cellar/openssl/1.0.2s/include
+            LIBS += -L/usr/local/Cellar/openssl/1.0.2s/lib
+            LIBS += -lcrypto -lz
+        } else {
+            # There is some circular reference settings going on between QGCExternalLibs.pri and gqgroundcontrol.pro.
+            # So this duplicates some of the enable/disable logic which would normally be in qgroundcontrol.pro.
+            DEFINES -= QGC_ENABLE_NFC
+            DEFINES -= QGC_ENABLE_PAIRING
+        }
+    } else {
+        LIBS += -lcrypto -lz
+        AndroidBuild {
+            contains(QT_ARCH, arm) {
+                LIBS += $$ANDROID_EXTRA_LIBS
+                INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/include
+            } else {
+                LIBS += $$ANDROID_EXTRA_LIBS
+                INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Android/arch-x86/include
+            }
+        }
     }
 }
 

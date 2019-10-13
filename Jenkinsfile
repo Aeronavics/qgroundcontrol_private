@@ -56,7 +56,6 @@ pipeline {
                     }
                 }
 
-
                 stage('Linux Release') {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"

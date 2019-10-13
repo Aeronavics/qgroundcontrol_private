@@ -212,7 +212,7 @@
     "type":             "uint32",
     "enumStrings":      "Never,Always,When in Follow Me Flight Mode",
     "enumValues":       "0,1,2",
-    "defaultValue":     0
+    "defaultValue":     2
 },
 {
     "name":                 "apmStartMavlinkStreams",
@@ -261,6 +261,13 @@
     "name":             "usePairing",
     "shortDescription": "Use Pairing",
     "longDescription":  "Use Link Pairing.",
+    "type":             "bool",
+    "defaultValue":     false
+},
+{
+    "name":             "saveCsvTelemetry",
+    "shortDescription": "Save CSV Telementry Logs",
+    "longDescription":  "If this option is enabled, all Facts will be written to a CSV file with a 1 Hertz frequency.",
     "type":             "bool",
     "defaultValue":     false
 }

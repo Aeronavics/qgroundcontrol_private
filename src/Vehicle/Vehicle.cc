@@ -28,7 +28,6 @@
 #include "ParameterManager.h"
 #include "QGCApplication.h"
 #include "QGCImageProvider.h"
-#include "FollowMe.h"
 #include "MissionCommandTree.h"
 #include "QGroundControlQmlGlobal.h"
 #include "SettingsManager.h"
@@ -42,6 +41,7 @@
 #include "VideoSettings.h"
 #include "PositionManager.h"
 #include "VehicleObjectAvoidance.h"
+#include "TrajectoryPoints.h"
 
 #if defined(QGC_AIRMAP_ENABLED)
 #include "AirspaceVehicleManager.h"
@@ -111,6 +111,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _soloFirmware(false)
     , _toolbox(qgcApp()->toolbox())
     , _settingsManager(_toolbox->settingsManager())
+    , _csvLogTimer(this)
     , _joystickMode(JoystickModeRC)
     , _joystickEnabled(false)
     , _uas(nullptr)
@@ -166,6 +167,7 @@ Vehicle::Vehicle(LinkInterface*             link,
     , _base_mode(0)
     , _custom_mode(0)
     , _nextSendMessageMultipleIndex(0)
+    , _trajectoryPoints(new TrajectoryPoints(this, this))
     , _firmwarePluginManager(firmwarePluginManager)
     , _joystickManager(joystickManager)
     , _flowImageIndex(0)
@@ -244,9 +246,6 @@ Vehicle::Vehicle(LinkInterface*             link,
     _commonInit();
     _autopilotPlugin = _firmwarePlugin->autopilotPlugin(this);
 
-    // connect this vehicle to the follow me handle manager
-    connect(this, &Vehicle::flightModeChanged,_toolbox->followMe(), &FollowMe::followMeHandleManager);
-
     // PreArm Error self-destruct timer
     connect(&_prearmErrorTimer, &QTimer::timeout, this, &Vehicle::_prearmErrorTimeout);
     _prearmErrorTimer.setInterval(_prearmErrorTimeoutMSecs);
@@ -290,9 +289,6 @@ Vehicle::Vehicle(LinkInterface*             link,
     _sendMultipleTimer.start(_sendMessageMultipleIntraMessageDelay);
     connect(&_sendMultipleTimer, &QTimer::timeout, this, &Vehicle::_sendMessageMultipleNext);
 
-    _mapTrajectoryTimer.setInterval(_mapTrajectoryMsecsBetweenPoints);
-    connect(&_mapTrajectoryTimer, &QTimer::timeout, this, &Vehicle::_addNewMapTrajectoryPoint);
-
     connect(&_orbitTelemetryTimer, &QTimer::timeout, this, &Vehicle::_orbitTelemetryTimeout);
 
     // Create camera manager instance
@@ -302,6 +298,10 @@ Vehicle::Vehicle(LinkInterface*             link,
     connect(&_adsbTimer, &QTimer::timeout, this, &Vehicle::_adsbTimerTimeout);
     _adsbTimer.setSingleShot(false);
     _adsbTimer.start(1000);
+
+    // Start csv logger
+    connect(&_csvLogTimer, &QTimer::timeout, this, &Vehicle::_writeCsvLine);
+    _csvLogTimer.start(1000);
 }
 
 // Disconnected Vehicle for offline editing
@@ -323,6 +323,7 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _soloFirmware(false)
     , _toolbox(qgcApp()->toolbox())
     , _settingsManager(_toolbox->settingsManager())
+    , _csvLogTimer(this)
     , _joystickMode(JoystickModeRC)
     , _joystickEnabled(false)
     , _uas(nullptr)
@@ -371,6 +372,7 @@ Vehicle::Vehicle(MAV_AUTOPILOT              firmwareType,
     , _base_mode(0)
     , _custom_mode(0)
     , _nextSendMessageMultipleIndex(0)
+    , _trajectoryPoints(new TrajectoryPoints(this, this))
     , _firmwarePluginManager(firmwarePluginManager)
     , _joystickManager(nullptr)
     , _flowImageIndex(0)
@@ -443,17 +445,17 @@ void Vehicle::_commonInit(void)
     connect(this, &Vehicle::homePositionChanged,    this, &Vehicle::_updateDistanceHeadingToHome);
     connect(this, &Vehicle::hobbsMeterChanged,      this, &Vehicle::_updateHobbsMeter);
 
-
     connect(_toolbox->qgcPositionManager(), &QGCPositionManager::gcsPositionChanged, this, &Vehicle::_updateDistanceToGCS);
 
     _missionManager = new MissionManager(this);
     connect(_missionManager, &MissionManager::error,                    this, &Vehicle::_missionManagerError);
     connect(_missionManager, &MissionManager::newMissionItemsAvailable, this, &Vehicle::_missionLoadComplete);
     connect(_missionManager, &MissionManager::newMissionItemsAvailable, this, &Vehicle::_clearCameraTriggerPoints);
-    connect(_missionManager, &MissionManager::newMissionItemsAvailable, this, &Vehicle::_clearTrajectoryPoints);
     connect(_missionManager, &MissionManager::sendComplete,             this, &Vehicle::_clearCameraTriggerPoints);
-    connect(_missionManager, &MissionManager::sendComplete,             this, &Vehicle::_clearTrajectoryPoints);
     connect(_missionManager, &MissionManager::currentIndexChanged,      this, &Vehicle::_updateHeadingToNextWP);
+
+    connect(_missionManager, &MissionManager::sendComplete,             _trajectoryPoints, &TrajectoryPoints::clear);
+    connect(_missionManager, &MissionManager::newMissionItemsAvailable, _trajectoryPoints, &TrajectoryPoints::clear);
 
     _parameterManager = new ParameterManager(this);
     connect(_parameterManager, &ParameterManager::parametersReadyChanged, this, &Vehicle::_parametersReady);
@@ -518,6 +520,9 @@ void Vehicle::_commonInit(void)
 
     _flightDistanceFact.setRawValue(0);
     _flightTimeFact.setRawValue(0);
+    _flightTimeUpdater.setInterval(1000);
+    _flightTimeUpdater.setSingleShot(false);
+    connect(&_flightTimeUpdater, &QTimer::timeout, this, &Vehicle::_updateFlightTime);
 
     // Set video stream to udp if running ArduSub and Video is disabled
     if (sub() && _settingsManager->videoSettings()->videoSource()->rawValue() == VideoSettings::videoDisabled) {
@@ -963,7 +968,7 @@ void Vehicle::_handleVfrHud(mavlink_message_t& message)
     _airSpeedFact.setRawValue(qIsNaN(vfrHud.airspeed) ? 0 : vfrHud.airspeed);
     _groundSpeedFact.setRawValue(qIsNaN(vfrHud.groundspeed) ? 0 : vfrHud.groundspeed);
     _climbRateFact.setRawValue(qIsNaN(vfrHud.climb) ? 0 : vfrHud.climb);
-    _throttlePctFact.setRawValue(vfrHud.throttle);
+    _throttlePctFact.setRawValue(static_cast<int16_t>(vfrHud.throttle));
 }
 
 void Vehicle::_handleEstimatorStatus(mavlink_message_t& message)
@@ -1655,10 +1660,12 @@ void Vehicle::_updateArmed(bool armed)
 
         // We are transitioning to the armed state, begin tracking trajectory points for the map
         if (_armed) {
-            _mapTrajectoryStart();
+            _trajectoryPoints->start();
+            _flightTimerStart();
             _clearCameraTriggerPoints();
         } else {
-            _mapTrajectoryStop();
+            _trajectoryPoints->stop();
+            _flightTimerStop();
             // Also handle Video Streaming
             if(qgcApp()->toolbox()->videoManager()->videoReceiver()) {
                 if(_settingsManager->videoSettings()->disableWhenDisarmed()->rawValue().toBool()) {
@@ -2544,46 +2551,27 @@ void Vehicle::_rallyPointManagerError(int errorCode, const QString& errorMsg)
     qgcApp()->showMessage(tr("Rally Point transfer failed. Retry transfer. Error: %1").arg(errorMsg));
 }
 
-void Vehicle::_addNewMapTrajectoryPoint(void)
-{
-    if (_mapTrajectoryHaveFirstCoordinate) {
-        // Keep three minutes of trajectory on mobile due to perf impact of lines
-#ifdef __mobile__
-        if (_mapTrajectoryList.count() * _mapTrajectoryMsecsBetweenPoints > 3 * 1000 * 60) {
-            _mapTrajectoryList.removeAt(0)->deleteLater();
-        }
-#endif
-        _mapTrajectoryList.append(new CoordinateVector(_mapTrajectoryLastCoordinate, _coordinate, this));
-        _flightDistanceFact.setRawValue(_flightDistanceFact.rawValue().toDouble() + _mapTrajectoryLastCoordinate.distanceTo(_coordinate));
-    }
-    _mapTrajectoryHaveFirstCoordinate = true;
-    _mapTrajectoryLastCoordinate = _coordinate;
-    _flightTimeFact.setRawValue((double)_flightTimer.elapsed() / 1000.0);
-}
-
-void Vehicle::_clearTrajectoryPoints(void)
-{
-    _mapTrajectoryList.clearAndDeleteContents();
-}
-
 void Vehicle::_clearCameraTriggerPoints(void)
 {
     _cameraTriggerPoints.clearAndDeleteContents();
 }
 
-void Vehicle::_mapTrajectoryStart(void)
+void Vehicle::_flightTimerStart(void)
 {
-    _mapTrajectoryHaveFirstCoordinate = false;
-    _clearTrajectoryPoints();
-    _mapTrajectoryTimer.start();
     _flightTimer.start();
+    _flightTimeUpdater.start();
     _flightDistanceFact.setRawValue(0);
     _flightTimeFact.setRawValue(0);
 }
 
-void Vehicle::_mapTrajectoryStop()
+void Vehicle::_flightTimerStop(void)
 {
-    _mapTrajectoryTimer.stop();
+    _flightTimeUpdater.stop();
+}
+
+void Vehicle::_updateFlightTime(void)
+{
+    _flightTimeFact.setRawValue((double)_flightTimer.elapsed() / 1000.0);
 }
 
 void Vehicle::_startPlanRequest(void)
@@ -3481,9 +3469,9 @@ void Vehicle::setSoloFirmware(bool soloFirmware)
     }
 }
 
-void Vehicle::motorTest(int motor, int percent)
+void Vehicle::motorTest(int motor, int percent, int timeoutSecs)
 {
-    sendMavCommand(_defaultComponentId, MAV_CMD_DO_MOTOR_TEST, true, motor, MOTOR_TEST_THROTTLE_PERCENT, percent, 0, 0, MOTOR_TEST_ORDER_BOARD);
+    sendMavCommand(_defaultComponentId, MAV_CMD_DO_MOTOR_TEST, true, motor, MOTOR_TEST_THROTTLE_PERCENT, percent, timeoutSecs, 0, MOTOR_TEST_ORDER_BOARD);
 }
 
 QString Vehicle::brandImageIndoor(void) const
@@ -3691,6 +3679,11 @@ QString Vehicle::landFlightMode(void) const
 QString Vehicle::takeControlFlightMode(void) const
 {
     return _firmwarePlugin->takeControlFlightMode();
+}
+
+QString Vehicle::followFlightMode(void) const
+{
+    return _firmwarePlugin->followFlightMode();
 }
 
 QString Vehicle::vehicleImageOpaque() const
@@ -4005,6 +3998,63 @@ void Vehicle::_pidTuningAdjustRates(bool setRatesForTuning)
     _setpointFactGroup.setLiveUpdates(setRatesForTuning);
 }
 
+void Vehicle::_initializeCsv()
+{
+    if(!_toolbox->settingsManager()->appSettings()->saveCsvTelemetry()->rawValue().toBool()){
+        return;
+    }
+    QString now = QDateTime::currentDateTime().toString("yyyy-MM-dd hh-mm-ss");
+    QString fileName = QString("%1 vehicle%2.csv").arg(now).arg(_id);
+    QDir saveDir(_toolbox->settingsManager()->appSettings()->telemetrySavePath());
+    _csvLogFile.setFileName(saveDir.absoluteFilePath(fileName));
+
+    if (!_csvLogFile.open(QIODevice::Append)) {
+        qCWarning(VehicleLog) << "unable to open file for csv logging, Stopping csv logging!";
+        return;
+    }
+
+    QTextStream stream(&_csvLogFile);
+    QStringList allFactNames;
+    allFactNames << factNames();
+    for (const QString& groupName: factGroupNames()) {
+        for(const QString& factName: getFactGroup(groupName)->factNames()){
+            allFactNames << QString("%1.%2").arg(groupName, factName);
+        }
+    }
+    qCDebug(VehicleLog) << "Facts logged to csv:" << allFactNames;
+    stream << "Timestamp," << allFactNames.join(",") << "\n";
+}
+
+void Vehicle::_writeCsvLine()
+{
+    // Only save the logs after the the vehicle gets armed, unless "Save logs even if vehicle was not armed" is checked
+    if(!_csvLogFile.isOpen() &&
+           (_armed || _toolbox->settingsManager()->appSettings()->telemetrySaveNotArmed()->rawValue().toBool())){
+        _initializeCsv();
+    }
+
+    if(!_csvLogFile.isOpen()){
+        return;
+    }
+
+    QStringList allFactValues;
+    QTextStream stream(&_csvLogFile);
+
+    // Write timestamp to csv file
+    allFactValues << QDateTime::currentDateTime().toString();
+    // Write Vehicle's own facts
+    for (const QString& factName : factNames()) {
+        allFactValues << getFact(factName)->cookedValueString();
+    }
+    // write facts from Vehicle's FactGroups
+    for (const QString& groupName: factGroupNames()) {
+        for (const QString& factName : getFactGroup(groupName)->factNames()) {
+            allFactValues << getFactGroup(groupName)->getFact(factName)->cookedValueString();
+        }
+    }
+
+    stream << allFactValues.join(",") << "\n";
+}
 
 #if !defined(NO_ARDUPILOT_DIALECT)
 void Vehicle::flashBootloader(void)
