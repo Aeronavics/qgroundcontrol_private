@@ -34,18 +34,23 @@ void QGCPositionManager::setToolbox(QGCToolbox *toolbox)
    QGCTool::setToolbox(toolbox);
    //-- First see if plugin provides a position source
    _defaultSource = toolbox->corePlugin()->createPositionSource(this);
-   if(!_defaultSource) {
+
+   if (qgcApp()->runningUnitTests()) {
+       // Units test on travis fail due to lack of position source
+       return;
+   }
+
+   if (!_defaultSource) {
        //-- Otherwise, create a default one
        _defaultSource = QGeoPositionInfoSource::createDefaultSource(this);
    }
    _simulatedSource = new SimulatedPosition();
 
-   // Enable this to get a simulated target on desktop
-   // if (_defaultSource == nullptr) {
-   //     _defaultSource = _simulatedSource;
-   // }
-
+#if 1
    setPositionSource(QGCPositionSource::InternalGPS);
+#else
+   setPositionSource(QGCPositionManager::Simulated);
+#endif
 }
 
 void QGCPositionManager::setNmeaSourceDevice(QIODevice* device)
@@ -71,6 +76,8 @@ void QGCPositionManager::setNmeaSourceDevice(QIODevice* device)
 
 void QGCPositionManager::_positionUpdated(const QGeoPositionInfo &update)
 {
+    _geoPositionInfo = update;
+
     QGeoCoordinate newGCSPosition = QGeoCoordinate();
     qreal newGCSHeading = update.attribute(QGeoPositionInfo::Direction);
 

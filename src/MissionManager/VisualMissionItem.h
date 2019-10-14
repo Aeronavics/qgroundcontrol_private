@@ -40,6 +40,13 @@ public:
 
     const VisualMissionItem& operator=(const VisualMissionItem& other);
 
+    enum ReadyForSaveState {
+        ReadyForSave,
+        NotReadyForSaveTerrain,
+        NotReadyForSaveData,
+    };
+    Q_ENUM(ReadyForSaveState)
+
     Q_PROPERTY(bool             homePosition                        READ homePosition                                                   CONSTANT)                                           ///< true: This item is being used as a home position indicator
     Q_PROPERTY(QGeoCoordinate   coordinate                          READ coordinate                         WRITE setCoordinate         NOTIFY coordinateChanged)                           ///< This is the entry point for a waypoint line into the item. For a simple item it is also the location of the item
     Q_PROPERTY(double           terrainAltitude                     READ terrainAltitude                                                NOTIFY terrainAltitudeChanged)                      ///< The altitude of terrain at the coordinate position, NaN if not known
@@ -67,6 +74,8 @@ public:
     Q_PROPERTY(double           missionGimbalYaw                    READ missionGimbalYaw                                               NOTIFY missionGimbalYawChanged)                     ///< Current gimbal yaw state at this point in mission
     Q_PROPERTY(double           missionVehicleYaw                   READ missionVehicleYaw                                              NOTIFY missionVehicleYawChanged)                    ///< Expected vehicle yaw at this point in mission
     Q_PROPERTY(bool             flyView                             READ flyView                                                        CONSTANT)
+    Q_PROPERTY(bool             wizardMode                          READ wizardMode                        WRITE setWizardMode          NOTIFY wizardModeChanged)
+    Q_PROPERTY(ReadyForSaveState readyForSaveState                  READ readyForSaveState                                              NOTIFY readyForSaveStateChanged)
 
     Q_PROPERTY(QGCGeoBoundingCube* boundingCube                     READ boundingCube                                                   NOTIFY boundingCubeChanged)
 
@@ -76,23 +85,23 @@ public:
     Q_PROPERTY(double altPercent        READ altPercent         WRITE setAltPercent         NOTIFY altPercentChanged)           ///< Percent of total altitude change in mission altitude
     Q_PROPERTY(double terrainPercent    READ terrainPercent     WRITE setTerrainPercent     NOTIFY terrainPercentChanged)       ///< Percent of terrain altitude in mission altitude
     Q_PROPERTY(bool   terrainCollision  READ terrainCollision   WRITE setTerrainCollision   NOTIFY terrainCollisionChanged)     ///< true: Item collides with terrain
+    Q_PROPERTY(bool   terrainCustomDEM  READ terrainCustomDEM   WRITE setTerrainCollision   NOTIFY terrainCustomDEMChanged)     ///< true: Item uses custom DEM
     Q_PROPERTY(double azimuth           READ azimuth            WRITE setAzimuth            NOTIFY azimuthChanged)              ///< Azimuth to previous waypoint
     Q_PROPERTY(double distance          READ distance           WRITE setDistance           NOTIFY distanceChanged)             ///< Distance to previous waypoint
 
     // Property accesors
-
-    bool homePosition               (void) const { return _homePositionSpecialCase; }
-    void setHomePositionSpecialCase (bool homePositionSpecialCase) { _homePositionSpecialCase = homePositionSpecialCase; }
-
-    double altDifference    (void) const { return _altDifference; }
-    double altPercent       (void) const { return _altPercent; }
-    double terrainPercent   (void) const { return _terrainPercent; }
-    bool   terrainCollision (void) const { return _terrainCollision; }
-    double azimuth          (void) const { return _azimuth; }
-    double distance         (void) const { return _distance; }
-    bool   isCurrentItem    (void) const { return _isCurrentItem; }
-    double terrainAltitude  (void) const { return _terrainAltitude; }
-    bool   flyView          (void) const { return _flyView; }
+    bool    homePosition    (void) const { return _homePositionSpecialCase; }
+    double  altDifference   (void) const { return _altDifference; }
+    double  altPercent      (void) const { return _altPercent; }
+    double  terrainPercent  (void) const { return _terrainPercent; }
+    bool    terrainCollision(void) const { return _terrainCollision; }
+    bool    terrainCustomDEM(void) const { return _terrainCustomDEM; }
+    double  azimuth         (void) const { return _azimuth; }
+    double  distance        (void) const { return _distance; }
+    bool    isCurrentItem   (void) const { return _isCurrentItem; }
+    double  terrainAltitude (void) const { return _terrainAltitude; }
+    bool    flyView         (void) const { return _flyView; }
+    bool    wizardMode      (void) const { return _wizardMode; }
 
     QmlObjectListModel* childItems(void) { return &_childItems; }
 
@@ -101,8 +110,12 @@ public:
     void setAltPercent      (double altPercent);
     void setTerrainPercent  (double terrainPercent);
     void setTerrainCollision(bool terrainCollision);
+    void setTerrainCustomDEM(bool terrainCustomDEM);
     void setAzimuth         (double azimuth);
     void setDistance        (double distance);
+    void setWizardMode      (bool wizardMode);
+
+    void setHomePositionSpecialCase (bool homePositionSpecialCase) { _homePositionSpecialCase = homePositionSpecialCase; }
 
     Vehicle* vehicle(void) { return _vehicle; }
 
@@ -139,10 +152,8 @@ public:
     virtual void setSequenceNumber  (int sequenceNumber) = 0;
     virtual int  lastSequenceNumber (void) const = 0;
 
-    /// Specifies whether the item has all the data it needs such that it can be saved. Currently the only
-    /// case where this returns false is if it has not determined terrain values yet.
-    /// @return true: Ready to save, false: Still waiting on information
-    virtual bool readyForSave(void) const { return true; }
+    /// @return Returns whether the item is ready for save and if not, why
+    virtual ReadyForSaveState readyForSaveState(void) const { return ReadyForSave; }
 
     /// Save the item(s) in Json format
     ///     @param missionItems Current set of mission items, new items should be appended to the end
@@ -175,6 +186,7 @@ signals:
     void altPercentChanged              (double altPercent);
     void terrainPercentChanged          (double terrainPercent);
     void terrainCollisionChanged        (double terrainCollision);
+    void terrainCustomDEMChanged        (double terrainCustomDEM);
     void azimuthChanged                 (double azimuth);
     void commandDescriptionChanged      (void);
     void commandNameChanged             (void);
@@ -198,6 +210,8 @@ signals:
     void terrainAltitudeChanged         (double terrainAltitude);
     void additionalTimeDelayChanged     (void);
     void boundingCubeChanged            (void);
+    void readyForSaveStateChanged       (void);
+    void wizardModeChanged              (bool wizardMode);
 
     void coordinateHasRelativeAltitudeChanged       (bool coordinateHasRelativeAltitude);
     void exitCoordinateHasRelativeAltitudeChanged   (bool exitCoordinateHasRelativeAltitude);
@@ -214,11 +228,13 @@ protected:
     double      _altPercent;                ///< Percent of total altitude change in mission
     double      _terrainPercent;            ///< Percent of terrain altitude for coordinate
     bool        _terrainCollision;          ///< true: item collides with terrain
+    bool        _terrainCustomDEM;          ///< true: item uses Custom DEM 
     double      _azimuth;                   ///< Azimuth to previous waypoint
     double      _distance;                  ///< Distance to previous waypoint
     QString     _editorQml;                 ///< Qml resource for editing item
     double      _missionGimbalYaw;
     double      _missionVehicleYaw;
+    bool        _wizardMode;                ///< true: Item editor is showing wizard completion panel
 
     QGCGeoBoundingCube  _boundingCube;      ///< The bounding "cube" of this element.
 

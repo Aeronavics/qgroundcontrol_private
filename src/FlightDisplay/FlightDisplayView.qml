@@ -311,10 +311,7 @@ Item {
 
     Item {
         id:             _mapAndVideo
-        anchors.left:   parent.left
-        anchors.right:  parent.right
-        anchors.top:    parent.top
-        anchors.bottom: logReplayStatusBar.top
+        anchors.fill:   parent
 
         //-- Map View
         Item {
@@ -518,7 +515,7 @@ Item {
             anchors.left:       parent.left
             anchors.right:      altitudeSlider.visible ? altitudeSlider.left : parent.right
             anchors.bottom:     parent.bottom
-            anchors.top:        singleMultiSelector.visible? singleMultiSelector.bottom:undefined
+            anchors.top:        singleMultiSelector.visible? singleMultiSelector.bottom : undefined
             useLightColors:     isBackgroundDark
             missionController:  _missionController
             visible:            singleVehicleView.checked && !QGroundControl.videoManager.fullScreen
@@ -576,7 +573,7 @@ Item {
             anchors.left:       isInstrumentRight() ? _mapAndVideo.left : undefined
             anchors.rightMargin:isInstrumentRight() ? undefined : ScreenTools.defaultFontPixelWidth
             anchors.right:      isInstrumentRight() ? undefined : _mapAndVideo.right
-            anchors.topMargin:  mainWindow.header.height + (ScreenTools.defaultFontPixelHeight * 0.5)
+            anchors.topMargin:  ScreenTools.defaultFontPixelHeight * 0.5
             anchors.top:        parent.top
             z:                  _mapAndVideo.z + 4
             maxHeight:          (_flightVideo.visible ? _flightVideo.y : parent.height) - toolStrip.y
@@ -749,14 +746,6 @@ Item {
             color:              qgcPal.window
             visible:            false
         }
-    }
-
-    LogReplayStatusBar {
-        id:                 logReplayStatusBar
-        anchors.left:       parent.left
-        anchors.right:      parent.right
-        anchors.bottom:     parent.bottom
-        visible:            QGroundControl.settingsManager.flyViewSettings.showLogReplayStatusBar.rawValue &&_flightMapContainer.state === "fullMode"
     }
 
     //-- Airspace Indicator

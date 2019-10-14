@@ -118,6 +118,8 @@ public:
     void addCoordinateQuery (TerrainOfflineAirMapQuery* terrainQueryInterface, const QList<QGeoCoordinate>& coordinates);
     void addPathQuery       (TerrainOfflineAirMapQuery* terrainQueryInterface, const QGeoCoordinate& startPoint, const QGeoCoordinate& endPoint);
 
+    GeotiffDatasetTerrainTile  *custom_dem_tile;
+
 private slots:
     void _terrainDone       (QByteArray responseBytes, QNetworkReply::NetworkError error);
 
@@ -149,7 +151,7 @@ private:
     QNetworkAccessManager       _networkManager;
 
     QMutex                      _tilesMutex;
-    QHash<QString, TerrainTile> _tiles;
+    QHash<QString, TerrainTile*> _tiles;
 };
 
 /// Used internally by TerrainAtCoordinateQuery to batch coordinate requests together
@@ -295,3 +297,4 @@ private:
     TerrainAirMapQuery _terrainQuery;
 };
 
+void createCustomDEMTerrainTile(QString fname);
