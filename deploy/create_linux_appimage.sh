@@ -45,6 +45,8 @@ wget -c --quiet http://ftp.us.debian.org/debian/pool/main/u/udev/udev_175-7.2_am
 wget -c --quiet http://ftp.us.debian.org/debian/pool/main/s/speech-dispatcher/speech-dispatcher_0.8.8-1_amd64.deb
 wget -c --quiet http://ftp.us.debian.org/debian/pool/main/libs/libsdl2/libsdl2-2.0-0_2.0.2%2bdfsg1-6_amd64.deb
 
+wget -c --quiet http://ftp.us.debian.org/debian/pool/main/c/curl/libcurl3-gnutls_7.66.0-1_amd64.deb
+
 cd ${APPDIR}
 find ../ -name *.deb -exec dpkg -x {} . \;
 
@@ -56,6 +58,9 @@ dpkg -x libdirectfb-1.2-9_1.2.10.0-5.1_amd64.deb libdirectfb
 cp -L libdirectfb/usr/lib/x86_64-linux-gnu/libdirectfb-1.2.so.9 ${APPDIR}/usr/lib/x86_64-linux-gnu/
 cp -L libdirectfb/usr/lib/x86_64-linux-gnu/libfusion-1.2.so.9 ${APPDIR}/usr/lib/x86_64-linux-gnu/
 cp -L libdirectfb/usr/lib/x86_64-linux-gnu/libdirect-1.2.so.9 ${APPDIR}/usr/lib/x86_64-linux-gnu/
+
+cp -L ${QGC_SRC}/libs/gdal/linux/lib/libgdal.so.* ${APPDIR}/usr/lib/x86_64-linux-gnu/
+cp -L ${QGC_SRC}/libs/gdal/linux/lib/libproj.so.* ${APPDIR}/usr/lib/x86_64-linux-gnu/
 
 # copy libts-0.0-0
 wget -c --quiet http://old-releases.ubuntu.com/ubuntu/pool/universe/t/tslib/libts-0.0-0_1.0-11_amd64.deb
