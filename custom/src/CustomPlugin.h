@@ -41,7 +41,7 @@ class CustomOptions : public QGCOptions
 {
 public:
     CustomOptions(CustomPlugin*, QObject* parent = nullptr);
-    //bool        wifiReliableForCalibration      () const final { return true; }
+    bool        wifiReliableForCalibration      () const final { return true; }
 #if defined(Q_OS_LINUX)
     double      toolbarHeightMultiplier         () final { return 1.25; }
 #endif
@@ -53,7 +53,6 @@ public:
     //-- Don't show instrument widget
     //CustomInstrumentWidget* instrumentWidget    () final { return nullptr; }
     bool        showMavlinkLogOptions           () const final { return false; }
-    bool        wifiReliableForCalibration      () const final { return true; }
 
     bool        showFirmwareUpgrade             () const final;
     ////-- We handle multiple vehicles in a custom way
