@@ -66,30 +66,30 @@ CustomOptions::CustomOptions(CustomPlugin*, QObject* parent)
 }
 
 //-----------------------------------------------------------------------------
-//bool
-//CustomOptions::showFirmwareUpgrade() const
-//{
-//    return qgcApp()->toolbox()->corePlugin()->showAdvancedUI();
-//}
+bool
+CustomOptions::showFirmwareUpgrade() const
+{
+    return qgcApp()->toolbox()->corePlugin()->showAdvancedUI();
+}
 
-//QColor
-//CustomOptions::toolbarBackgroundLight() const
-//{
-//    return CustomPlugin::_windowShadeEnabledLightColor;
-//}
-//
-//QColor
-//CustomOptions::toolbarBackgroundDark() const
-//{
-//    return CustomPlugin::_windowShadeEnabledDarkColor;
-//}
+QColor
+CustomOptions::toolbarBackgroundLight() const
+{
+    return CustomPlugin::_windowShadeEnabledLightColor;
+}
+
+QColor
+CustomOptions::toolbarBackgroundDark() const
+{
+    return CustomPlugin::_windowShadeEnabledDarkColor;
+}
 
 //-----------------------------------------------------------------------------
 CustomPlugin::CustomPlugin(QGCApplication *app, QGCToolbox* toolbox)
     : QGCCorePlugin(app, toolbox)
 {
     _pOptions = new CustomOptions(this, this);
-    _showAdvancedUI = true;
+    _showAdvancedUI = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -251,8 +251,8 @@ CustomPlugin::brandImageOutdoor(void) const
 //    return true;
 //}
 
-//const QColor     CustomPlugin::_windowShadeEnabledLightColor("#FFFFFF");
-//const QColor     CustomPlugin::_windowShadeEnabledDarkColor("#212529");
+const QColor     CustomPlugin::_windowShadeEnabledLightColor("#000000");
+const QColor     CustomPlugin::_windowShadeEnabledDarkColor("#222222");
 
 //-----------------------------------------------------------------------------
 void

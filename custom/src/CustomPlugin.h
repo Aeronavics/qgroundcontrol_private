@@ -53,15 +53,16 @@ public:
     //-- Don't show instrument widget
     //CustomInstrumentWidget* instrumentWidget    () final { return nullptr; }
     bool        showMavlinkLogOptions           () const final { return false; }
+    bool        wifiReliableForCalibration      () const final { return true; }
 
-    //bool        showFirmwareUpgrade             () const final;
+    bool        showFirmwareUpgrade             () const final;
     ////-- We handle multiple vehicles in a custom way
     //bool        enableMultiVehicleList          () const final { return false; }
     ////-- We handle our own map scale
     //bool        enableMapScale                  () const final { return false; }
     //// TODO: Can't access QGCPalette without some workarounds, change this upstream
-    //QColor      toolbarBackgroundLight          () const final;
-    //QColor      toolbarBackgroundDark           () const final;
+    QColor      toolbarBackgroundLight          () const final;
+    QColor      toolbarBackgroundDark           () const final;
 };
 
 
@@ -87,8 +88,8 @@ public:
     // Overrides from QGCTool
     void                    setToolbox                      (QGCToolbox* toolbox);
 
-    //const static QColor     _windowShadeEnabledLightColor;
-    //const static QColor     _windowShadeEnabledDarkColor;
+    const static QColor     _windowShadeEnabledLightColor;
+    const static QColor     _windowShadeEnabledDarkColor;
 
   private slots:
     void                    _advancedChanged                (bool advanced);
