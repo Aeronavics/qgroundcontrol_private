@@ -141,37 +141,37 @@ CustomPlugin::addSettingsEntry(const QString& title,
 }
 
 //-----------------------------------------------------------------------------
-QVariantList&
+    QVariantList&
 CustomPlugin::settingsPages()
 {
     if(_customSettingsList.isEmpty()) {
         addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
         addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",    "qrc:/res/waves.svg");
         addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",      "qrc:/res/waves.svg");
-//#if defined(QGC_GST_MICROHARD_ENABLED)
-//        addSettingsEntry(tr("Microhard"),   "qrc:/qml/MicrohardSettings.qml");
-//#endif
-//#if defined(QGC_GST_TAISYNC_ENABLED)
-//        addSettingsEntry(tr("Taisync"),     "qrc:/qml/TaisyncSettings.qml");
-//#endif
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif
         addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
         addSettingsEntry(tr("Log Upload"),  "qrc:/custom/CustomMavlinkSettings.qml");
         addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
-//#if defined(QGC_ENABLE_QZXING)
-//        addSettingsEntry(tr("Barcode Test"),"qrc:/custom/BarcodeReader.qml");
-//#endif
+
+        if(qgcApp()->toolbox()->corePlugin()->showAdvancedUI()){
 #if defined(QT_DEBUG)
-        //-- These are always present on Debug builds
-        addSettingsEntry(tr("Mock Link"),   "qrc:/qml/MockLink.qml");
-        addSettingsEntry(tr("Debug"),       "qrc:/qml/DebugWindow.qml");
-        addSettingsEntry(tr("Palette Test"),"qrc:/qml/QmlTest.qml");
+            //-- These are always present on Debug builds
+            addSettingsEntry(tr("Mock Link"),   "qrc:/qml/MockLink.qml");
+            addSettingsEntry(tr("Debug"),       "qrc:/qml/DebugWindow.qml");
+            addSettingsEntry(tr("Palette Test"),"qrc:/qml/QmlTest.qml");
 #endif
+#if defined(QGC_GST_MICROHARD_ENABLED)
+            addSettingsEntry(tr("Microhard"),   "qrc:/qml/MicrohardSettings.qml");
+#endif
+#if defined(QGC_GST_TAISYNC_ENABLED)
+            addSettingsEntry(tr("Taisync"),     "qrc:/qml/TaisyncSettings.qml");
+#endif
+
+        }
+        return _customSettingsList;
     }
-    return _customSettingsList;
-}
 
 //-----------------------------------------------------------------------------
 QGCOptions*
@@ -195,14 +195,14 @@ CustomPlugin::brandImageOutdoor(void) const
 }
 
 //-----------------------------------------------------------------------------
-//bool
-//CustomPlugin::overrideSettingsGroupVisibility(QString name)
-//{
-//    if (name == BrandImageSettings::name) {
-//        return false;
-//    }
-//    return true;
-//}
+bool
+CustomPlugin::overrideSettingsGroupVisibility(QString name)
+{
+    if (name == BrandImageSettings::name) {
+        return false;
+    }
+    return true;
+}
 
 //-----------------------------------------------------------------------------
 //VideoManager*
