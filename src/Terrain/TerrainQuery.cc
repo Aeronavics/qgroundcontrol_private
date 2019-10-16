@@ -32,6 +32,9 @@ QGC_LOGGING_CATEGORY(TerrainQueryVerboseLog, "TerrainQueryVerboseLog")
 Q_GLOBAL_STATIC(TerrainAtCoordinateBatchManager, _TerrainAtCoordinateBatchManager)
 Q_GLOBAL_STATIC(TerrainTileManager, _terrainTileManager)
 
+// Will be added to SettingsManager and connected to a menu
+const QString elevationProvider = "Airmap Elevation";
+
 TerrainAirMapQuery::TerrainAirMapQuery(QObject* parent)
     : TerrainQueryInterface(parent)
 {
@@ -330,7 +333,13 @@ void TerrainOfflineAirMapQuery::_signalCarpetHeights(bool success, double minHei
 
 TerrainTileManager::TerrainTileManager(void)
 {
+}
 
+void createCustomDEMTerrainTile(QString fname){
+    if(_terrainTileManager->custom_dem_tile != nullptr){
+        delete _terrainTileManager->custom_dem_tile;
+    }
+    _terrainTileManager->custom_dem_tile = new GeotiffDatasetTerrainTile(fname.toUtf8());
 }
 
 void TerrainTileManager::addCoordinateQuery(TerrainOfflineAirMapQuery* terrainQueryInterface, const QList<QGeoCoordinate>& coordinates)
@@ -409,9 +418,24 @@ bool TerrainTileManager::_getAltitudesForCoordinates(const QList<QGeoCoordinate>
         qCDebug(TerrainQueryLog) << "TerrainTileManager::_getAltitudesForCoordinates hash:coordinate" << tileHash << coordinate;
 
         _tilesMutex.lock();
-        if (_tiles.contains(tileHash)) {
-            if (_tiles[tileHash].isIn(coordinate)) {
-                double elevation = _tiles[tileHash].elevation(coordinate);
+        // Test Custom DEM tile first
+        if (custom_dem_tile != nullptr && custom_dem_tile->isIn(coordinate)) {
+            double elevation = custom_dem_tile->elevation(coordinate);
+            if (qIsNaN(elevation)) {
+                error = true;
+                qCWarning(TerrainQueryLog)
+                    << "TerrainTileManager::_getAltitudesForCoordinates "
+                       "Internal Error: negative elevation in tile cache";
+            } else {
+                qCDebug(TerrainQueryLog)
+                    << "TerrainTileManager::_getAltitudesForCoordinates "
+                       "returning elevation from tile cache"
+                    << elevation;
+            }
+            altitudes.push_back(elevation);
+        } else if (_tiles.contains(tileHash)) {
+            if (_tiles[tileHash]->isIn(coordinate)) {
+                double elevation = _tiles[tileHash]->elevation(coordinate);
                 if (qIsNaN(elevation)) {
                     error = true;
                     qCWarning(TerrainQueryLog) << "TerrainTileManager::_getAltitudesForCoordinates Internal Error: negative elevation in tile cache";
@@ -426,13 +450,13 @@ bool TerrainTileManager::_getAltitudesForCoordinates(const QList<QGeoCoordinate>
             }
         } else {
             if (_state != State::Downloading) {
-                QNetworkRequest request = getQGCMapEngine()->urlFactory()->getTileURL(UrlFactory::AirmapElevation, QGCMapEngine::long2elevationTileX(coordinate.longitude(), 1), QGCMapEngine::lat2elevationTileY(coordinate.latitude(), 1), 1, &_networkManager);
+                QNetworkRequest request = getQGCMapEngine()->urlFactory()->getTileURL(elevationProvider, getQGCMapEngine()->urlFactory()->long2tileX(elevationProvider,coordinate.longitude(), 1), getQGCMapEngine()->urlFactory()->lat2tileY(elevationProvider, coordinate.latitude(), 1), 1, &_networkManager);
                 qCDebug(TerrainQueryLog) << "TerrainTileManager::_getAltitudesForCoordinates query from database" << request.url();
                 QGeoTileSpec spec;
-                spec.setX(QGCMapEngine::long2elevationTileX(coordinate.longitude(), 1));
-                spec.setY(QGCMapEngine::lat2elevationTileY(coordinate.latitude(), 1));
+                spec.setX(getQGCMapEngine()->urlFactory()->long2tileX(elevationProvider, coordinate.longitude(), 1));
+                spec.setY(getQGCMapEngine()->urlFactory()->lat2tileY(elevationProvider, coordinate.latitude(), 1));
                 spec.setZoom(1);
-                spec.setMapId(UrlFactory::AirmapElevation);
+                spec.setMapId(getQGCMapEngine()->urlFactory()->getIdFromType(elevationProvider));
                 QGeoTiledMapReplyQGC* reply = new QGeoTiledMapReplyQGC(&_networkManager, request, spec);
                 connect(reply, &QGeoTiledMapReplyQGC::terrainDone, this, &TerrainTileManager::_terrainDone);
                 _state = State::Downloading;
@@ -473,7 +497,7 @@ void TerrainTileManager::_terrainDone(QByteArray responseBytes, QNetworkReply::N
 
     // remove from download queue
     QGeoTileSpec spec = reply->tileSpec();
-    QString hash = QGCMapEngine::getTileHash(UrlFactory::AirmapElevation, spec.x(), spec.y(), spec.zoom());
+    QString hash = QGCMapEngine::getTileHash(elevationProvider, spec.x(), spec.y(), spec.zoom());
 
     // handle potential errors
     if (error != QNetworkReply::NoError) {
@@ -491,18 +515,24 @@ void TerrainTileManager::_terrainDone(QByteArray responseBytes, QNetworkReply::N
 
     qCDebug(TerrainQueryLog) << "Received some bytes of terrain data: " << responseBytes.size();
 
-    TerrainTile* terrainTile = new TerrainTile(responseBytes);
-    if (terrainTile->isValid()) {
+    // Create a new tile from the corresponding current elevationProvider and
+    // add it to _tiles hash table
+
+    TerrainTile* terrainTile = getQGCMapEngine()
+                                   ->urlFactory()
+                                   ->getProviderTable()[elevationProvider]
+                                   ->newTerrainTile(responseBytes);
+    if (terrainTile!=nullptr && terrainTile->isValid()) {
         _tilesMutex.lock();
         if (!_tiles.contains(hash)) {
-            _tiles.insert(hash, *terrainTile);
+            _tiles.insert(hash, terrainTile);
         } else {
             delete terrainTile;
         }
         _tilesMutex.unlock();
     } else {
+        qCWarning(TerrainQueryLog) << "Received invalid tile" << (terrainTile==nullptr?"nullptr":"isValid is false");
         delete terrainTile;
-        qCWarning(TerrainQueryLog) << "Received invalid tile";
     }
     reply->deleteLater();
 
@@ -539,7 +569,11 @@ void TerrainTileManager::_terrainDone(QByteArray responseBytes, QNetworkReply::N
 
 QString TerrainTileManager::_getTileHash(const QGeoCoordinate& coordinate)
 {
-    QString ret = QGCMapEngine::getTileHash(UrlFactory::AirmapElevation, QGCMapEngine::long2elevationTileX(coordinate.longitude(), 1), QGCMapEngine::lat2elevationTileY(coordinate.latitude(), 1), 1);
+    QString ret = QGCMapEngine::getTileHash(
+        elevationProvider,
+        getQGCMapEngine()->urlFactory()->long2tileX(elevationProvider, coordinate.longitude(), 1),
+        getQGCMapEngine()->urlFactory()->lat2tileY(elevationProvider, coordinate.latitude(), 1),
+        1);
     qCDebug(TerrainQueryVerboseLog) << "Computing unique tile hash for " << coordinate << ret;
 
     return ret;

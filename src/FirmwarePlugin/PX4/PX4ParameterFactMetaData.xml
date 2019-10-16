@@ -1020,6 +1020,15 @@ See COM_OBL_ACT and COM_OBL_RC_ACT to configure action</short_desc>
       <unit>sec</unit>
       <reboot_required>true</reboot_required>
     </parameter>
+    <parameter default="1" name="COM_PREARM_MODE" type="INT32">
+      <short_desc>Condition to enter prearmed mode</short_desc>
+      <long_desc>Condition to enter the prearmed state, an intermediate state between disarmed and armed in which non-throttling actuators are active.</long_desc>
+      <values>
+        <value code="0">Disabled</value>
+        <value code="1">Safety button</value>
+        <value code="2">Always</value>
+      </values>
+    </parameter>
     <parameter default="1000" name="COM_RC_ARM_HYST" type="INT32">
       <short_desc>RC input arm/disarm command duration</short_desc>
       <long_desc>The default value of 1000 requires the stick to be held in the arm or disarm position for 1 second.</long_desc>
@@ -1229,7 +1238,7 @@ This parameter controls the time constant of the decay</short_desc>
       <short_desc>Integer bitmask controlling data fusion and aiding methods</short_desc>
       <long_desc>Set bits in the following positions to enable: 0 : Set to true to use GPS data if available 1 : Set to true to use optical flow data if available 2 : Set to true to inhibit IMU delta velocity bias estimation 3 : Set to true to enable vision position fusion 4 : Set to true to enable vision yaw fusion. Cannot be used if bit position 7 is true. 5 : Set to true to enable multi-rotor drag specific force fusion 6 : set to true if the EV observations are in a non NED reference frame and need to be rotated before being used 7 : Set to true to enable GPS yaw fusion. Cannot be used if bit position 4 is true.</long_desc>
       <min>0</min>
-      <max>255</max>
+      <max>511</max>
       <reboot_required>true</reboot_required>
       <bitmask>
         <bit index="0">use GPS</bit>
@@ -1240,6 +1249,7 @@ This parameter controls the time constant of the decay</short_desc>
         <bit index="5">multi-rotor drag fusion</bit>
         <bit index="6">rotate external vision</bit>
         <bit index="7">GPS yaw fusion</bit>
+        <bit index="8">vision velocity fusion</bit>
       </bitmask>
     </parameter>
     <parameter default="0.1" name="EKF2_ANGERR_INIT" type="FLOAT">
@@ -1367,10 +1377,30 @@ Increasing it makes the multi-rotor wind estimates adjust more slowly</short_des
       <unit>rad</unit>
       <decimal>2</decimal>
     </parameter>
-    <parameter default="0.05" name="EKF2_EVP_NOISE" type="FLOAT">
+    <parameter default="5.0" name="EKF2_EVP_GATE" type="FLOAT">
+      <short_desc>Gate size for vision position fusion
+Sets the number of standard deviations used by the innovation consistency test</short_desc>
+      <min>1.0</min>
+      <unit>SD</unit>
+      <decimal>1</decimal>
+    </parameter>
+    <parameter default="0.1" name="EKF2_EVP_NOISE" type="FLOAT">
       <short_desc>Measurement noise for vision position observations used when the vision system does not supply error estimates</short_desc>
       <min>0.01</min>
       <unit>m</unit>
+      <decimal>2</decimal>
+    </parameter>
+    <parameter default="3.0" name="EKF2_EVV_GATE" type="FLOAT">
+      <short_desc>Gate size for vision velocity estimate fusion</short_desc>
+      <long_desc>Sets the number of standard deviations used by the innovation consistency test.</long_desc>
+      <min>1.0</min>
+      <unit>SD</unit>
+      <decimal>1</decimal>
+    </parameter>
+    <parameter default="0.1" name="EKF2_EVV_NOISE" type="FLOAT">
+      <short_desc>Measurement noise for vision velocity observations used when the vision system does not supply error estimates</short_desc>
+      <min>0.01</min>
+      <unit>m/s</unit>
       <decimal>2</decimal>
     </parameter>
     <parameter default="175" name="EKF2_EV_DELAY" type="FLOAT">
@@ -1380,13 +1410,6 @@ Increasing it makes the multi-rotor wind estimates adjust more slowly</short_des
       <unit>ms</unit>
       <decimal>1</decimal>
       <reboot_required>true</reboot_required>
-    </parameter>
-    <parameter default="5.0" name="EKF2_EV_GATE" type="FLOAT">
-      <short_desc>Gate size for vision estimate fusion</short_desc>
-      <long_desc>Sets the number of standard deviations used by the innovation consistency test.</long_desc>
-      <min>1.0</min>
-      <unit>SD</unit>
-      <decimal>1</decimal>
     </parameter>
     <parameter default="0.0" name="EKF2_EV_POS_X" type="FLOAT">
       <short_desc>X position of VI sensor focal point in body frame</short_desc>
@@ -1697,7 +1720,8 @@ Baro and Magnetometer data will be averaged before downsampling, other data will
       <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="0.1" name="EKF2_MIN_RNG" type="FLOAT">
-      <short_desc>Minimum valid range for the range finder</short_desc>
+      <short_desc>Expected range finder reading when on ground</short_desc>
+      <long_desc>If the vehicle is on ground, is not moving as determined by the motion test controlled by EKF2_MOVE_TEST and the range finder is returning invalid or no data, then an assumed range value of EKF2_MIN_RNG will be used by the terrain estimator so that a terrain height estimate is avilable at the start of flight in situations where the range finder may be inside its minimum measurements distance when on ground.</long_desc>
       <min>0.01</min>
       <unit>m</unit>
       <decimal>2</decimal>
@@ -4523,8 +4547,8 @@ the vehicle will accelerate at this rate until the normal position control speed
         <value code="1">Jerk-limited trajectory</value>
       </values>
     </parameter>
-    <parameter default="45." name="MPC_COL_PREV_ANG" type="FLOAT">
-      <short_desc>Angle left/right from the commanded setpoint in which the range data is used to calculate speed limitations. All data further from the commanded direction is not considered</short_desc>
+    <parameter default="30." name="MPC_COL_PREV_CNG" type="FLOAT">
+      <short_desc>Angle left/right from the commanded setpoint by which the collision prevention algorithm can choose to change the setpoint direction</short_desc>
       <long_desc>Only used in Position mode.</long_desc>
       <min>0</min>
       <max>90</max>
@@ -4532,13 +4556,13 @@ the vehicle will accelerate at this rate until the normal position control speed
     </parameter>
     <parameter default="-1.0" name="MPC_COL_PREV_D" type="FLOAT">
       <short_desc>Minimum distance the vehicle should keep to all obstacles</short_desc>
-      <long_desc>Only used in Position mode. Collision avoidace is disabled by setting this parameter to a negative value</long_desc>
+      <long_desc>Only used in Position mode. Collision avoidance is disabled by setting this parameter to a negative value</long_desc>
       <min>-1</min>
       <max>15</max>
       <unit>meters</unit>
     </parameter>
-    <parameter default="0." name="MPC_COL_PREV_DLY" type="FLOAT">
-      <short_desc>Average delay of the range sensor message in seconds</short_desc>
+    <parameter default="0.4" name="MPC_COL_PREV_DLY" type="FLOAT">
+      <short_desc>Average delay of the range sensor message plus the tracking delay of the position controller in seconds</short_desc>
       <long_desc>Only used in Position mode.</long_desc>
       <min>0</min>
       <max>1</max>
@@ -5689,8 +5713,8 @@ the setpoint will be capped to MPC_XY_VEL_MAX</short_desc>
       <boolean />
     </parameter>
     <parameter default="0.0" name="THR_MDL_FAC" type="FLOAT">
-      <short_desc>Thrust to PWM model parameter</short_desc>
-      <long_desc>Parameter used to model the relationship between static thrust and motor input PWM. Model is: thrust = (1-factor)*PWM + factor * PWM^2</long_desc>
+      <short_desc>Thrust to motor control signal model parameter</short_desc>
+      <long_desc>Parameter used to model the nonlinear relationship between motor control signal (e.g. PWM) and static thrust. The model is: rel_thrust = factor * rel_signal^2 + (1-factor) * rel_signal, where rel_thrust is the normalized thrust between 0 and 1, and rel_signal is the relative motor control signal between 0 and 1.</long_desc>
       <min>0.0</min>
       <max>1.0</max>
     </parameter>
@@ -5735,6 +5759,13 @@ the setpoint will be capped to MPC_XY_VEL_MAX</short_desc>
       <min>30.0</min>
       <max>500.0</max>
       <unit>m</unit>
+    </parameter>
+  </group>
+  <group name="Peripheral">
+    <parameter default="0" name="LIGHT_EN_BLINKM" type="INT32">
+      <short_desc>BlinkM LED</short_desc>
+      <boolean />
+      <reboot_required>true</reboot_required>
     </parameter>
   </group>
   <group name="Precision Land">
@@ -8364,7 +8395,7 @@ is less than 50% of this value</short_desc>
     </parameter>
     <parameter default="30.0" name="IMU_ACCEL_CUTOFF" type="FLOAT">
       <short_desc>Driver level cutoff frequency for accel</short_desc>
-      <long_desc>The cutoff frequency for the 2nd order butterworth filter on the accel driver. This features is currently supported by the mpu6000 and mpu9250. This only affects the signal sent to the controllers, not the estimators. 0 disables the filter.</long_desc>
+      <long_desc>The cutoff frequency for the 2nd order butterworth filter on the accel driver. This only affects the signal sent to the controllers, not the estimators. 0 disables the filter.</long_desc>
       <min>0</min>
       <max>1000</max>
       <unit>Hz</unit>
@@ -8372,11 +8403,27 @@ is less than 50% of this value</short_desc>
     </parameter>
     <parameter default="30.0" name="IMU_GYRO_CUTOFF" type="FLOAT">
       <short_desc>Driver level cutoff frequency for gyro</short_desc>
-      <long_desc>The cutoff frequency for the 2nd order butterworth filter on the gyro driver. This features is currently supported by the mpu6000 and mpu9250. This only affects the signal sent to the controllers, not the estimators. 0 disables the filter.</long_desc>
+      <long_desc>The cutoff frequency for the 2nd order butterworth filter on the gyro driver. This only affects the signal sent to the controllers, not the estimators. 0 disables the filter.</long_desc>
       <min>0</min>
       <max>1000</max>
       <unit>Hz</unit>
       <reboot_required>true</reboot_required>
+    </parameter>
+    <parameter default="0" name="IMU_GYRO_RATEMAX" type="INT32">
+      <short_desc>Gyro control data maximum publication rate</short_desc>
+      <long_desc>This is the maximum rate the gyro control data (sensor_gyro_control) will be allowed to publish at. Set to 0 to disable and publish at the native sensor sample rate.</long_desc>
+      <min>0</min>
+      <max>2000</max>
+      <unit>Hz</unit>
+      <reboot_required>true</reboot_required>
+      <values>
+        <value code="0">0 (no limit)</value>
+        <value code="50">50 Hz</value>
+        <value code="250">250 Hz</value>
+        <value code="400">400 Hz</value>
+        <value code="1000">1000 Hz</value>
+        <value code="2000">2000 Hz</value>
+      </values>
     </parameter>
     <parameter default="18139" name="INA226_CONFIG" type="INT32">
       <short_desc>INA226 Power Monitor Config</short_desc>
@@ -8405,6 +8452,7 @@ is less than 50% of this value</short_desc>
       <min>500</min>
       <max>1500</max>
       <unit>hPa</unit>
+      <reboot_required>true</reboot_required>
     </parameter>
     <parameter default="0" name="SENS_BOARD_ROT" type="INT32">
       <short_desc>Board rotation</short_desc>
@@ -8446,6 +8494,7 @@ is less than 50% of this value</short_desc>
         <value code="32">Pitch 9°, Yaw 180°</value>
         <value code="33">Pitch 45°</value>
         <value code="34">Pitch 315°</value>
+        <value code="35">Roll 90°, Yaw 270°</value>
       </values>
     </parameter>
     <parameter default="0.0" name="SENS_BOARD_X_OFF" type="FLOAT">
@@ -8528,6 +8577,11 @@ is less than 50% of this value</short_desc>
       <boolean />
       <reboot_required>true</reboot_required>
     </parameter>
+    <parameter default="0" name="SENS_EN_PMW3901" type="INT32">
+      <short_desc>PMW3901 Optical Flow</short_desc>
+      <boolean />
+      <reboot_required>true</reboot_required>
+    </parameter>
     <parameter default="0" name="SENS_EN_PX4FLOW" type="INT32">
       <short_desc>PX4 Flow Optical Flow</short_desc>
       <boolean />
@@ -8555,7 +8609,8 @@ is less than 50% of this value</short_desc>
         <value code="2">SF10/b</value>
         <value code="3">SF10/c</value>
         <value code="4">SF11/c</value>
-        <value code="5">SF/LW20</value>
+        <value code="5">SF/LW20/b</value>
+        <value code="6">SF/LW20/c</value>
       </values>
     </parameter>
     <parameter default="-1" name="SENS_EN_THERMAL" type="INT32">
@@ -8576,6 +8631,7 @@ is less than 50% of this value</short_desc>
         <value code="2">TROne</value>
         <value code="3">TREvo60m</value>
         <value code="4">TREvo600Hz</value>
+        <value code="5">TREvo3m</value>
       </values>
     </parameter>
     <parameter default="6" name="SENS_FLOW_ROT" type="INT32">
@@ -10574,18 +10630,6 @@ MPC_Z_VEL_MAX_DN at zero throttle, and 0.5 * MPC_LAND_SPEED at full throttle</sh
     </parameter>
     <parameter default="0.1" name="RV_YAW_P" type="FLOAT">
       <short_desc>RV_YAW_P</short_desc>
-    </parameter>
-    <parameter default="1.0" name="SEG_Q2V" type="FLOAT">
-      <short_desc>SEG_Q2V</short_desc>
-    </parameter>
-    <parameter default="0.0" name="SEG_TH2V_I" type="FLOAT">
-      <short_desc>SEG_TH2V_I</short_desc>
-    </parameter>
-    <parameter default="0.0" name="SEG_TH2V_I_MAX" type="FLOAT">
-      <short_desc>SEG_TH2V_I_MAX</short_desc>
-    </parameter>
-    <parameter default="10.0" name="SEG_TH2V_P" type="FLOAT">
-      <short_desc>SEG_TH2V_P</short_desc>
     </parameter>
   </group>
 </parameters>

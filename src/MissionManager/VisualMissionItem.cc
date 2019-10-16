@@ -33,10 +33,12 @@ VisualMissionItem::VisualMissionItem(Vehicle* vehicle, bool flyView, QObject* pa
     , _altPercent               (0.0)
     , _terrainPercent           (qQNaN())
     , _terrainCollision         (false)
+    , _terrainCustomDEM         (false)
     , _azimuth                  (0.0)
     , _distance                 (0.0)
     , _missionGimbalYaw         (qQNaN())
     , _missionVehicleYaw        (qQNaN())
+    , _wizardMode               (false)
     , _lastLatTerrainQuery      (0)
     , _lastLonTerrainQuery      (0)
 {
@@ -54,8 +56,10 @@ VisualMissionItem::VisualMissionItem(const VisualMissionItem& other, bool flyVie
     , _altPercent               (0.0)
     , _terrainPercent           (qQNaN())
     , _terrainCollision         (false)
+    , _terrainCustomDEM         (false)
     , _azimuth                  (0.0)
     , _distance                 (0.0)
+    , _wizardMode               (false)
 {
     *this = other;
 
@@ -143,6 +147,13 @@ void VisualMissionItem::setTerrainCollision(bool terrainCollision)
     }
 }
 
+void VisualMissionItem::setTerrainCustomDEM(bool terrainCustomDEM){
+    if (terrainCustomDEM != _terrainCustomDEM) {
+        _terrainCustomDEM = terrainCustomDEM;
+        emit terrainCustomDEMChanged(terrainCustomDEM);
+    }
+}
+
 void VisualMissionItem::setAzimuth(double azimuth)
 {
     if (!qFuzzyCompare(_azimuth, azimuth)) {
@@ -177,16 +188,22 @@ void VisualMissionItem::_updateTerrainAltitude(void)
         // This is an intermediate state we don't react to
         return;
     }
-    if (!_flyView && coordinate().isValid()) {
-        // We use a timer so that any additional requests before the timer fires result in only a single request
-        _updateTerrainTimer.start();
+    if (!_flyView && specifiesCoordinate() && coordinate().isValid()) {
+        if (specifiesCoordinate()) {
+            if (coordinate().isValid()) {
+                // We use a timer so that any additional requests before the timer fires result in only a single request
+                _updateTerrainTimer.start();
+            }
+        } else {
+            _terrainAltitude = qQNaN();
+        }
     }
 }
 
 void VisualMissionItem::_reallyUpdateTerrainAltitude(void)
 {
     QGeoCoordinate coord = coordinate();
-    if (coord.isValid() && (qIsNaN(_terrainAltitude) || !qFuzzyCompare(_lastLatTerrainQuery, coord.latitude()) || qFuzzyCompare(_lastLonTerrainQuery, coord.longitude()))) {
+    if (specifiesCoordinate() && coord.isValid() && (qIsNaN(_terrainAltitude) || !qFuzzyCompare(_lastLatTerrainQuery, coord.latitude()) || qFuzzyCompare(_lastLonTerrainQuery, coord.longitude()))) {
         _lastLatTerrainQuery = coord.latitude();
         _lastLonTerrainQuery = coord.longitude();
         TerrainAtCoordinateQuery* terrain = new TerrainAtCoordinateQuery(this);
@@ -212,3 +229,10 @@ void VisualMissionItem::_setBoundingCube(QGCGeoBoundingCube bc)
     }
 }
 
+void VisualMissionItem::setWizardMode(bool wizardMode)
+{
+    if (wizardMode != _wizardMode) {
+        _wizardMode = wizardMode;
+        emit wizardModeChanged(_wizardMode);
+    }
+}

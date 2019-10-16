@@ -38,7 +38,7 @@ Item {
     property Fact   _mapboxFact:        _settingsManager ? _settingsManager.appSettings.mapboxToken : null
     property Fact   _esriFact:          _settingsManager ? _settingsManager.appSettings.esriToken : null
 
-    property string mapType:            _fmSettings ? (_fmSettings.mapProvider.enumStringValue + " " + _fmSettings.mapType.enumStringValue) : ""
+    property string mapType:            _fmSettings ? (_fmSettings.mapProvider.value + " " + _fmSettings.mapType.value) : ""
     property bool   isMapInteractive:   false
     property var    savedCenter:        undefined
     property real   savedZoom:          3
@@ -93,10 +93,8 @@ Item {
 
     function updateMap() {
         for (var i = 0; i < _map.supportedMapTypes.length; i++) {
-            //console.log(_map.supportedMapTypes[i].name)
             if (mapType === _map.supportedMapTypes[i].name) {
                 _map.activeMapType = _map.supportedMapTypes[i]
-                //console.log("Update Map:" + " " + _map.activeMapType)
                 handleChanges()
                 return
             }
@@ -105,7 +103,7 @@ Item {
 
     function addNewSet() {
         isMapInteractive = true
-        mapType = _fmSettings.mapProvider.enumStringValue + " " + _fmSettings.mapType.enumStringValue
+        mapType = _fmSettings.mapProvider.value + " " + _fmSettings.mapType.value
         resetMapToDefaults()
         handleChanges()
         _map.visible = true
@@ -205,6 +203,17 @@ Item {
         updateMap()
         if(isMapInteractive) {
             QGroundControl.mapEngineManager.saveSetting(mapKey, mapType)
+        }
+    }
+    QGCFileDialog {
+        id:             demfileDialog
+        selectFolder:   true
+        folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+
+        onAcceptedForLoad: {
+            // Instanciate custom dem TerrainTile
+            QGroundControl.mapEngineManager.newCustomDEMTerrainTile(file)
+            close()
         }
     }
 
@@ -400,6 +409,7 @@ Item {
                 anchors.left:           parent.left
                 anchors.bottom:         parent.bottom
                 mapControl:             _map
+                buttonsOnLeft:          true
             }
 
             //-----------------------------------------------------------------
@@ -464,7 +474,7 @@ Item {
                     Row {
                         spacing:    ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible:    !_defaultSet && mapType !== "Airmap Elevation Data"
+                        visible:    !_defaultSet
                         QGCLabel {  text: qsTr("Zoom Levels:"); width: infoView._labelWidth; }
                         QGCLabel {  text: offlineMapView._currentSelection ? (offlineMapView._currentSelection.minZoom + " - " + offlineMapView._currentSelection.maxZoom) : ""; horizontalAlignment: Text.AlignRight; width: infoView._valueWidth; }
                     }
@@ -602,6 +612,7 @@ Item {
                             anchors.left:           parent.left
                             anchors.bottom:         parent.bottom
                             mapControl:             parent
+                            zoomButtonsVisible:     false
                         }
 
                         Rectangle {
@@ -641,6 +652,7 @@ Item {
                             anchors.left:           parent.left
                             anchors.bottom:         parent.bottom
                             mapControl:             parent
+                            zoomButtonsVisible:     false
                         }
 
                         Rectangle {
@@ -1003,6 +1015,16 @@ Item {
                 onClicked: {
                     QGroundControl.mapEngineManager.importAction = QGCMapEngineManager.ActionNone
                     importDialog.open()
+                }
+            }
+            QGCButton {
+                text:           qsTr("Import DEM")
+                width:          _buttonSize
+                visible:        QGroundControl.corePlugin.options.showOfflineMapImport
+                onClicked: {
+                    demfileDialog.title = qsTr("Import Tile Set")
+                    demfileDialog.selectExisting = true
+                    demfileDialog.openForLoad()
                 }
             }
             QGCButton {

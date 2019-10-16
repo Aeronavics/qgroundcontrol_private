@@ -31,11 +31,6 @@ FlightMap {
     allowVehicleLocationCenter: !_keepVehicleCentered
     planView:                   false
 
-    onVisibleChanged: {
-        // I don't know what is causing this to become invisible when a connection is dropped
-        if(!visible) visible = true
-    }
-
     property alias  scaleState: mapScale.state
 
     // The following properties must be set by the consumer
@@ -49,6 +44,7 @@ FlightMap {
 
     property var    _geoFenceController:        missionController.geoFenceController
     property var    _rallyPointController:      missionController.rallyPointController
+    property var    activeVehicle:              QGroundControl.multiVehicleManager.activeVehicle
     property var    _activeVehicleCoordinate:   activeVehicle ? activeVehicle.coordinate : QtPositioning.coordinate()
     property real   _toolButtonTopMargin:       parent.height - mainWindow.height + (ScreenTools.defaultFontPixelHeight / 2)
     property bool   _airspaceEnabled:           QGroundControl.airmapSupported ? (QGroundControl.settingsManager.airMapSettings.enableAirMap.rawValue && QGroundControl.airspaceManager.connected): false
@@ -80,7 +76,6 @@ FlightMap {
     // When the user pans the map we stop responding to vehicle coordinate updates until the panRecenterTimer fires
     onUserPannedChanged: {
         if (userPanned) {
-            console.log("user panned")
             userPanned = false
             _disableVehicleTracking = true
             panRecenterTimer.restart()
@@ -184,17 +179,24 @@ FlightMap {
         property real leftToolWidth: toolStrip.x + toolStrip.width
     }
 
-    // Add trajectory points to the map
-    MapItemView {
-        model: mainIsMap ? activeVehicle ? activeVehicle.trajectoryPoints : 0 : 0
-        delegate: MapPolyline {
-            line.width: 3
-            line.color: "red"
-            z:          QGroundControl.zOrderTrajectoryLines
-            path: [
-                object.coordinate1,
-                object.coordinate2,
-            ]
+    // Add trajectory lines to the map
+    MapPolyline {
+        id:         trajectoryPolyline
+        line.width: 3
+        line.color: "red"
+        z:          QGroundControl.zOrderTrajectoryLines
+        visible:    mainIsMap
+
+        Connections {
+            target:                 QGroundControl.multiVehicleManager
+            onActiveVehicleChanged: trajectoryPolyline.path = activeVehicle ? activeVehicle.trajectoryPoints.list() : []
+        }
+
+        Connections {
+            target:                 activeVehicle ? activeVehicle.trajectoryPoints : null
+            onPointAdded:           trajectoryPolyline.addCoordinate(coordinate)
+            onUpdateLastPoint:      trajectoryPolyline.replaceCoordinate(trajectoryPolyline.pathLength() - 1, coordinate)
+            onPointsCleared:        trajectoryPolyline.path = []
         }
     }
 
@@ -233,7 +235,7 @@ FlightMap {
             map:                flightMap
             largeMapView:       mainIsMap
             masterController:   masterController
-            isActiveVehicle:    _vehicle.active
+            vehicle:            _vehicle
 
             property var _vehicle: object
 
@@ -241,6 +243,17 @@ FlightMap {
                 id: masterController
                 Component.onCompleted: startStaticActiveVehicle(object)
             }
+        }
+    }
+
+    MapItemView {
+        model: mainIsMap ? _missionController.directionArrows : undefined
+
+        delegate: MapLineArrow {
+            fromCoord:      object ? object.coordinate1 : undefined
+            toCoord:        object ? object.coordinate2 : undefined
+            arrowPosition:  2
+            z:              QGroundControl.zOrderWaypointLines
         }
     }
 
@@ -302,9 +315,9 @@ FlightMap {
         property bool inGotoFlightMode: activeVehicle ? activeVehicle.flightMode === activeVehicle.gotoFlightMode : false
 
         onInGotoFlightModeChanged: {
-            if (!inGotoFlightMode && visible) {
+            if (!inGotoFlightMode && gotoLocationItem.visible) {
                 // Hide goto indicator when vehicle falls out of guided mode
-                visible = false
+                gotoLocationItem.visible = false
             }
         }
 
@@ -312,7 +325,7 @@ FlightMap {
             target: mainWindow
             onActiveVehicleChanged: {
                 if (!activeVehicle) {
-                    visible = false
+                    gotoLocationItem.visible = false
                 }
             }
         }
@@ -350,7 +363,7 @@ FlightMap {
             target: mainWindow
             onActiveVehicleChanged: {
                 if (!activeVehicle) {
-                    visible = false
+                    orbitMapCircle.visible = false
                 }
             }
         }
@@ -470,6 +483,7 @@ FlightMap {
         anchors.topMargin:      ScreenTools.defaultFontPixelHeight * (0.33) + state === "bottomMode" ? 0 : ScreenTools.toolbarHeight
         anchors.bottomMargin:   ScreenTools.defaultFontPixelHeight * (0.33)
         mapControl:             flightMap
+        buttonsOnLeft:          false
         visible:                !ScreenTools.isTinyScreen && QGroundControl.corePlugin.options.enableMapScale
         state:                  "bottomMode"
         states: [

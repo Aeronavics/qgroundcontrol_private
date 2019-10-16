@@ -19,6 +19,7 @@
 #include "QGCApplication.h"
 #include "QGCMapTileSet.h"
 #include "QGCMapUrlEngine.h"
+#include "TerrainQuery.h"
 
 #include <QSettings>
 #include <QStorageInfo>
@@ -69,8 +70,6 @@ QGCMapEngineManager::setToolbox(QGCToolbox *toolbox)
 void
 QGCMapEngineManager::updateForCurrentView(double lon0, double lat0, double lon1, double lat1, int minZoom, int maxZoom, const QString& mapName)
 {
-    UrlFactory::MapType mapType = QGCMapEngine::getTypeFromName(mapName);
-
     _topleftLat     = lat0;
     _topleftLon     = lon0;
     _bottomRightLat = lat1;
@@ -82,11 +81,11 @@ QGCMapEngineManager::updateForCurrentView(double lon0, double lat0, double lon1,
     _elevationSet.clear();
 
     for(int z = minZoom; z <= maxZoom; z++) {
-        QGCTileSet set = QGCMapEngine::getTileCount(z, lon0, lat0, lon1, lat1, mapType);
+        QGCTileSet set = QGCMapEngine::getTileCount(z, lon0, lat0, lon1, lat1, mapName);
         _imageSet += set;
     }
     if (_fetchElevation) {
-        QGCTileSet set = QGCMapEngine::getTileCount(1, lon0, lat0, lon1, lat1, UrlFactory::AirmapElevation);
+        QGCTileSet set = QGCMapEngine::getTileCount(1, lon0, lat0, lon1, lat1, mapName);
         _elevationSet += set;
     }
 
@@ -129,7 +128,7 @@ void
 QGCMapEngineManager::_tileSetFetched(QGCCachedTileSet* tileSet)
 {
     //-- A blank (default) type means it uses various types and not just one
-    if(tileSet->type() == UrlFactory::Invalid) {
+    if(tileSet->type() == "Invalid") {
         tileSet->setMapTypeStr("Various");
     }
     _tileSets.append(tileSet);
@@ -152,7 +151,7 @@ QGCMapEngineManager::startDownload(const QString& name, const QString& mapType)
         set->setMaxZoom(_maxZoom);
         set->setTotalTileSize(_imageSet.tileSize);
         set->setTotalTileCount(static_cast<quint32>(_imageSet.tileCount));
-        set->setType(QGCMapEngine::getTypeFromName(mapType));
+        set->setType(mapType);
         QGCCreateTileSetTask* task = new QGCCreateTileSetTask(set);
         //-- Create Tile Set (it will also create a list of tiles to download)
         connect(task, &QGCCreateTileSetTask::tileSetSaved, this, &QGCMapEngineManager::_tileSetSaved);
@@ -161,9 +160,9 @@ QGCMapEngineManager::startDownload(const QString& name, const QString& mapType)
     } else {
         qWarning() <<  "QGCMapEngineManager::startDownload() No Tiles to save";
     }
-    if (mapType != "Airmap Elevation Data" && _fetchElevation) {
+    if (mapType != "Airmap Elevation" && _fetchElevation) {
         QGCCachedTileSet* set = new QGCCachedTileSet(name + " Elevation");
-        set->setMapTypeStr("Airmap Elevation Data");
+        set->setMapTypeStr("Airmap Elevation");
         set->setTopleftLat(_topleftLat);
         set->setTopleftLon(_topleftLon);
         set->setBottomRightLat(_bottomRightLat);
@@ -172,7 +171,7 @@ QGCMapEngineManager::startDownload(const QString& name, const QString& mapType)
         set->setMaxZoom(1);
         set->setTotalTileSize(_elevationSet.tileSize);
         set->setTotalTileCount(static_cast<quint32>(_elevationSet.tileCount));
-        set->setType(QGCMapEngine::getTypeFromName("Airmap Elevation Data"));
+        set->setType("Airmap Elevation");
         QGCCreateTileSetTask* task = new QGCCreateTileSetTask(set);
         //-- Create Tile Set (it will also create a list of tiles to download)
         connect(task, &QGCCreateTileSetTask::tileSetSaved, this, &QGCMapEngineManager::_tileSetSaved);
@@ -217,6 +216,28 @@ QStringList
 QGCMapEngineManager::mapList()
 {
     return getQGCMapEngine()->getMapNameList();
+}
+//-----------------------------------------------------------------------------
+QStringList
+QGCMapEngineManager::mapProviderList()
+{
+    // Extract Provider name from MapName ( format : "Provider Type")
+    QStringList mapList = getQGCMapEngine()->getMapNameList();
+    mapList.replaceInStrings(QRegExp("^([^\\ ]*) (.*)$"),"\\1");
+    mapList.removeDuplicates();
+    return mapList;
+}
+
+//-----------------------------------------------------------------------------
+QStringList
+QGCMapEngineManager::mapTypeList(QString provider)
+{
+    // Extract type name from MapName ( format : "Provider Type")
+    QStringList mapList = getQGCMapEngine()->getMapNameList();
+    mapList = mapList.filter(QRegularExpression(provider));
+    mapList.replaceInStrings(QRegExp("^([^\\ ]*) (.*)$"),"\\2");
+    mapList.removeDuplicates();
+    return mapList;
 }
 
 //-----------------------------------------------------------------------------
@@ -555,4 +576,9 @@ QGCMapEngineManager::_updateDiskFreeSpace()
             emit freeDiskSpaceChanged();
         }
     }
+}
+
+void QGCMapEngineManager::newCustomDEMTerrainTile(QString fname){
+    qDebug() << "QGCMapEngineManager newCustomDEMTerrainTile" << fname;
+    createCustomDEMTerrainTile(fname);
 }

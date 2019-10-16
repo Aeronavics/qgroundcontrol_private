@@ -28,7 +28,7 @@ Map {
     zoomLevel:                  QGroundControl.flightMapZoom
     center:                     QGroundControl.flightMapPosition
     //-- Qt 5.9 has rotation gesture enabled by default. Here we limit the possible gestures.
-    gesture.acceptedGestures:   MapGestureArea.PinchGesture | MapGestureArea.PanGesture | MapGestureArea.FlickGesture
+    gesture.acceptedGestures:    MapGestureArea.PinchGesture | MapGestureArea.PanGesture | MapGestureArea.FlickGesture
     gesture.flickDeceleration:  3000
     plugin:                     Plugin { name: "QGroundControl" }
 
@@ -95,7 +95,8 @@ Map {
 
     function updateActiveMapType() {
         var settings =  QGroundControl.settingsManager.flightMapSettings
-        var fullMapName = settings.mapProvider.enumStringValue + " " + settings.mapType.enumStringValue
+        var fullMapName = settings.mapProvider.value + " " + settings.mapType.value
+
         for (var i = 0; i < _map.supportedMapTypes.length; i++) {
             if (fullMapName === _map.supportedMapTypes[i].name) {
                 _map.activeMapType = _map.supportedMapTypes[i]
