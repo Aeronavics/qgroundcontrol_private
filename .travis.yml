@@ -176,7 +176,6 @@ script:
   - if [ "${SPEC}" = "macx-clang" ]; then
         qmake -r ${TRAVIS_BUILD_DIR}/qgroundcontrol.pro CONFIG+=${CONFIG} CONFIG+=WarningsAsErrorsOn -spec ${SPEC};
     elif [ "${SPEC}" = "linux-g++-64" ]; then
-    # Use already compiled GDAL for QGC
         qmake -r ${TRAVIS_BUILD_DIR}/qgroundcontrol.pro CONFIG+=${CONFIG} -spec ${SPEC} INCLUDEPATH+=${TRAVIS_BUILD_DIR}/libs/gdal/linux/include LIBS+= -L${TRAVIS_BUILD_DIR}/libs/gdal/linux/lib/ -lproj;
     else
         qmake -r ${TRAVIS_BUILD_DIR}/qgroundcontrol.pro CONFIG+=${CONFIG} -spec ${SPEC};
