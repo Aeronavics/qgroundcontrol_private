@@ -170,8 +170,9 @@ CustomPlugin::settingsPages()
 #endif
 
         }
-        return _customSettingsList;
     }
+    return _customSettingsList;
+}
 
 //-----------------------------------------------------------------------------
 QGCOptions*
