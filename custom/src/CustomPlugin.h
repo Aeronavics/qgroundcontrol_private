@@ -55,6 +55,7 @@ public:
     bool        showMavlinkLogOptions           () const final { return false; }
 
     bool        showFirmwareUpgrade             () const final;
+    bool        showParameterEditor             () const final { return true; }
     ////-- We handle multiple vehicles in a custom way
     //bool        enableMultiVehicleList          () const final { return false; }
     ////-- We handle our own map scale
