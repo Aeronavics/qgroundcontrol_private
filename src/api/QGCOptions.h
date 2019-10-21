@@ -46,6 +46,7 @@ public:
     Q_PROPERTY(bool                     sensorsHaveFixedOrientation     READ sensorsHaveFixedOrientation    CONSTANT)
     Q_PROPERTY(bool                     wifiReliableForCalibration      READ wifiReliableForCalibration     CONSTANT)
     Q_PROPERTY(bool                     showFirmwareUpgrade             READ showFirmwareUpgrade            NOTIFY showFirmwareUpgradeChanged)
+    Q_PROPERTY(bool                     showParameterEditor             READ showParameterEditor            NOTIFY showParameterEditorChanged)
     Q_PROPERTY(QString                  firmwareUpgradeSingleURL        READ firmwareUpgradeSingleURL       CONSTANT)
     Q_PROPERTY(bool                     guidedBarShowEmergencyStop      READ guidedBarShowEmergencyStop     NOTIFY guidedBarShowEmergencyStopChanged)
     Q_PROPERTY(bool                     guidedBarShowOrbit              READ guidedBarShowOrbit             NOTIFY guidedBarShowOrbitChanged)
@@ -108,6 +109,7 @@ public:
     virtual bool    wifiReliableForCalibration      () const { return false; }
     virtual bool    sensorsHaveFixedOrientation     () const { return false; }
     virtual bool    showFirmwareUpgrade             () const { return true; }
+    virtual bool    showParameterEditor             () const;
     virtual bool    guidedBarShowEmergencyStop      () const { return true; }
     virtual bool    guidedBarShowOrbit              () const { return true; }
     virtual bool    missionWaypointsOnly            () const { return false; }  ///< true: Only allow waypoints and complex items in Plan
@@ -145,6 +147,7 @@ signals:
     void showSensorCalibrationLevelChanged      (bool show);
     void showSensorCalibrationAirspeedChanged   (bool show);
     void showFirmwareUpgradeChanged             (bool show);
+    void showParameterEditorChanged             (bool show);
     void guidedBarShowEmergencyStopChanged      (bool show);
     void guidedBarShowOrbitChanged              (bool show);
     void missionWaypointsOnlyChanged            (bool missionWaypointsOnly);

@@ -302,8 +302,8 @@ Rectangle {
                 setupIndicator:     false
                 exclusiveGroup:     setupButtonGroup
                 visible:            QGroundControl.multiVehicleManager.parameterReadyVehicleAvailable &&
-                                    !QGroundControl.multiVehicleManager.activeVehicle.highLatencyLink &&
-                                    _corePlugin.showAdvancedUI
+                !QGroundControl.multiVehicleManager.activeVehicle.highLatencyLink &&
+                _corePlugin.options.showParameterEditor
                 text:               qsTr("Parameters")
                 Layout.fillWidth:   true
 
