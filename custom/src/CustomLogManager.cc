@@ -172,6 +172,8 @@ CustomLogManager::queryLogServer(std::string network_id,
         curl_easy_setopt(curl, CURLOPT_USERPWD, user.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        /* complete within 20 seconds */
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }
@@ -228,6 +230,9 @@ int CustomLogManager::uploadLogServer(QString filePath, QString remoteFilePath,
         /* and give the size of the upload (optional) */
         curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE,
                          (curl_off_t)file_info.st_size);
+
+        /* complete within 20 seconds */
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
 
         res = curl_easy_perform(curl);
         /* Check for errors */
