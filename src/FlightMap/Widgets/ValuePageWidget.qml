@@ -217,8 +217,23 @@ Column {
                 spacing:    _margins
                 visible:    header.checked
 
+
                 Repeater {
-                    model: factGroup ? factGroup.factNames : 0
+                    function removeUnavailableOptions(factGroup){
+                        if(!factGroup){return 0}
+                        var result = []
+                        for (var i=0; i<factGroup.factNames.length; i++){
+                            var fact = factGroup.getFact(factGroup.factNames[i])
+                            if(fact.rawValue != 0 && fact.rawValue != -1 && fact.enumOrValueString != "--.--"){
+                                result.push(factGroup.factNames[i])
+                            }
+
+                        }
+
+                        return result
+                    }
+                    //model: factGroup ? factGroup.factNames : 0
+                    model: removeUnavailableOptions(factGroup)
 
                     RowLayout {
                         spacing: _margins
