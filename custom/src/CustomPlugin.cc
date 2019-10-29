@@ -66,30 +66,30 @@ CustomOptions::CustomOptions(CustomPlugin*, QObject* parent)
 }
 
 //-----------------------------------------------------------------------------
-//bool
-//CustomOptions::showFirmwareUpgrade() const
-//{
-//    return qgcApp()->toolbox()->corePlugin()->showAdvancedUI();
-//}
+bool
+CustomOptions::showFirmwareUpgrade() const
+{
+    return qgcApp()->toolbox()->corePlugin()->showAdvancedUI();
+}
 
-//QColor
-//CustomOptions::toolbarBackgroundLight() const
-//{
-//    return CustomPlugin::_windowShadeEnabledLightColor;
-//}
-//
-//QColor
-//CustomOptions::toolbarBackgroundDark() const
-//{
-//    return CustomPlugin::_windowShadeEnabledDarkColor;
-//}
+QColor
+CustomOptions::toolbarBackgroundLight() const
+{
+    return CustomPlugin::_windowShadeEnabledLightColor;
+}
+
+QColor
+CustomOptions::toolbarBackgroundDark() const
+{
+    return CustomPlugin::_windowShadeEnabledDarkColor;
+}
 
 //-----------------------------------------------------------------------------
 CustomPlugin::CustomPlugin(QGCApplication *app, QGCToolbox* toolbox)
     : QGCCorePlugin(app, toolbox)
 {
     _pOptions = new CustomOptions(this, this);
-    _showAdvancedUI = true;
+    _showAdvancedUI = false;
 }
 
 //-----------------------------------------------------------------------------
@@ -141,34 +141,35 @@ CustomPlugin::addSettingsEntry(const QString& title,
 }
 
 //-----------------------------------------------------------------------------
-QVariantList&
+    QVariantList&
 CustomPlugin::settingsPages()
 {
     if(_customSettingsList.isEmpty()) {
         addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
         addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",    "qrc:/res/waves.svg");
         addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",      "qrc:/res/waves.svg");
-//#if defined(QGC_GST_MICROHARD_ENABLED)
-//        addSettingsEntry(tr("Microhard"),   "qrc:/qml/MicrohardSettings.qml");
-//#endif
-//#if defined(QGC_GST_TAISYNC_ENABLED)
-//        addSettingsEntry(tr("Taisync"),     "qrc:/qml/TaisyncSettings.qml");
-//#endif
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif
         addSettingsEntry(tr("MAVLink"),     "qrc:/qml/MavlinkSettings.qml", "    qrc:/res/waves.svg");
         addSettingsEntry(tr("Log Upload"),  "qrc:/custom/CustomMavlinkSettings.qml");
         addSettingsEntry(tr("Console"),     "qrc:/qml/QGroundControl/Controls/AppMessages.qml");
-//#if defined(QGC_ENABLE_QZXING)
-//        addSettingsEntry(tr("Barcode Test"),"qrc:/custom/BarcodeReader.qml");
-//#endif
+
+        if(qgcApp()->toolbox()->corePlugin()->showAdvancedUI()){
 #if defined(QT_DEBUG)
-        //-- These are always present on Debug builds
-        addSettingsEntry(tr("Mock Link"),   "qrc:/qml/MockLink.qml");
-        addSettingsEntry(tr("Debug"),       "qrc:/qml/DebugWindow.qml");
-        addSettingsEntry(tr("Palette Test"),"qrc:/qml/QmlTest.qml");
+            //-- These are always present on Debug builds
+            addSettingsEntry(tr("Mock Link"),   "qrc:/qml/MockLink.qml");
+            addSettingsEntry(tr("Debug"),       "qrc:/qml/DebugWindow.qml");
+            addSettingsEntry(tr("Palette Test"),"qrc:/qml/QmlTest.qml");
 #endif
+#if defined(QGC_GST_MICROHARD_ENABLED)
+            addSettingsEntry(tr("Microhard"),   "qrc:/qml/MicrohardSettings.qml");
+#endif
+#if defined(QGC_GST_TAISYNC_ENABLED)
+            addSettingsEntry(tr("Taisync"),     "qrc:/qml/TaisyncSettings.qml");
+#endif
+
+        }
     }
     return _customSettingsList;
 }
@@ -195,14 +196,14 @@ CustomPlugin::brandImageOutdoor(void) const
 }
 
 //-----------------------------------------------------------------------------
-//bool
-//CustomPlugin::overrideSettingsGroupVisibility(QString name)
-//{
-//    if (name == BrandImageSettings::name) {
-//        return false;
-//    }
-//    return true;
-//}
+bool
+CustomPlugin::overrideSettingsGroupVisibility(QString name)
+{
+    if (name == BrandImageSettings::name) {
+        return false;
+    }
+    return true;
+}
 
 //-----------------------------------------------------------------------------
 //VideoManager*
@@ -251,8 +252,8 @@ CustomPlugin::brandImageOutdoor(void) const
 //    return true;
 //}
 
-//const QColor     CustomPlugin::_windowShadeEnabledLightColor("#FFFFFF");
-//const QColor     CustomPlugin::_windowShadeEnabledDarkColor("#212529");
+const QColor     CustomPlugin::_windowShadeEnabledLightColor("#000000");
+const QColor     CustomPlugin::_windowShadeEnabledDarkColor("#222222");
 
 //-----------------------------------------------------------------------------
 void

@@ -72,6 +72,7 @@ SetupPage {
             readonly property int _calTypeCompass:  1   ///< Calibrate compass
             readonly property int _calTypeAccel:    2   ///< Calibrate accel
             readonly property int _calTypeSet:      3   ///< Set orientations only
+            property bool   _wifiReliableForCalibration:    QGroundControl.corePlugin.options.wifiReliableForCalibration
             readonly property int _buttonWidth:     ScreenTools.defaultFontPixelWidth * 15
 
             property bool   _orientationsDialogShowCompass: true
@@ -155,7 +156,7 @@ SetupPage {
             Component.onCompleted: {
                 var usingUDP = controller.usingUDPLink()
                 var isSub = QGroundControl.multiVehicleManager.activeVehicle.sub;
-                if (usingUDP && !isSub) {
+                if (usingUDP && !isSub && !_wifiReliableForCalibration) {
                     mainWindow.showMessageDialog(qsTr("Sensor Calibration"), qsTr("Performing sensor calibration over a WiFi connection can be unreliable. If you run into problems try using a direct USB connection instead."))
                 }
             }

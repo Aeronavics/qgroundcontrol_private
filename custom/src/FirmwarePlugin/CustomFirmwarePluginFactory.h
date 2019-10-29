@@ -5,10 +5,6 @@
  * QGroundControl is licensed according to the terms in the file
  * COPYING.md in the root of the source code directory.
  *
- * @file
- *   @brief Custom Firmware Plugin Factory (PX4)
- *   @author Gus Grubba <gus@auterion.com>
- *
  */
 
 #pragma once

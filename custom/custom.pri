@@ -67,9 +67,21 @@ LIBS += -lcurl
 #-------------------------------------------------------------------------------------
 # Custom Firmware/AutoPilot Plugin
 
-#INCLUDEPATH += \
-#
-#HEADERS+= \
-#
-#SOURCES += \
+INCLUDEPATH += \
+    $$QGCROOT/custom/src/FirmwarePlugin \
+    $$QGCROOT/custom/src/AutoPilotPlugin
+
+HEADERS+= \
+    $$QGCROOT/custom/src/AutoPilotPlugin/CustomAutoPilotPlugin.h \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraControl.h \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraManager.h \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePlugin.h \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePluginFactory.h \
+
+SOURCES += \
+    $$QGCROOT/custom/src/AutoPilotPlugin/CustomAutoPilotPlugin.cc \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraControl.cc \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomCameraManager.cc \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePlugin.cc \
+    $$QGCROOT/custom/src/FirmwarePlugin/CustomFirmwarePluginFactory.cc \
 

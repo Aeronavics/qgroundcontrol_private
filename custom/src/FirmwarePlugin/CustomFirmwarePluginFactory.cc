@@ -5,14 +5,11 @@
  * QGroundControl is licensed according to the terms in the file
  * COPYING.md in the root of the source code directory.
  *
- * @file
- *   @brief Custom Firmware Plugin Factory (PX4)
- *   @author Gus Grubba <gus@auterion.com>
- *
  */
 
 #include "CustomFirmwarePluginFactory.h"
 #include "CustomFirmwarePlugin.h"
+#include "ArduCopterFirmwarePlugin.h"
 
 CustomFirmwarePluginFactory CustomFirmwarePluginFactoryImp;
 
@@ -24,14 +21,14 @@ CustomFirmwarePluginFactory::CustomFirmwarePluginFactory()
 QList<MAV_AUTOPILOT> CustomFirmwarePluginFactory::supportedFirmwareTypes() const
 {
     QList<MAV_AUTOPILOT> list;
-    list.append(MAV_AUTOPILOT_PX4);
+    list.append(MAV_AUTOPILOT_ARDUPILOTMEGA);
     return list;
 }
 
 FirmwarePlugin* CustomFirmwarePluginFactory::firmwarePluginForAutopilot(MAV_AUTOPILOT autopilotType, MAV_TYPE vehicleType)
 {
     Q_UNUSED(vehicleType);
-    if (autopilotType == MAV_AUTOPILOT_PX4) {
+    if (autopilotType == MAV_AUTOPILOT_ARDUPILOTMEGA) {
         if (!_pluginInstance) {
             _pluginInstance = new CustomFirmwarePlugin;
         }
