@@ -181,8 +181,8 @@ CustomLogManager::queryLogServer(std::string network_id,
         curl_easy_setopt(curl, CURLOPT_USERPWD, user.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
-        /* complete within 5 seconds */
-        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 5L);
+        /* complete within 20 seconds */
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }

@@ -27,8 +27,9 @@ class CustomLogManager : public QObject {
     void replyFinished(QNetworkReply* reply);
     QList<QString> getServerList(QString network_id);
 
+    static std::string queryLogServer(std::string network_id, std::string continuationToken);
+
   private:
-    std::string queryLogServer(std::string network_id, std::string continuationToken);
     int uploadLogServer(QString filePath, QString remoteFilePath, QString network_id);
     QString md5sum(QFile &file);
 

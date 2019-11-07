@@ -43,9 +43,10 @@ class CustomQuickInterface : public QObject {
 
     // Getters
 
-    QString networkId() { return _networkId; }
-    QString serialNumber() { return _serialNumber; }
-    bool    enableAutoUpload() { return _enableAutoUpload; }
+    QString          networkId() { return _networkId; }
+    QString          serialNumber() { return _serialNumber; }
+    bool             enableAutoUpload() { return _enableAutoUpload; }
+    Q_INVOKABLE bool test_connection(QString networkId);
 
     // Setters
 

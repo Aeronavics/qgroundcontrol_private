@@ -134,6 +134,24 @@
                          }
                      }
                      //-----------------------------------------------------------------
+                     //-- Connection Test
+                     Row{
+                        spacing:    ScreenTools.defaultFontPixelWidth
+                        id: row_connection_status
+                        QGCLabel{
+                            width:              _labelWidth
+                            anchors.baseline:   text_connected.baseline
+                            text: "Connection Status :" 
+                        }
+                        QGCLabel{
+                            id: text_connected
+                            text: CustomQuickInterface.test_connection(CustomQuickInterface.networkId)?"Connected":"Not Connected"
+                             width:      _valueWidth
+                             anchors.verticalCenter: parent.verticalCenter
+                        }
+
+                     }
+                     //-----------------------------------------------------------------
                      //-- Automatic Upload
                      QGCCheckBox {
                          id:         autoUploadCheck
@@ -144,6 +162,7 @@
                              saveItems();
                          }
                      }
+                     
                  }
              }
          }
