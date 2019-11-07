@@ -63,6 +63,12 @@ void CustomLogManager::syncLog() {
 
     QList<QString> serverFiles = getServerList(_networkId);
 
+    if(serverFiles.length()<=0){
+        qCDebug(CustomLog) << "Unable to fetch file list from server";
+        qCDebug(CustomLog) << "End of Sync process";
+        return;
+    }
+
     foreach (QFileInfo cur_file, files) {
         if (cur_file.isFile()) {
             // Process md5
@@ -138,6 +144,9 @@ QList<QString> CustomLogManager::getServerList(QString network_id) {
                                       .toString());
                 }
             }
+        }
+        else{
+            break;
         }
     } while (continuationToken != "");
     return result;
