@@ -63,8 +63,14 @@ void CustomLogManager::syncLog() {
 
     QList<QString> serverFiles = getServerList(_networkId);
 
+    if(serverFiles.length()<=0){
+        qCDebug(CustomLog) << "Unable to fetch file list from server";
+        qCDebug(CustomLog) << "End of Sync process";
+        return;
+    }
+
     foreach (QFileInfo cur_file, files) {
-        if (cur_file.isFile()) {
+        if (cur_file.isFile() && cur_file.suffix().contains("tlog")) {
             // Process md5
             QFile cur_qfile(cur_file.absoluteFilePath());
             QString md5 = md5sum(cur_qfile);
@@ -139,6 +145,9 @@ QList<QString> CustomLogManager::getServerList(QString network_id) {
                 }
             }
         }
+        else{
+            break;
+        }
     } while (continuationToken != "");
     return result;
 }
@@ -172,6 +181,8 @@ CustomLogManager::queryLogServer(std::string network_id,
         curl_easy_setopt(curl, CURLOPT_USERPWD, user.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+        /* complete within 20 seconds */
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
         res = curl_easy_perform(curl);
         curl_easy_cleanup(curl);
     }
@@ -228,6 +239,9 @@ int CustomLogManager::uploadLogServer(QString filePath, QString remoteFilePath,
         /* and give the size of the upload (optional) */
         curl_easy_setopt(curl, CURLOPT_INFILESIZE_LARGE,
                          (curl_off_t)file_info.st_size);
+
+        /* complete within 20 seconds */
+        curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
 
         res = curl_easy_perform(curl);
         /* Check for errors */

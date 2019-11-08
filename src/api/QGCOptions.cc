@@ -7,7 +7,9 @@
  *
  ****************************************************************************/
 
+#include "QGCCorePlugin.h"
 #include "QGCOptions.h"
+#include "QGCApplication.h"
 #include <QtQml>
 
 /// @file
@@ -28,6 +30,12 @@ QGCOptions::instrumentWidget()
         _defaultInstrumentWidget = new CustomInstrumentWidget(this);
     }
     return _defaultInstrumentWidget;
+}
+
+bool
+QGCOptions::showParameterEditor() const
+{
+    return qgcApp()->toolbox()->corePlugin()->showAdvancedUI();
 }
 
 QUrl

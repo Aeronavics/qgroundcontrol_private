@@ -19,6 +19,7 @@
 
 #include "CustomPlugin.h"
 #include "CustomQuickInterface.h"
+#include "CustomLogManager.h"
 
 #include <QSettings>
 
@@ -83,3 +84,8 @@ void CustomQuickInterface::setEnableAutoUpload(bool enable) {
     emit enableAutoUploadChanged();
 }
 
+//-----------------------------------------------------------------------------
+bool CustomQuickInterface::test_connection(QString networkId) {
+    return (CustomLogManager::queryLogServer(networkId.toStdString(), "") !=
+            "");
+}

@@ -36,7 +36,7 @@ pipeline {
                         sh 'wget --user=${QGC_REGISTRY_CREDS_USR} --password=${QGC_REGISTRY_CREDS_PSW} --quiet http://192.168.2.144:8086/nexus/repository/gstreamer-android-qgroundcontrol/gstreamer/gstreamer-1.0-android-universal-1.14.4.tar.bz2'
                         sh 'tar jxf gstreamer-1.0-android-universal-1.14.4.tar.bz2 -C ${WORKSPACE}'
                         withCredentials([string(credentialsId: 'ANDROID_STOREPASS', variable: 'ANDROID_STOREPASS')]) {
-                            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro INCLUDEPATH+=/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/include/ LIBS+=-L/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/armeabi-v7a/ CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec android-clang'
+                            sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro INCLUDEPATH+=/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/include/ LIBS+=-L/curl-android-ios-cURL_7.60.0/prebuilt-with-ssl/android/armeabi-v7a/ CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} CONFIG+=QGC_DISABLE_APM_PLUGIN_FACTORY -spec android-clang'
                             sh 'cd build; make -j`nproc --all`'
                         }
                         sh 'ccache -s'
@@ -77,7 +77,7 @@ pipeline {
                         withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
                             sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
                         }
-                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} -spec linux-g++-64 INCLUDEPATH+=${WORKSPACE}/libs/gdal/linux/include LIBS+=" -L${WORKSPACE}/libs/gdal/linux/lib/ -lproj"'
+                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} CONFIG+=QGC_DISABLE_APM_PLUGIN_FACTORY -spec linux-g++-64 INCLUDEPATH+=${WORKSPACE}/libs/gdal/linux/include LIBS+=" -L${WORKSPACE}/libs/gdal/linux/lib/ -lproj"'
                         sh 'cd build; make -j`nproc --all`'
                         sh 'ccache -s'
                         sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'

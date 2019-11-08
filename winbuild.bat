@@ -11,6 +11,6 @@ call vcvarsall.bat
 del /F /Q BUILD
 mkdir build
 cd build
-call "%MSVC_PATH%/qmake.exe" -r INCLUDEPATH+=" C:\Users\pierre\Documents\build-libcurl-windows\third-party\libcurl\include " CONFIG-=debug_and_release CONFIG+=WarningsAsErrorsOn CONFIG+=installer -spec win32-msvc ../qgroundcontrol.pro
+call "%MSVC_PATH%/qmake.exe" -r INCLUDEPATH+=" C:\Users\pierre\Documents\build-libcurl-windows\third-party\libcurl\include " CONFIG-=debug_and_release CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=QGC_DISABLE_APM_PLUGIN_FACTORY -spec win32-msvc ../qgroundcontrol.pro
 jom
 cd ..

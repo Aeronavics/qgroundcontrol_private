@@ -202,6 +202,9 @@ CustomPlugin::overrideSettingsGroupVisibility(QString name)
     if (name == BrandImageSettings::name) {
         return false;
     }
+    if (name == AutoConnectSettings::name){
+        return false;
+    }
     return true;
 }
 
