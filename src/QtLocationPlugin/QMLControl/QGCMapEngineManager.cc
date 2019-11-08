@@ -19,6 +19,7 @@
 #include "QGCApplication.h"
 #include "QGCMapTileSet.h"
 #include "QGCMapUrlEngine.h"
+#include "TerrainQuery.h"
 
 #include <QSettings>
 #include <QStorageInfo>
@@ -84,7 +85,7 @@ QGCMapEngineManager::updateForCurrentView(double lon0, double lat0, double lon1,
         _imageSet += set;
     }
     if (_fetchElevation) {
-        QGCTileSet set = QGCMapEngine::getTileCount(1, lon0, lat0, lon1, lat1, "Airmap Elevation");
+        QGCTileSet set = QGCMapEngine::getTileCount(1, lon0, lat0, lon1, lat1, mapName);
         _elevationSet += set;
     }
 
@@ -575,4 +576,9 @@ QGCMapEngineManager::_updateDiskFreeSpace()
             emit freeDiskSpaceChanged();
         }
     }
+}
+
+void QGCMapEngineManager::newCustomDEMTerrainTile(QString fname){
+    qDebug() << "QGCMapEngineManager newCustomDEMTerrainTile" << fname;
+    createCustomDEMTerrainTile(fname);
 }

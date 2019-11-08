@@ -106,13 +106,26 @@ SOURCES += \
 #
 MacBuild {
     INCLUDEPATH += \
-        $$BASEDIR/libs/lib/Frameworks/SDL2.framework/Headers
+        $$BASEDIR/libs/lib/Frameworks/SDL2.framework/Headers \
+        /Library/Frameworks/GDAL.framework/unix/include
+
     LIBS += \
         -F$$BASEDIR/libs/lib/Frameworks \
-        -framework SDL2
+        -framework SDL2 \
+        -framework GDAL 
 } else:LinuxBuild {
     PKGCONFIG = sdl2
+    LIBS+= -lgdal
+	INCLUDEPATH+= /external/gdal/include/
 } else:WindowsBuild {
+    INCLUDEPATH += $$BASEDIR/libs/gdal/windows/include
+    LIBS += -L$$BASEDIR/libs/gdal/windows/lib
+    LIBS += -L$$BASEDIR/libs/gdal/windows/bin
+    LIBS += $$BASEDIR/libs/gdal/windows/lib/gdal_i.lib
+
+    message($$sprintf("GDAL ? '%1'.", $$INCLUDEPATH))
+
+
     INCLUDEPATH += $$BASEDIR/libs/lib/sdl2/msvc/include
     contains(QT_ARCH, i386) {
         INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Windows/x86/include
@@ -133,8 +146,20 @@ AndroidBuild {
     equals(ANDROID_TARGET_ARCH, armeabi-v7a)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libssl.so
+        INCLUDEPATH += $$BASEDIR/libs/gdal/android/include
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
+        LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.so
+        LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
+
     } else:equals(ANDROID_TARGET_ARCH, arm64-v8a)  {
-        # Haven't figured out how to get 64 bit arm OpenSLL yet. This means things like terrain queries will not qork.
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libcrypto.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libssl.so
+        INCLUDEPATH += $$BASEDIR/libs/gdal/android/arm64/include
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libgdal.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
+        LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libgdal.so
+        LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
     } else:equals(ANDROID_TARGET_ARCH, x86)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libssl.so

@@ -75,3 +75,15 @@ class VWorldSatMapProvider : public MapProvider {
   private:
     const QString _versionBingMaps = QStringLiteral("563");
 };
+
+class TestMapProvider : public MapProvider {
+    Q_OBJECT
+  public:
+    TestMapProvider(QObject* parent)
+        : MapProvider(QString("https://map.openaerialmap.org"), QString("png"),
+                      AVERAGE_TILE_SIZE, QGeoMapType::SatelliteMapDay, parent) {
+    }
+
+    QString _getURL(const int x, const int y, const int zoom,
+                    QNetworkAccessManager* networkManager) override;
+};

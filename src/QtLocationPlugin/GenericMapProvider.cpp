@@ -73,3 +73,14 @@ QString VWorldSatMapProvider::_getURL(const int x, const int y, const int zoom, 
             .arg(_getServerNum(x, y, 4)).arg(key, _versionBingMaps, _language);
     }
 }
+
+QString TestMapProvider::_getURL(const int x, const int y, const int zoom,
+                                        QNetworkAccessManager* networkManager) {
+    Q_UNUSED(networkManager);
+    qDebug() << "zoom" << zoom << " x " << x << " y " << y;
+    return QString("https://tiles.openaerialmap.org/5913eab91acd6100118dd513/0/75ab99f7-5b37-4f59-8392-7276498dc2fc/%1/%2/%3.png")
+        .arg(zoom)
+        .arg(x)
+        .arg(y);
+}
+

@@ -8,6 +8,9 @@
  ****************************************************************************/
 
 #pragma once
+#include <cmath>
+#include "QGCTileSet.h" 
+#include "TerrainTile.h"
 
 #include <QByteArray>
 #include <QString>
@@ -47,10 +50,18 @@ public:
 
     virtual bool _isElevationProvider() const;
 
+    // This method is used to serialze tile before caching it
+    // If the input format is json for instance, output in binary
+    // Should be overwritten to do something
+    virtual QByteArray serialize(QByteArray buf){return buf;}
+
+    virtual TerrainTile* newTerrainTile(QByteArray buf){
+        Q_UNUSED(buf);
+        return nullptr;
+    }
     virtual QGCTileSet getTileCount(const int zoom, const double topleftLon,
                                      const double topleftLat, const double bottomRightLon,
                                      const double bottomRightLat) const;
-
 protected:
     QString _tileXYToQuadKey(const int tileX, const int tileY, const int levelOfDetail) const;
     int _getServerNum(const int x, const int y, const int max) const;

@@ -205,6 +205,17 @@ Item {
             QGroundControl.mapEngineManager.saveSetting(mapKey, mapType)
         }
     }
+    QGCFileDialog {
+        id:             demfileDialog
+        selectFolder:   true
+        folder:         QGroundControl.settingsManager.appSettings.missionSavePath
+
+        onAcceptedForLoad: {
+            // Instanciate custom dem TerrainTile
+            QGroundControl.mapEngineManager.newCustomDEMTerrainTile(file)
+            close()
+        }
+    }
 
     QGCFileDialog {
         id:             fileDialog
@@ -463,7 +474,7 @@ Item {
                     Row {
                         spacing:    ScreenTools.defaultFontPixelWidth
                         anchors.horizontalCenter: parent.horizontalCenter
-                        visible:    !_defaultSet && mapType !== "Airmap Elevation"
+                        visible:    !_defaultSet
                         QGCLabel {  text: qsTr("Zoom Levels:"); width: infoView._labelWidth; }
                         QGCLabel {  text: offlineMapView._currentSelection ? (offlineMapView._currentSelection.minZoom + " - " + offlineMapView._currentSelection.maxZoom) : ""; horizontalAlignment: Text.AlignRight; width: infoView._valueWidth; }
                     }
@@ -1004,6 +1015,16 @@ Item {
                 onClicked: {
                     QGroundControl.mapEngineManager.importAction = QGCMapEngineManager.ActionNone
                     importDialog.open()
+                }
+            }
+            QGCButton {
+                text:           qsTr("Import DEM")
+                width:          _buttonSize
+                visible:        QGroundControl.corePlugin.options.showOfflineMapImport
+                onClicked: {
+                    demfileDialog.title = qsTr("Import Tile Set")
+                    demfileDialog.selectExisting = true
+                    demfileDialog.openForLoad()
                 }
             }
             QGCButton {
