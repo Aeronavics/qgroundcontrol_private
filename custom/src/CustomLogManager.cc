@@ -70,7 +70,7 @@ void CustomLogManager::syncLog() {
     }
 
     foreach (QFileInfo cur_file, files) {
-        if (cur_file.isFile()) {
+        if (cur_file.isFile() && cur_file.suffix().contains("tlog")) {
             // Process md5
             QFile cur_qfile(cur_file.absoluteFilePath());
             QString md5 = md5sum(cur_qfile);
