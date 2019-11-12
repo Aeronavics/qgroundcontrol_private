@@ -37,6 +37,20 @@ Item {
         visible:        qgcPal.globalTheme === QGCPalette.Light
     }
 
+    //-- Setup can be invoked from c++ side
+    Connections {
+        target: setupWindow
+        onVisibleChanged: {
+            if(setupWindow.visible) {
+                setupButton.checked = true
+            }
+        }
+    }
+
+    QGCFlickable {
+        anchors.fill:       parent
+        contentWidth:       toolbarRow.width
+        flickableDirection: Flickable.HorizontalFlick
     //-------------------------------------------------------------------------
     // Easter egg mechanism
     MouseArea {
@@ -76,20 +90,6 @@ Item {
         }
     }
 
-    //-- Setup can be invoked from c++ side
-    Connections {
-        target: setupWindow
-        onVisibleChanged: {
-            if(setupWindow.visible) {
-                setupButton.checked = true
-            }
-        }
-    }
-
-    QGCFlickable {
-        anchors.fill:       parent
-        contentWidth:       toolbarRow.width
-        flickableDirection: Flickable.HorizontalFlick
 
         RowLayout {
             id:                     toolbarRow
