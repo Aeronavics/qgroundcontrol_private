@@ -106,27 +106,27 @@ SOURCES += \
 #
 MacBuild {
     INCLUDEPATH += \
-        $$BASEDIR/libs/lib/Frameworks/SDL2.framework/Headers
+        $$BASEDIR/libs/lib/Frameworks/SDL2.framework/Headers \
+        /Library/Frameworks/GDAL.framework/unix/include
 
     LIBS += \
         -F$$BASEDIR/libs/lib/Frameworks \
-        -framework SDL2
+        -framework SDL2 \
+        -framework GDAL 
 } else:LinuxBuild {
     PKGCONFIG = sdl2
-    LIBS+= -lgdal#/external/gdal/lib/libgdal.a -ldl -lpthread -lgeos_c -ljson-c
+    LIBS+= -lgdal
 	INCLUDEPATH+= /external/gdal/include/
 } else:WindowsBuild {
-    INCLUDEPATH += C:/OSGeo4W/include
-    LIBS += -LC:/OSGeo4W/lib
-    LIBS += -LC:/OSGeo4W/bin
-    LIBS += C:/OSGeo4W/lib/gdal_i.lib
+    INCLUDEPATH += $$BASEDIR/libs/gdal/windows/include
+    LIBS += -L$$BASEDIR/libs/gdal/windows/lib
+    LIBS += -L$$BASEDIR/libs/gdal/windows/bin
+    LIBS += $$BASEDIR/libs/gdal/windows/lib/gdal_i.lib
 
     message($$sprintf("GDAL ? '%1'.", $$INCLUDEPATH))
 
 
     INCLUDEPATH += $$BASEDIR/libs/lib/sdl2/msvc/include
-    INCLUDEPATH += $$BASEDIR/libs/zlib/Windows/include
-
     contains(QT_ARCH, i386) {
         INCLUDEPATH += $$BASEDIR/libs/OpenSSL/Windows/x86/include
         LIBS += -L$$BASEDIR/libs/lib/sdl2/msvc/lib/x86
@@ -136,12 +136,9 @@ MacBuild {
         LIBS += -L$$BASEDIR/libs/lib/sdl2/msvc/lib/x64
         LIBS += -L$$BASEDIR/libs/OpenSSL/Windows/x64/lib
     }
-    LIBS += -L$$BASEDIR/libs/zlib/Windows/libs
     LIBS += \
         -lSDL2main \
-        -lSDL2 \
-		-lz \
-		-llibeay32
+        -lSDL2
 }
 
 # Include Android OpenSSL libs in order to make Qt OpenSSL support work
@@ -154,10 +151,15 @@ AndroidBuild {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
         LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.so
         LIBS += $$BASEDIR/libs/gdal/android/proj/lib/libproj.so
-        #LIBS += $$BASEDIR/libs/gdal/android/lib/libgdal.a
 
     } else:equals(ANDROID_TARGET_ARCH, arm64-v8a)  {
-        # Haven't figured out how to get 64 bit arm OpenSLL yet. This means things like terrain queries will not qork.
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libcrypto.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libssl.so
+        INCLUDEPATH += $$BASEDIR/libs/gdal/android/arm64/include
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libgdal.so
+        ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
+        LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libgdal.so
+        LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
     } else:equals(ANDROID_TARGET_ARCH, x86)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libssl.so
@@ -180,6 +182,10 @@ contains(DEFINES, QGC_ENABLE_PAIRING) {
             DEFINES -= QGC_ENABLE_NFC
             DEFINES -= QGC_ENABLE_PAIRING
         }
+    } else:WindowsBuild {
+        #- Pairing is not supported on Windows
+        DEFINES -= QGC_ENABLE_NFC
+        DEFINES -= QGC_ENABLE_PAIRING
     } else {
         LIBS += -lcrypto -lz
         AndroidBuild {
@@ -210,7 +216,6 @@ contains (DEFINES, DISABLE_ZEROCONF) {
 } else {
     message("Skipping support for Zeroconf (unsupported platform)")
 }
-
 
 #
 # [OPTIONAL] AirMap Support
