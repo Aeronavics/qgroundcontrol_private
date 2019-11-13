@@ -157,12 +157,14 @@ pipeline {
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'stable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: 'latest', artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
-                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.apk', type: 'apk']
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/QGroundControl-installer.exe', type: 'exe']
                 ])
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'stable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: "${env.TAG_NAME}", artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
-                [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.apk', type: 'apk']
+                [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/QGroundControl-installer.exe', type: 'exe']
                 ])
             }
         }
@@ -196,12 +198,14 @@ pipeline {
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'unstable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: "${env.VERSION_NAME}", artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
-                [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.apk', type: 'apk']
+                [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/QGroundControl-installer.exe', type: 'exe']
                 ])
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'unstable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: 'latest', artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
-                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.apk', type: 'apk']
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
+                [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/QGroundControl-installer.exe', type: 'exe']
                                 ])
             }
         }
