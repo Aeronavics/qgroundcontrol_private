@@ -154,6 +154,7 @@ pipeline {
                 unstash 'linux_appimage'
                 unstash 'linux_deb'
                 unstash 'android_binary'
+                unstash 'windows_binary'
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'stable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: 'latest', artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
@@ -195,6 +196,7 @@ pipeline {
                 unstash 'linux_appimage'
                 unstash 'linux_deb'
                 unstash 'android_binary'
+                unstash 'windows_binary'
                 nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'unstable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: "${env.VERSION_NAME}", artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
