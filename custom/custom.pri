@@ -63,7 +63,6 @@ INCLUDEPATH += \
     $$PWD/src \
 
 
-LIBS += -lcurl
 #-------------------------------------------------------------------------------------
 # Custom Firmware/AutoPilot Plugin
 

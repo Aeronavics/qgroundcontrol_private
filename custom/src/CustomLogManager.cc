@@ -129,12 +129,12 @@ QList<QString> CustomLogManager::getServerList(QString network_id) {
                     QJsonObject artifact = val.toObject();
 
                     // Print all files + md5sum present on server
-                    //qDebug() << artifact["name"].toString()
-                    //         << artifact["assets"]
-                    //                .toArray()
-                    //                .first()["checksum"]
-                    //                .toObject()["md5"]
-                    //                .toString();
+                    qCDebug(CustomLog) << artifact["name"].toString()
+                             << artifact["assets"]
+                                    .toArray()
+                                    .first()["checksum"]
+                                    .toObject()["md5"]
+                                    .toString();
 
                     // Append the current file md5sum to our result list
                     result.append(artifact["assets"]
@@ -181,6 +181,7 @@ CustomLogManager::queryLogServer(std::string network_id,
         curl_easy_setopt(curl, CURLOPT_USERPWD, user.c_str());
         curl_easy_setopt(curl, CURLOPT_WRITEFUNCTION, WriteCallback);
         curl_easy_setopt(curl, CURLOPT_WRITEDATA, &readBuffer);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
         /* complete within 20 seconds */
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
         res = curl_easy_perform(curl);
@@ -242,6 +243,7 @@ int CustomLogManager::uploadLogServer(QString filePath, QString remoteFilePath,
 
         /* complete within 20 seconds */
         curl_easy_setopt(curl, CURLOPT_TIMEOUT, 20L);
+	curl_easy_setopt(curl, CURLOPT_SSL_VERIFYPEER, 0L);
 
         res = curl_easy_perform(curl);
         /* Check for errors */

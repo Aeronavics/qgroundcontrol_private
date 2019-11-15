@@ -113,15 +113,22 @@ MacBuild {
         -F$$BASEDIR/libs/lib/Frameworks \
         -framework SDL2 \
         -framework GDAL 
+    LIBS+= -lcurl
 } else:LinuxBuild {
     PKGCONFIG = sdl2
     LIBS+= -lgdal
+    LIBS+= -lcurl
 	INCLUDEPATH+= /external/gdal/include/
 } else:WindowsBuild {
+    #LIBS += -L$$BASEDIR/libs/curl-7.67.0-win64-mingw/lib/
+    #LIBS += -L$$BASEDIR/libs/curl-7.67.0-win64-mingw/bin/
+    #LIBS += $$BASEDIR/libs/curl-7.67.0-win64-mingw/lib/libcurl.a
+    INCLUDEPATH += $$BASEDIR/libs/curl-7.67.0-win64-mingw/include/curl
     INCLUDEPATH += $$BASEDIR/libs/gdal/windows/include
     LIBS += -L$$BASEDIR/libs/gdal/windows/lib
     LIBS += -L$$BASEDIR/libs/gdal/windows/bin
     LIBS += $$BASEDIR/libs/gdal/windows/lib/gdal_i.lib
+    LIBS += $$BASEDIR/libs/gdal/windows/lib/libcurl.lib
 
     message($$sprintf("GDAL ? '%1'.", $$INCLUDEPATH))
 
@@ -144,6 +151,7 @@ MacBuild {
 # Include Android OpenSSL libs in order to make Qt OpenSSL support work
 AndroidBuild {
     equals(ANDROID_TARGET_ARCH, armeabi-v7a)  {
+	LIBS+= -lcurl
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-armeabi-v7a/lib/libssl.so
         INCLUDEPATH += $$BASEDIR/libs/gdal/android/include
@@ -160,6 +168,7 @@ AndroidBuild {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
         LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libgdal.so
         LIBS += $$BASEDIR/libs/gdal/android/arm64/lib/libproj.so
+	LIBS+= -lcurl
     } else:equals(ANDROID_TARGET_ARCH, x86)  {
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libcrypto.so
         ANDROID_EXTRA_LIBS += $$BASEDIR/libs/OpenSSL/Android/arch-x86/lib/libssl.so
