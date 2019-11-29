@@ -27,6 +27,7 @@ static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
 static const char* kNetworkIdKey         = "NetworkId";
 static const char* kSerialNumberKey       = "SerialNumber";
 static const char* kEnableAutoUploadKey = "EnableAutoUpload";
+static const char* kUsernameKey         = "Username"
 
 //-----------------------------------------------------------------------------
 CustomQuickInterface::CustomQuickInterface(QObject* parent) : QObject(parent) {
