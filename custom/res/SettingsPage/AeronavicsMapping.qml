@@ -192,14 +192,14 @@ Rectangle {
                             anchors.centerIn:           parent
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-
+                                
                                 QGCLabel {
-                                    text:  qsTr("pc-classify")
+                                    text:  qsTr("<b>pc-classify</b>")
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: pcclassify
                                     text: qsTr("Enable")
@@ -222,15 +222,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel { 
-                                    text:  qsTr("smrf-scalar (postitive float)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel { 
+                                    text:  qsTr("<b>smrf-scalar (postitive float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:     smrfScalar
                                     anchors.baseline: smrfScalarInfo.baseline
@@ -252,15 +263,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            RowLayout {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                
-                                QGCLabel {
-                                    text:  qsTr("opensfm-depthmap-min-patch-sd (postitive float)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                
+                                QGCLabel {
+                                    text:  qsTr("<b>opensfm-depthmap-min-patch-sd (postitive float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:     opensfmDepthmapMinPatch
                                     anchors.baseline: opensfmDepthmapMinPatchInfo.baseline
@@ -282,15 +304,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("smrf-window (postitive float)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>smrf-window (postitive float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      smrfWindow
                                     anchors.baseline: smrfWindowInfo.baseline
@@ -312,15 +345,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel { 
-                                    text:  qsTr("mesh-octree-depth (postitive Integer)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel { 
+                                    text:  qsTr("<b>mesh-octree-depth (postitive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      meshOctreeDepth
                                     anchors.baseline: meshOctreeDepthInfo.baseline
@@ -342,15 +386,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("min-num-features (Integer)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>min-num-features (Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      minNumFeatures
                                     anchors.baseline: minNumFeaturesInfo.baseline
@@ -372,15 +427,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("resize-to (Integer)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>resize-to (Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      resizeTo
                                     anchors.baseline: resizeToInfo.baseline
@@ -402,15 +468,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("smrf-slope (Positve Float)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>smrf-slope (Positve Float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      smrfSlope
                                     anchors.baseline: smrfSlopeInfo.baseline
@@ -432,15 +509,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("rerun-from")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>rerun-from</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 ComboBox {
                                     id:      rerunFrom
                                     anchors.baseline: rerunFromInfo.baseline
@@ -463,16 +551,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                
-                                QGCLabel {
-                                    text:  qsTr("use-3dmesh")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-
+                                
+                                QGCLabel {
+                                    text:  qsTr("<b>use-3dmesh</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: use3Dmesh
                                     text: qsTr("Enable")
@@ -495,15 +593,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("orthophoto-compression")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>orthophoto-compression</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 ComboBox { 
                                     id:      orthophotoCompression
                                     anchors.baseline: orthophotoCompressionInfo.baseline
@@ -526,15 +635,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("mve-confidence (Float: 0 <= x <= 1)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>mve-confidence (Float: 0 <= x <= 1)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      mveConfidence
                                     anchors.baseline: mveConfidenceInfo.baseline
@@ -556,16 +676,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("texturing-skip-hole-filling")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
+                                QGCLabel {
+                                    text:  qsTr("<b>texturing-skip-hole-filling</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: texturingSkipHoleFilling
                                     text: qsTr("Enable")
@@ -588,16 +718,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("texturing-skip-global-seam-leveling")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
+                                QGCLabel {
+                                    text:  qsTr("<b>texturing-skip-global-seam-leveling</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: texturingSkipSeamFilling
                                     text: qsTr("Enable")
@@ -620,15 +760,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {   
-                                    text:  qsTr("Texturing-nadir-weight (Integer: 0 <= x <= 32)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {   
+                                    text:  qsTr("<b>Texturing-nadir-weight (Integer: 0 <= x <= 32)<b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      testuringNadirweight
                                     anchors.baseline: testuringNadirweightInfo.baseline
@@ -650,15 +801,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {   
-                                    text:  qsTr("Texturing-outlier-removal-type")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {   
+                                    text:  qsTr("<b>Texturing-outlier-removal-type</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 ComboBox { 
                                     id:      texturingOutlierRemoveType
                                     anchors.baseline: texturingOutlierRemoveTypeInfo.baseline
@@ -681,15 +843,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {   
-                                    text:  qsTr("Othrophoto-resolution (Float > 0.0)")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {   
+                                    text:  qsTr("<b>Othrophoto-resolution (Float > 0.0)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      othroRes
                                     anchors.baseline: othroResInfo.baseline
@@ -711,16 +884,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("dtm")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
+                                QGCLabel {
+                                    text:  qsTr("<b>dtm</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: dtm
                                     text: qsTr("Enable")
@@ -743,16 +926,26 @@ Rectangle {
                                     }
                                 }
                             }
-                            Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    text:  qsTr("orthophoto-no-tiled")
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
+                                QGCLabel {
+                                    text:  qsTr("<b>orthophoto-no-tiled</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactCheckBox {
                                     id: orthoNoTiled
                                     text: qsTr("Enable")
@@ -775,15 +968,26 @@ Rectangle {
                                     }
                                 }
                             }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("dem-resolution (Float > 0.0)")
+                                    text:  qsTr("<b>dem-resolution (Float > 0.0)</b>")
                                 }   
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 QGCTextField {
                                     id:      demRes
                                     anchors.baseline: demResInfo.baseline
@@ -805,673 +1009,1774 @@ Rectangle {
                                     }
                                 }
                             }
-
-                        }
-                    }
-                    Item { width: 1; height: _margins }
-                    QGCLabel {
-                        text:       qsTr("Telemetry Logs from Vehicle")
-                    }
-                    Rectangle {
-                        Layout.preferredHeight: loggingCol.height + (_margins * 2)
-                        Layout.preferredWidth:  loggingCol.width + (_margins * 2)
-                        color:                  qgcPal.windowShade
-                        Layout.fillWidth:       true
-                        ColumnLayout {
-                            id:                         loggingCol
-                            anchors.margins:            _margins
-                            anchors.top:                parent.top
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            spacing:                    _margins
-                            FactCheckBox {
-                                id:         promptSaveLog
-                                text:       qsTr("Save log after each flight")
-                                fact:       _telemetrySave
-                                visible:    _telemetrySave.visible
-                                property Fact _telemetrySave: QGroundControl.settingsManager.appSettings.telemetrySave
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
                             }
-                            FactCheckBox {
-                                id:         logIfNotArmed
-                                text:       qsTr("Save logs even if vehicle was not armed")
-                                fact:       _telemetrySaveNotArmed
-                                visible:    _telemetrySaveNotArmed.visible
-                                property Fact _telemetrySaveNotArmed: QGroundControl.settingsManager.appSettings.telemetrySaveNotArmed
-                            }
-                            FactCheckBox {
-                                id:         promptSaveCsv
-                                text:       qsTr("Save CSV log of telemetry data")
-                                fact:       _saveCsvTelemetry
-                                visible:    _saveCsvTelemetry.visible
-                                property Fact _saveCsvTelemetry: QGroundControl.settingsManager.appSettings.saveCsvTelemetry
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-                    QGCLabel {
-                        id:         flyViewSectionLabel
-                        text:       qsTr("Fly View")
-                        visible:    QGroundControl.settingsManager.flyViewSettings.visible
-                    }
-                    Rectangle {
-                        Layout.preferredHeight: flyViewCol.height + (_margins * 2)
-                        Layout.preferredWidth:  flyViewCol.width + (_margins * 2)
-                        color:                  qgcPal.windowShade
-                        visible:                flyViewSectionLabel.visible
-                        Layout.fillWidth:       true
-
-                        ColumnLayout {
-                            id:                         flyViewCol
-                            anchors.margins:            _margins
-                            anchors.top:                parent.top
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            spacing:                    _margins
-
-                            FactCheckBox {
-                                text:       qsTr("Use Preflight Checklist")
-                                fact:       _useChecklist
-                                visible:    _useChecklist.visible && QGroundControl.corePlugin.options.preFlightChecklistUrl.toString().length
-
-                                property Fact _useChecklist: QGroundControl.settingsManager.appSettings.useChecklist
-                            }
-
-                            FactCheckBox {
-                                text:       qsTr("Show Telemetry Log Replay Status Bar")
-                                fact:       _showLogReplayStatusBar
-                                visible:    _showLogReplayStatusBar.visible
-
-                                property Fact _showLogReplayStatusBar: QGroundControl.settingsManager.flyViewSettings.showLogReplayStatusBar
-                            }
-
-                            FactCheckBox {
-                                text:       qsTr("Virtual Joystick")
-                                visible:    _virtualJoystick.visible
-                                fact:       _virtualJoystick
-
-                                property Fact _virtualJoystick: QGroundControl.settingsManager.appSettings.virtualJoystick
-                            }
-
-                            FactCheckBox {
-                                text:       qsTr("Auto-Center throttle")
-                                visible:    _virtualJoystickCentralized.visible && activeVehicle && (activeVehicle.sub || activeVehicle.rover)
-                                fact:       _virtualJoystickCentralized
-                                Layout.leftMargin: _margins
-
-                                property Fact _virtualJoystickCentralized: QGroundControl.settingsManager.appSettings.virtualJoystickCentralized
-                            }
-                            FactCheckBox {
-                                text:       qsTr("Use Vertical Instrument Panel")
-                                visible:    _alternateInstrumentPanel.visible
-                                fact:       _alternateInstrumentPanel
-
-                                property Fact _alternateInstrumentPanel: QGroundControl.settingsManager.flyViewSettings.alternateInstrumentPanel
-                            }
-                            FactCheckBox {
-                                text:       qsTr("Show additional heading indicators on Compass")
-                                visible:    _showAdditionalIndicatorsCompass.visible
-                                fact:       _showAdditionalIndicatorsCompass
-
-                                property Fact _showAdditionalIndicatorsCompass: QGroundControl.settingsManager.flyViewSettings.showAdditionalIndicatorsCompass
-                            }
-                            FactCheckBox {
-                                text:       qsTr("Lock Compass Nose-Up")
-                                visible:    _lockNoseUpCompass.visible
-                                fact:       _lockNoseUpCompass
-
-                                property Fact _lockNoseUpCompass: QGroundControl.settingsManager.flyViewSettings.lockNoseUpCompass
-                            }
-
-
-                            GridLayout {
-                                columns: 2
-
-                                property Fact _guidedMinimumAltitude:   QGroundControl.settingsManager.flyViewSettings.guidedMinimumAltitude
-                                property Fact _guidedMaximumAltitude:   QGroundControl.settingsManager.flyViewSettings.guidedMaximumAltitude
-                                property Fact _maxGoToLocationDistance: QGroundControl.settingsManager.flyViewSettings.maxGoToLocationDistance
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:                   qsTr("Guided Minimum Altitude")
-                                    visible:                parent._guidedMinimumAltitude.visible
-                                }
-                                FactTextField {
-                                    Layout.preferredWidth:  _valueFieldWidth
-                                    visible:                parent._guidedMinimumAltitude.visible
-                                    fact:                   parent._guidedMinimumAltitude
-                                }
-
-                                QGCLabel {
-                                    text:                   qsTr("Guided Maximum Altitude")
-                                    visible:                parent._guidedMaximumAltitude.visible
-                                }
-                                FactTextField {
-                                    Layout.preferredWidth:  _valueFieldWidth
-                                    visible:                parent._guidedMaximumAltitude.visible
-                                    fact:                   parent._guidedMaximumAltitude
-                                }
-
-                                QGCLabel {
-                                    text:                   qsTr("Go To Location Max Distance")
-                                    visible:                parent._maxGoToLocationDistance.visible
-                                }
-                                FactTextField {
-                                    Layout.preferredWidth:  _valueFieldWidth
-                                    visible:                parent._maxGoToLocationDistance.visible
-                                    fact:                   parent._maxGoToLocationDistance
+                                    text:  qsTr("<b>mesh-size (Positive Integer)</b>")
                                 }
                             }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        id:         planViewSectionLabel
-                        text:       qsTr("Plan View")
-                        visible:    QGroundControl.settingsManager.planViewSettings.visible
-                    }
-                    Rectangle {
-                        Layout.preferredHeight: planViewCol.height + (_margins * 2)
-                        Layout.preferredWidth:  planViewCol.width + (_margins * 2)
-                        color:                  qgcPal.windowShade
-                        visible:                planViewSectionLabel.visible
-                        Layout.fillWidth:       true
-
-                        ColumnLayout {
-                            id:                         planViewCol
-                            anchors.margins:            _margins
-                            anchors.top:                parent.top
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            spacing:                    _margins
-
-                            RowLayout {
-                                spacing:    ScreenTools.defaultFontPixelWidth
-                                visible:    QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude.visible
-
-                                QGCLabel { text: qsTr("Default Mission Altitude") }
-                                FactTextField {
-                                    Layout.preferredWidth:  _valueFieldWidth
-                                    fact:                   QGroundControl.settingsManager.appSettings.defaultMissionItemAltitude
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      meshSize
+                                    anchors.baseline: meshSizeInfo.baseline
+                                    width:  _comboFieldWidth
                                 }
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        id:         autoConnectSectionLabel
-                        text:       qsTr("AutoConnect to the following devices")
-                        visible:    QGroundControl.settingsManager.autoConnectSettings.visible
-                    }
-                    Rectangle {
-                        Layout.preferredWidth:  autoConnectCol.width + (_margins * 2)
-                        Layout.preferredHeight: autoConnectCol.height + (_margins * 2)
-                        color:                  qgcPal.windowShade
-                        visible:                autoConnectSectionLabel.visible
-                        Layout.fillWidth:       true
-
-                        ColumnLayout {
-                            id:                 autoConnectCol
-                            anchors.margins:    _margins
-                            anchors.left:       parent.left
-                            anchors.top:        parent.top
-                            spacing:            _margins
-
-                            RowLayout {
-                                spacing: _margins
-
-                                Repeater {
-                                    id:     autoConnectRepeater
-                                    model:  [ QGroundControl.settingsManager.autoConnectSettings.autoConnectPixhawk,
-                                        QGroundControl.settingsManager.autoConnectSettings.autoConnectSiKRadio,
-                                        QGroundControl.settingsManager.autoConnectSettings.autoConnectPX4Flow,
-                                        QGroundControl.settingsManager.autoConnectSettings.autoConnectLibrePilot,
-                                        QGroundControl.settingsManager.autoConnectSettings.autoConnectUDP,
-                                        QGroundControl.settingsManager.autoConnectSettings.autoConnectRTKGPS
-                                    ]
-
-                                    property var names: [ qsTr("Pixhawk"), qsTr("SiK Radio"), qsTr("PX4 Flow"), qsTr("LibrePilot"), qsTr("UDP"), qsTr("RTK GPS") ]
-
-                                    FactCheckBox {
-                                        text:       autoConnectRepeater.names[index]
-                                        fact:       modelData
-                                        visible:    modelData.visible
+                                QGCButton {
+                                    id: meshSizeInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "The maximum vertex count of the output mesh. Default: 100000"
+                                    ToolTip.visible: toolTipText ? meshSizema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: meshSizema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
                                     }
                                 }
                             }
-
-                            GridLayout {
-                                Layout.fillWidth:   false
-                                Layout.alignment:   Qt.AlignHCenter
-                                columns:            2
-                                visible:            !ScreenTools.isMobile
-                                                    && QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaPort.visible
-                                                    && QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaBaud.visible
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text: qsTr("NMEA GPS Device")
+                                    text:  qsTr("<b>force-GPS</b>")
                                 }
-                                QGCComboBox {
-                                    id:                     nmeaPortCombo
-                                    Layout.preferredWidth:  _comboFieldWidth
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
 
-                                    model:  ListModel {
-                                    }
-
-                                    onActivated: {
-                                        if (index != -1) {
-                                            QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaPort.value = textAt(index);
-                                        }
-                                    }
-                                    Component.onCompleted: {
-                                        model.append({text: gpsDisabled})
-                                        model.append({text: gpsUdpPort})
-
-                                        for (var i in QGroundControl.linkManager.serialPorts) {
-                                            nmeaPortCombo.model.append({text:QGroundControl.linkManager.serialPorts[i]})
-                                        }
-                                        var index = nmeaPortCombo.find(QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaPort.valueString);
-                                        nmeaPortCombo.currentIndex = index;
-                                        if (QGroundControl.linkManager.serialPorts.length === 0) {
-                                            nmeaPortCombo.model.append({text: "Serial <none available>"})
-                                        }
+                                FactCheckBox {
+                                    id: forceGPS
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: forceGPSInfo.baseline
+                                }
+                                QGCButton {
+                                    id: forceGPSInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Uses images' GPS exif data for reconstruction, even if there are GCPs present. This flag is useful if you have high precision GPS measurements. If there are no GCPs, this flag does nothing. Default: false"
+                                    ToolTip.visible: toolTipText ? forceGPSma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: forceGPSma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
                                     }
                                 }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    visible:          nmeaPortCombo.currentText !== gpsUdpPort && nmeaPortCombo.currentText !== gpsDisabled
-                                    text:             qsTr("NMEA GPS Baudrate")
+                                    text:  qsTr("<b>ignore-gsd</b>")
                                 }
-                                QGCComboBox {
-                                    visible:                nmeaPortCombo.currentText !== gpsUdpPort && nmeaPortCombo.currentText !== gpsDisabled
-                                    id:                     nmeaBaudCombo
-                                    Layout.preferredWidth:  _comboFieldWidth
-                                    model:                  [4800, 9600, 19200, 38400, 57600, 115200]
-
-                                    onActivated: {
-                                        if (index != -1) {
-                                            QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaBaud.value = textAt(index);
-                                        }
-                                    }
-                                    Component.onCompleted: {
-                                        var index = nmeaBaudCombo.find(QGroundControl.settingsManager.autoConnectSettings.autoConnectNmeaBaud.valueString);
-                                        nmeaBaudCombo.currentIndex = index;
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                FactCheckBox {
+                                    id: ignoregsd
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: ignoregsdInfo.baseline
+                                }
+                                QGCButton {
+                                    id: ignoregsdInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Ignore ground sampling distance (GSD). GSD caps the maximum resolution of image outputs and resizes images when necessary, resulting in faster processing and lower memory usage. Since GSD is an estimate, sometimes ignoring it can result in slightly better image output quality. Default: false"
+                                    ToolTip.visible: toolTipText ? ignoregsdma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: ignoregsdma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
                                     }
                                 }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:       qsTr("NMEA stream UDP port")
-                                    visible:    nmeaPortCombo.currentText === gpsUdpPort
+                                    text:  qsTr("<b>build-overviews</b>")
                                 }
-                                FactTextField {
-                                    visible:                nmeaPortCombo.currentText === gpsUdpPort
-                                    Layout.preferredWidth:  _valueFieldWidth
-                                    fact:                   QGroundControl.settingsManager.autoConnectSettings.nmeaUdpPort
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: buildOverviews
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: buildOverviewsInfo.baseline
+                                }
+                                QGCButton {
+                                    id: buildOverviewsInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Build orthophoto overviews using gdaladdo. Default: false"
+                                    ToolTip.visible: toolTipText ? buildOverviewsma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: buildOverviewsma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>opensfm-dense</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: opensfmDense
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: opensfmDenseInfo.baseline
+                                }
+                                QGCButton {
+                                    id: opensfmDenseInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Use opensfm to compute dense point cloud alternatively. Default: false"
+                                    ToolTip.visible: toolTipText ? opensfmDensema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: opensfmDensema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>opensfm-depthmap-min-consistent-views (Integer: 2<=x<=9)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      opensfmDepthmapMinConsistentViews
+                                    anchors.baseline: opensfmDepthmapMinConsistentViewsInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: opensfmDepthmapMinConsistentViewsInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Minimum number of views that should reconstruct a point for it to be valid. Use lower values if your images have less overlap. Lower values result in denser point clouds but with more noise. Default: 3"
+                                    ToolTip.visible: toolTipText ? opensfmDepthmapMinConsistentViewsma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: opensfmDepthmapMinConsistentViewsma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>textureing-skip-local-seam-leveling</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: texturingSkipLocalSeamLeveling
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: texturingSkipLocalSeamLevelingInfo.baseline
+                                }
+                                QGCButton {
+                                    id: texturingSkipLocalSeamLevelingInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Skip local seam blending. Default: false"
+                                    ToolTip.visible: toolTipText ? texturingSkipLocalSeamLevelingma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: texturingSkipLocalSeamLevelingma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>textureing-keep-unseen-faces</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: texturingKeepUnseenFaces
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: texturingKeepUnseenFacesInfo.baseline
+                                }
+                                QGCButton {
+                                    id: texturingKeepUnseenFacesInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Keep faces in the mesh that are not seen in any camera. Default: false"
+                                    ToolTip.visible: toolTipText ? texturingKeepUnseenFacesma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: texturingKeepUnseenFacesma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>debug</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: debug
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: debugInfo.baseline
+                                }
+                                QGCButton {
+                                    id: debugInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Print debug messages. Default: false"
+                                    ToolTip.visible: toolTipText ? debugma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: debugma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>use-exif</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: useExif
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: useExifInfo.baseline
+                                }
+                                QGCButton {
+                                    id: useExifInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Use this tag when you have a gcp_list.txt but want to use exif geotags instead. Default: false"
+                                    ToolTip.visible: toolTipText ? useExifma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: useExifma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>mesh-samples (Float >= 1.0)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      meshSamples
+                                    anchors.baseline: meshSamplesInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: meshSamplesInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Number of points per octree node. Recommended and Default: 1"
+                                    ToolTip.visible: toolTipText ? meshSamplesma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: meshSamplesma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>pc-sample (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      pcSample
+                                    anchors.baseline: pcSampleInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: pcSampleInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Filters the point cloud by keeping only a single point around a radius N (in meters). This can be useful to limit the output resolution of the point cloud set to 0 to diable sampling. Default: 0"
+                                    ToolTip.visible: toolTipText ? pcSamplema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: pcSamplema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>matcher-distance (Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      matcherDistance
+                                    anchors.baseline: matcherDistanceInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: matcherDistanceInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Distance threshold in meters to find pre-matching images based on exif data. Set matcher-neighbors and this to 0 to skip pre-matching. Default: 0"
+                                    ToolTip.visible: toolTipText ? matcherDistancema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: matcherDistancema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>split-overlap (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      splitOverlap
+                                    anchors.baseline: splitOverlapInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: splitOverlapInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Radius of the overlap between submodels. After grouping images into clusters, images that are closer that this radius to a cluster are added to the cluster. This is done to ensure that the neighboring submodels overlap. Default: 150"
+                                    ToolTip.visible: toolTipText ? splitOverlapma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: splitOverlapma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>dem-decimation (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      demDecimation
+                                    anchors.baseline: demDecimationInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id: demDecimationInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Decimate the points before generatiing the DEM. 1 is no decimation (full quality). 100 decimates ~99% of the points. Useful for speeding up the generation. Default: 1"
+                                    ToolTip.visible: toolTipText ? demDecimationma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: demDecimationma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>orthophoto-cutline</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: orthoCutline
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: orthoCutlineInfo.baseline
+                                }
+                                QGCButton {
+                                    id: orthoCutlineInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Generates a polygon around the cropping area that cuts the orthophoto around the edges of the feature. This polygome can be useful for stitching seamless mosaics with multiple overlapping orthophotos. Default: false"
+                                    ToolTip.visible: toolTipText ? orthoCutlinema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: orthoCutlinema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>pc-filter (Positive Float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      pcFilter
+                                    anchors.baseline: pcFilterInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  pcFilterInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Filters the point cloud by removing the points that deviate more that N standard deviations from the local mean. Set to 0 to disable filtering. Default: 2.5"
+                                    ToolTip.visible: toolTipText ? pcFilterma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: pcFilterma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>split (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      split
+                                    anchors.baseline: splitInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  splitInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Average number of images per submodel. When splitting a large dataset into smaller submodels, images are grouped into clusters. This value regulates the number of images that each cluster should have on average. Default: 999999"
+                                    ToolTip.visible: toolTipText ? splitma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: splitma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>fast-orthophoto</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: fastOrtho
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: fastOrthoInfo.baseline
+                                }
+                                QGCButton {
+                                    id: fastOrthoInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Skips dense reconsturction and 3D model generation. It generates an orthophoto directly from the sparse reconstruction. If you just need an orthophoto and do nopt need a full 3D model, turn on this option. Experimental. Default: false"
+                                    ToolTip.visible: toolTipText ? fastOrthoma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: fastOrthoma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>pc-ept</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: pcEpt
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: pcEptInfo.baseline
+                                }
+                                QGCButton {
+                                    id: pcEptInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Export the georeferenced point cloud in the Entwine Point Tile (EPT) format. Default: false"
+                                    ToolTip.visible: toolTipText ? pcEptma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: pcEptma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>crop (Positive Float)</b>")
+                                }
+                            }   
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      crop
+                                    anchors.baseline: cropInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  cropInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Automatically crop image outputs by creating a smooth buffer around the dataset boundaries, shrunk by N meters. Use 0 to disable cropping. Default: 3"
+                                    ToolTip.visible: toolTipText ? cropma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: cropma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>pc-las</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: pcLas
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: pcLasInfo.baseline
+                                }
+                                QGCButton {
+                                    id: pcLasInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Export the georeferenced point cloud in LAS format. Default: false"
+                                    ToolTip.visible: toolTipText ? pcLasma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: pcLasma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>merge</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:      merge
+                                    anchors.baseline: mergeInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["all", "orthophoto","pointcloud","dem"]
+                                }
+                                QGCButton {
+                                    id: mergeInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Choose what to merge in the merge step in a split dataset. By default all avaiable outputs are merged. Default: all"
+                                    ToolTip.visible: toolTipText ? mergema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: mergema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel { 
+                                    text:  qsTr("<b>dsm</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: dsm
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: dsmInfo.baseline
+                                }
+                                QGCButton {
+                                    id: dsmInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Use this tag to build a DSM (Digital Surface Model, ground + objects) using a progressive morphological filter. Check the --dem* parameters for finer tuning. Default: false"
+                                    ToolTip.visible: toolTipText ? dsmma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: dsmma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>dem-gapfill-steps (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      demGapfillSteps
+                                    anchors.baseline: demGapfillStepsInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  demGapfillStepsInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Number of steps used to fill areas with gaps. Set to 0 to disable gap filling. Starting witha radius equal to the output resulotion, N different DEMs are generated with progressively bigger radius using the inverse distance weighted (IDW) algorthim and merged together. Remaining gaps are then merged using nearest neighbour interpolation. Default: 3"
+                                    ToolTip.visible: toolTipText ? demGapfillStepsma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: demGapfillStepsma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>mesh-point-weight (Positive Float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      meshPointWeight
+                                    anchors.baseline: meshPointWeightInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  meshPointWeightInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "This floating point number specifies the importance that interpolation of the point samples is given in the formulation of the screen Poisson equation. The results of the original (unscreened) Poisson Reconstruction can be obtained by setting this value to 0. Default: 4"
+                                    ToolTip.visible: toolTipText ? meshPointWeightma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: meshPointWeightma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>max-concurrency (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      maxConcurrency
+                                    anchors.baseline: maxConcurrencyInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  maxConcurrencyInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "The maximum number of processes to use in the various processes. Peak memory requirement is ~1GB per thread and 2 megapixel image resolution. Default: 16"
+                                    ToolTip.visible: toolTipText ? maxConcurrencyma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: maxConcurrencyma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {   
+                                    text:  qsTr("<b>texturing-tone-mapping</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:     textureToneMapping
+                                    anchors.baseline: textureToneMappingInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["none", "gamma","pointcloud","dem"]
+                                }
+                                QGCButton {
+                                    id: textureToneMappingInfo 
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Turn on gamma tone mapping or none for no tone mapping. Default: none"
+                                    ToolTip.visible: toolTipText ? textureToneMappingma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: textureToneMappingma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>dem-euclidian-map</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: demEuclidianMap
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: demEuclidianMapInfo.baseline
+                                }
+                                QGCButton {
+                                    id: demEuclidianMapInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Computes an euclidean raste map for each DEM. The map reports the distance from each cell to to the nearest NODATA value (before any hole filling takes place). This can be useful to isolate the areas that have been filled. Default: false"
+                                    ToolTip.visible: toolTipText ? demEuclidianMapma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: demEuclidianMapma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>camera-lens</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:     cameraLens
+                                    anchors.baseline: cameraLensInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["auto", "perspective","brown","fisheye","spherical"]
+                                }
+                                QGCButton {
+                                    id: cameraLensInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Set a camera projection type. Manually set a value can help improve geometric undistortion. By default the application tries to determine a lens type from the images metedata. Default: auto"
+                                    ToolTip.visible: toolTipText ? cameraLensma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: cameraLensma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>skip-3dmodel</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: skip3dmodel
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: skip3dmodelInfo.baseline
+                                }
+                                QGCButton {
+                                    id: skip3dmodelInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Skips generation of the full 3D model. This can save time if you only need 2D results such as orthophotos and DEMs. Default: false"
+                                    ToolTip.visible: toolTipText ? skip3dmodelma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: skip3dmodelma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>match-neighbours (Positive Integer)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      matchNeighbours
+                                    anchors.baseline: matchNeighboursInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  matchNeighboursInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Number of nearest images to pre-match based on GPS exif data. set to 0 to skip pre-matching. Neighbours works together with Distance parameter, set both to 0 to not user pre-matching. OpenSFM uses both parameters at the same time, bundler uses only one which has value, prefering Neighbours parameter. Default: 8"
+                                    ToolTip.visible: toolTipText ? matchNeighboursma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: matchNeighboursma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>pc-csv</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: pcCsv
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: pcCsvInfo.baseline
+                                }
+                                QGCButton {
+                                    id: pcCsvInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Exports the georeferenced point cloud in CSV format. Default: false"
+                                    ToolTip.visible: toolTipText ? pcCsvma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: pcCsvma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>end-with</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:     endWith
+                                    anchors.baseline: endWithInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["odm_orthophoto","dataset","split", "merge", "opensfm", "mve", "odm_filterpoints", "odm_meshing", "mvs_texturing", "odm_georeferencing", "odm_dem"]
+                                }
+                                QGCButton {
+                                    id: endWithInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Can be one of: dataset, split, merge, opensfm, mve, odm_filterpoints, odm_meshing, mvs_texturing, odm_georeferencing, odm_dem, odm_orthophoto. Default: odm_orthophoto"
+                                    ToolTip.visible: toolTipText ? endWithma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: endWithma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>depthmap-resolution (Positive Float)</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      depthmapRes
+                                    anchors.baseline: depthmapResInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  depthmapResInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Controls the density of the point cloud by setting the resolution of the depthmap images. Higher values take longer to compute but produce denser point clouds. Default: 640"
+                                    ToolTip.visible: toolTipText ? depthmapResma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: depthmapResma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>texturing-data-term</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:     texturingDataTerm
+                                    anchors.baseline: texturingDataTermInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["gmi","area"]
+                                }
+                                QGCButton {
+                                    id: texturingDataTermInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Data term:[area, gmi]. Default: gmi"
+                                    ToolTip.visible: toolTipText ? texturingDataTermma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: texturingDataTermma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>texturing-skip-visibility-test</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: texturingSkipVisibilityTest
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: texturingSkipVisibilityTestInfo.baseline
+                                }
+                                QGCButton {
+                                    id: texturingSkipVisibilityTestInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Skip geometric visibility test. Default: false"
+                                    ToolTip.visible: toolTipText ? texturingSkipVisibilityTestma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: texturingSkipVisibilityTestma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>opensfm-depthmap-method</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                ComboBox {
+                                    id:     opensfmDepthmapMethod
+                                    anchors.baseline: opensfmDepthmapMethodInfo.baseline
+                                    width:  _comboFieldWidth
+                                    model: ["PATCH_MATCH","PATCH_MATCH_SAMPLE","BRUTE_FORCE"]
+                                }
+                                QGCButton {
+                                    id: opensfmDepthmapMethodInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Raw depthmap computation algorithm. PATCH_MATCH and PATCH_MATCH_SAMPLE are faster, but might miss some valid points. BRUTE_FORCE takes longer but produces denser reconstuctions. Default: PATCH_MATCH"
+                                    ToolTip.visible: toolTipText ? opensfmDepthmapMethodma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: opensfmDepthmapMethodma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>use-fixed-camera-params</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: fixedCameraParams
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: fixedCameraParamsInfo.baseline
+                                }
+                                QGCButton {
+                                    id: fixedCameraParamsInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Turn off camera parameter optimization during bundler. Default: false"
+                                    ToolTip.visible: toolTipText ? fixedCameraParamsma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: fixedCameraParamsma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>smrf-threshold (Positive Float)<b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCTextField {
+                                    id:      smrfThreshold
+                                    anchors.baseline: smrfThresholdInfo.baseline
+                                    width:  _comboFieldWidth
+                                }
+                                QGCButton {
+                                    id:  smrfThresholdInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Simple Morphological Filter elevation threshold parameter (meters). Default: 0.5"
+                                    ToolTip.visible: toolTipText ? smrfThresholdma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: smrfThresholdma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>verbose</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: verbose
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: verboseInfo.baseline
+                                }
+                                QGCButton {
+                                    id: verboseInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Print additional messages to the console. Default: false"
+                                    ToolTip.visible: toolTipText ? verbosema.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: verbosema
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
+                            MenuSeparator {
+                                padding: 0
+                                topPadding: 5
+                                bottomPadding: 5
+                                contentItem: Rectangle {
+                                    implicitWidth: 400
+                                    implicitHeight: 2
+                                    color: qgcPal.window
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    text:  qsTr("<b>use-hybrid-bundle-adjustment</b>")
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+
+                                FactCheckBox {
+                                    id: hybridBundleAdjustment
+                                    text: qsTr("Enable")
+                                    width: _labelWidth
+                                    anchors.baseline: hybridBundleAdjustmentInfo.baseline
+                                }
+                                QGCButton {
+                                    id: hybridBundleAdjustmentInfo
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("\uD83D")
+                                    property string toolTipText: "Run local bundle adjustment for every image added to the reconstruction and a global adjustment every 100 images. Speeds up reconstruction for very large datasets. Default: false"
+                                    ToolTip.visible: toolTipText ? hybridBundleAdjustmentma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: hybridBundleAdjustmentma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
                                 }
                             }
                         }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        id:         rtkSectionLabel
-                        text:       qsTr("RTK GPS")
-                        visible:    QGroundControl.settingsManager.rtkSettings.visible
-                    }
-                    Rectangle {
-                        Layout.preferredHeight: rtkGrid.height + (_margins * 2)
-                        Layout.preferredWidth:  rtkGrid.width + (_margins * 2)
-                        color:                  qgcPal.windowShade
-                        visible:                rtkSectionLabel.visible
-                        Layout.fillWidth:       true
-
-                        GridLayout {
-                            id:                         rtkGrid
-                            anchors.topMargin:          _margins
-                            anchors.top:                parent.top
-                            Layout.fillWidth:           true
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            columns:                    3
-
-                            property var  rtkSettings:      QGroundControl.settingsManager.rtkSettings
-                            property bool useFixedPosition: rtkSettings.useFixedBasePosition.rawValue
-                            property real firstColWidth:    ScreenTools.defaultFontPixelWidth * 3
-
-                            QGCRadioButton {
-                                text:               qsTr("Perform Survey-In")
-                                visible:            rtkGrid.rtkSettings.useFixedBasePosition.visible
-                                checked:            rtkGrid.rtkSettings.useFixedBasePosition.value === false
-                                Layout.columnSpan:  3
-                                onClicked:          rtkGrid.rtkSettings.useFixedBasePosition.value = false
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:               rtkGrid.rtkSettings.surveyInAccuracyLimit.shortDescription
-                                visible:            rtkGrid.rtkSettings.surveyInAccuracyLimit.visible
-                                enabled:            !rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.surveyInAccuracyLimit
-                                visible:            rtkGrid.rtkSettings.surveyInAccuracyLimit.visible
-                                enabled:            !rtkGrid.useFixedPosition
-                                Layout.preferredWidth:  _valueFieldWidth
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:               rtkGrid.rtkSettings.surveyInMinObservationDuration.shortDescription
-                                visible:            rtkGrid.rtkSettings.surveyInMinObservationDuration.visible
-                                enabled:            !rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.surveyInMinObservationDuration
-                                visible:            rtkGrid.rtkSettings.surveyInMinObservationDuration.visible
-                                enabled:            !rtkGrid.useFixedPosition
-                                Layout.preferredWidth:  _valueFieldWidth
-                            }
-
-                            QGCRadioButton {
-                                text:               qsTr("Use Specified Base Position")
-                                visible:            rtkGrid.rtkSettings.useFixedBasePosition.visible
-                                checked:            rtkGrid.rtkSettings.useFixedBasePosition.value === true
-                                onClicked:          rtkGrid.rtkSettings.useFixedBasePosition.value = true
-                                Layout.columnSpan:  3
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:               rtkGrid.rtkSettings.fixedBasePositionLatitude.shortDescription
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionLatitude.visible
-                                enabled:            rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.fixedBasePositionLatitude
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionLatitude.visible
-                                enabled:            rtkGrid.useFixedPosition
-                                Layout.fillWidth:   true
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:               rtkGrid.rtkSettings.fixedBasePositionLongitude.shortDescription
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionLongitude.visible
-                                enabled:            rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.fixedBasePositionLongitude
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionLongitude.visible
-                                enabled:            rtkGrid.useFixedPosition
-                                Layout.fillWidth:   true
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:           rtkGrid.rtkSettings.fixedBasePositionAltitude.shortDescription
-                                visible:        rtkGrid.rtkSettings.fixedBasePositionAltitude.visible
-                                enabled:        rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.fixedBasePositionAltitude
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionAltitude.visible
-                                enabled:            rtkGrid.useFixedPosition
-                                Layout.fillWidth:   true
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCLabel {
-                                text:           rtkGrid.rtkSettings.fixedBasePositionAccuracy.shortDescription
-                                visible:        rtkGrid.rtkSettings.fixedBasePositionAccuracy.visible
-                                enabled:        rtkGrid.useFixedPosition
-                            }
-                            FactTextField {
-                                fact:               rtkGrid.rtkSettings.fixedBasePositionAccuracy
-                                visible:            rtkGrid.rtkSettings.fixedBasePositionAccuracy.visible
-                                enabled:            rtkGrid.useFixedPosition
-                                Layout.fillWidth:   true
-                            }
-
-                            Item { width: rtkGrid.firstColWidth; height: 1 }
-                            QGCButton {
-                                text:               qsTr("Save Current Base Position")
-                                enabled:            QGroundControl.gpsRtk && QGroundControl.gpsRtk.valid.value
-                                Layout.columnSpan:  2
-                                onClicked: {
-                                    rtkGrid.rtkSettings.fixedBasePositionLatitude.rawValue =    QGroundControl.gpsRtk.currentLatitude.rawValue
-                                    rtkGrid.rtkSettings.fixedBasePositionLongitude.rawValue =   QGroundControl.gpsRtk.currentLongitude.rawValue
-                                    rtkGrid.rtkSettings.fixedBasePositionAltitude.rawValue =    QGroundControl.gpsRtk.currentAltitude.rawValue
-                                    rtkGrid.rtkSettings.fixedBasePositionAccuracy.rawValue =    QGroundControl.gpsRtk.currentAccuracy.rawValue
-                                }
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        id:         videoSectionLabel
-                        text:       qsTr("Video")
-                        visible:    QGroundControl.settingsManager.videoSettings.visible && !QGroundControl.videoManager.autoStreamConfigured
-                    }
-                    Rectangle {
-                        Layout.preferredWidth:  videoGrid.width + (_margins * 2)
-                        Layout.preferredHeight: videoGrid.height + (_margins * 2)
-                        Layout.fillWidth:       true
-                        color:                  qgcPal.windowShade
-                        visible:                videoSectionLabel.visible
-
-                        GridLayout {
-                            id:                         videoGrid
-                            anchors.margins:            _margins
-                            anchors.top:                parent.top
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            Layout.fillWidth:           false
-                            Layout.fillHeight:          false
-                            columns:                    2
-                            QGCLabel {
-                                text:                   qsTr("Video Source")
-                                visible:                QGroundControl.settingsManager.videoSettings.videoSource.visible
-                            }
-                            FactComboBox {
-                                id:                     videoSource
-                                Layout.preferredWidth:  _comboFieldWidth
-                                indexModel:             false
-                                fact:                   QGroundControl.settingsManager.videoSettings.videoSource
-                                visible:                QGroundControl.settingsManager.videoSettings.videoSource.visible
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("UDP Port")
-                                visible:                (_isUDP264 || _isUDP265 || _isMPEGTS)  && QGroundControl.settingsManager.videoSettings.udpPort.visible
-                            }
-                            FactTextField {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.udpPort
-                                visible:                (_isUDP264 || _isUDP265 || _isMPEGTS) && QGroundControl.settingsManager.videoSettings.udpPort.visible
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("RTSP URL")
-                                visible:                _isRTSP && QGroundControl.settingsManager.videoSettings.rtspUrl.visible
-                            }
-                            FactTextField {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.rtspUrl
-                                visible:                _isRTSP && QGroundControl.settingsManager.videoSettings.rtspUrl.visible
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("TCP URL")
-                                visible:                _isTCP && QGroundControl.settingsManager.videoSettings.tcpUrl.visible
-                            }
-                            FactTextField {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.tcpUrl
-                                visible:                _isTCP && QGroundControl.settingsManager.videoSettings.tcpUrl.visible
-                            }
-                            QGCLabel {
-                                text:                   qsTr("Aspect Ratio")
-                                visible:                _isGst && QGroundControl.settingsManager.videoSettings.aspectRatio.visible
-                            }
-                            FactTextField {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.aspectRatio
-                                visible:                _isGst && QGroundControl.settingsManager.videoSettings.aspectRatio.visible
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("Disable When Disarmed")
-                                visible:                _isGst && QGroundControl.settingsManager.videoSettings.disableWhenDisarmed.visible
-                            }
-                            FactCheckBox {
-                                text:                   ""
-                                fact:                   QGroundControl.settingsManager.videoSettings.disableWhenDisarmed
-                                visible:                _isGst && QGroundControl.settingsManager.videoSettings.disableWhenDisarmed.visible
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        id:                             videoRecSectionLabel
-                        text:                           qsTr("Video Recording")
-                        visible:                        (QGroundControl.settingsManager.videoSettings.visible && _isGst) || QGroundControl.videoManager.autoStreamConfigured
-                    }
-                    Rectangle {
-                        Layout.preferredWidth:          videoRecCol.width  + (_margins * 2)
-                        Layout.preferredHeight:         videoRecCol.height + (_margins * 2)
-                        Layout.fillWidth:               true
-                        color:                          qgcPal.windowShade
-                        visible:                        videoRecSectionLabel.visible
-
-                        GridLayout {
-                            id:                         videoRecCol
-                            anchors.margins:            _margins
-                            anchors.top:                parent.top
-                            anchors.horizontalCenter:   parent.horizontalCenter
-                            Layout.fillWidth:           false
-                            columns:                    2
-
-                            QGCLabel {
-                                text:                   qsTr("Auto-Delete Files")
-                                visible:                QGroundControl.settingsManager.videoSettings.enableStorageLimit.visible
-                            }
-                            FactCheckBox {
-                                text:                   ""
-                                fact:                   QGroundControl.settingsManager.videoSettings.enableStorageLimit
-                                visible:                QGroundControl.settingsManager.videoSettings.enableStorageLimit.visible
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("Max Storage Usage")
-                                visible:                QGroundControl.settingsManager.videoSettings.maxVideoSize.visible && QGroundControl.settingsManager.videoSettings.enableStorageLimit.value
-                            }
-                            FactTextField {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.maxVideoSize
-                                visible:                QGroundControl.settingsManager.videoSettings.maxVideoSize.visible && QGroundControl.settingsManager.videoSettings.enableStorageLimit.value
-                            }
-
-                            QGCLabel {
-                                text:                   qsTr("Video File Format")
-                                visible:                QGroundControl.settingsManager.videoSettings.recordingFormat.visible
-                            }
-                            FactComboBox {
-                                Layout.preferredWidth:  _comboFieldWidth
-                                fact:                   QGroundControl.settingsManager.videoSettings.recordingFormat
-                                visible:                QGroundControl.settingsManager.videoSettings.recordingFormat.visible
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins; visible: videoRecSectionLabel.visible }
-
-                    QGCLabel {
-                        id:         brandImageSectionLabel
-                        text:       qsTr("Brand Image")
-                        visible:    QGroundControl.settingsManager.brandImageSettings.visible && !ScreenTools.isMobile
-                    }
-                    Rectangle {
-                        Layout.preferredWidth:  brandImageGrid.width + (_margins * 2)
-                        Layout.preferredHeight: brandImageGrid.height + (_margins * 2)
-                        Layout.fillWidth:       true
-                        color:                  qgcPal.windowShade
-                        visible:                brandImageSectionLabel.visible
-
-                        GridLayout {
-                            id:                 brandImageGrid
-                            anchors.margins:    _margins
-                            anchors.top:        parent.top
-                            anchors.left:       parent.left
-                            anchors.right:      parent.right
-                            columns:            3
-
-                            QGCLabel {
-                                text:           qsTr("Indoor Image")
-                                visible:        _userBrandImageIndoor.visible
-                            }
-                            QGCTextField {
-                                readOnly:           true
-                                Layout.fillWidth:   true
-                                text:               _userBrandImageIndoor.valueString.replace("file:///","")
-                            }
-                            QGCButton {
-                                text:       qsTr("Browse")
-                                onClicked:  userBrandImageIndoorBrowseDialog.openForLoad()
-                                QGCFileDialog {
-                                    id:                 userBrandImageIndoorBrowseDialog
-                                    title:              qsTr("Choose custom brand image file")
-                                    folder:             _userBrandImageIndoor.rawValue.replace("file:///","")
-                                    selectExisting:     true
-                                    selectFolder:       false
-                                    onAcceptedForLoad:  _userBrandImageIndoor.rawValue = "file:///" + file
-                                }
-                            }
-
-                            QGCLabel {
-                                text:       qsTr("Outdoor Image")
-                                visible:    _userBrandImageOutdoor.visible
-                            }
-                            QGCTextField {
-                                readOnly:           true
-                                Layout.fillWidth:   true
-                                text:                _userBrandImageOutdoor.valueString.replace("file:///","")
-                            }
-                            QGCButton {
-                                text:       qsTr("Browse")
-                                onClicked:  userBrandImageOutdoorBrowseDialog.openForLoad()
-                                QGCFileDialog {
-                                    id:                 userBrandImageOutdoorBrowseDialog
-                                    title:              qsTr("Choose custom brand image file")
-                                    folder:             _userBrandImageOutdoor.rawValue.replace("file:///","")
-                                    selectExisting:     true
-                                    selectFolder:       false
-                                    onAcceptedForLoad:  _userBrandImageOutdoor.rawValue = "file:///" + file
-                                }
-                            }
-                            QGCButton {
-                                text:               qsTr("Reset Default Brand Image")
-                                Layout.columnSpan:  3
-                                Layout.alignment:   Qt.AlignHCenter
-                                onClicked:  {
-                                    _userBrandImageIndoor.rawValue = ""
-                                    _userBrandImageOutdoor.rawValue = ""
-                                }
-                            }
-                        }
-                    }
-
-                    Item { width: 1; height: _margins }
-
-                    QGCLabel {
-                        text:               qsTr("%1 Version").arg(QGroundControl.appName)
-                        Layout.alignment:   Qt.AlignHCenter
-                    }
-                    QGCLabel {
-                        text:               QGroundControl.qgcVersion
-                        Layout.alignment:   Qt.AlignHCenter
                     }
                 } // settingsColumn
             }
