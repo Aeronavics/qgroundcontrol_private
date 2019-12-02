@@ -5,6 +5,7 @@
     <qresource prefix="/custom">
         <file alias="CustomMavlinkSettings.qml">res/SettingsPage/MavlinkSettings.qml</file>
         <file alias="CustomLogSettings.qml">res/SettingsPage/LogSettings.qml</file>
+        <file alias="CustomAeronavicsMapping.qml">res/SettingsPage/AeronavicsMapping.qml</file>
     </qresource>
     <qresource prefix="custom/img">
         <file alias="aeronavics.svg">res/Images/aeronavics.svg</file>

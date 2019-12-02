@@ -24,10 +24,11 @@
 #include <QSettings>
 
 static const char* kCustomMAVLinkLogGroup = "CustomMAVLinkLogGroup";
+static const char* kCustomWebODMGroup     = "CustomWebODMGroup";
 static const char* kNetworkIdKey         = "NetworkId";
 static const char* kSerialNumberKey       = "SerialNumber";
 static const char* kEnableAutoUploadKey = "EnableAutoUpload";
-static const char* kUsernameKey         = "Username"
+static const char* kUsernameKey         = "Username";
 
 //-----------------------------------------------------------------------------
 CustomQuickInterface::CustomQuickInterface(QObject* parent) : QObject(parent) {
@@ -50,6 +51,9 @@ void CustomQuickInterface::init(QGCApplication* app) {
     setSerialNumber(
         settings.value(kSerialNumberKey, QString("Unknown")).toString());
     setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
+    settings.beginGroup(kCustomWebODMGroup);
+    setUsername(
+        settings.value(kUsernameKey, QString("Unknown")).toString());
 
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
@@ -89,4 +93,14 @@ void CustomQuickInterface::setEnableAutoUpload(bool enable) {
 bool CustomQuickInterface::test_connection(QString networkId) {
     return (CustomLogManager::queryLogServer(networkId.toStdString(), "") !=
             "");
+}
+
+//-----------------------------------------------------------------------------
+void CustomQuickInterface::setUsername(QString username) {
+    qDebug() << "setUsername" << username;
+    _username = username;
+    QSettings settings;
+    settings.beginGroup(kCustomWebODMGroup);
+    settings.value(kUsernameKey, username);
+    emit usernameChanged();
 }

@@ -148,7 +148,7 @@ CustomPlugin::settingsPages()
         addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
         addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",    "qrc:/res/waves.svg");
         addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",      "qrc:/res/waves.svg");
-        addSettingsEntry(tr("Aeronavics Mapping"), "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
+        addSettingsEntry(tr("Aeronavics Mapping"), "qrc:/custom/CustomAeronavicsMapping.qml", "qrc:/res/gear-white.svg");
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif

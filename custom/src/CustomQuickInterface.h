@@ -45,6 +45,7 @@ class CustomQuickInterface : public QObject {
 
     QString          networkId() { return _networkId; }
     QString          serialNumber() { return _serialNumber; }
+    QString          username() { return _username;}
     bool             enableAutoUpload() { return _enableAutoUpload; }
     Q_INVOKABLE bool test_connection(QString networkId);
 
@@ -52,6 +53,7 @@ class CustomQuickInterface : public QObject {
 
     void setNetworkId(QString networkId);
     void setSerialNumber(QString serialNumber);
+    void setUsername(QString username);
     void setEnableAutoUpload(bool enable);
   signals:
     // void showGimbalControlChanged();
@@ -59,6 +61,7 @@ class CustomQuickInterface : public QObject {
     void networkIdChanged();
     void serialNumberChanged();
     void enableAutoUploadChanged();
+    void usernameChanged();
 
   private:
     // bool _showGimbalControl = true;
@@ -66,4 +69,5 @@ class CustomQuickInterface : public QObject {
     QString _serialNumber;
     QString _logPath;
     bool    _enableAutoUpload;
+    QString _username;
 };

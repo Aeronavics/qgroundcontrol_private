@@ -1,3 +1,4 @@
 module Custom.SettingPage
 
 MavlinkSettings 1.0 MavlinkSettings.qml
+AeronavicsMapping 1.0 AeronavicsMapping.qml
