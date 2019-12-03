@@ -36,6 +36,7 @@ class CustomQuickInterface : public QObject {
                    NOTIFY serialNumberChanged)
     Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
                    setEnableAutoUpload NOTIFY enableAutoUploadChanged)
+    Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);

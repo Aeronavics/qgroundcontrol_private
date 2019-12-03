@@ -104,6 +104,7 @@ Rectangle {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
+                                    text: CustomQuickInterface.username
                                 }
                             }
                             Row {

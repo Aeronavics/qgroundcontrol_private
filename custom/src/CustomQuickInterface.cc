@@ -53,7 +53,7 @@ void CustomQuickInterface::init(QGCApplication* app) {
     setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
     settings.beginGroup(kCustomWebODMGroup);
     setUsername(
-        settings.value(kUsernameKey, QString("Unknown")).toString());
+        settings.value(kUsernameKey, QString("james")).toString());
 
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
