@@ -122,6 +122,25 @@ Rectangle {
                                     echoMode: TextInput.Password
                                 }
                             }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCButton {
+                                    id: checkButton
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticleCenter
+                                    text: qsTr("Check Credentials")
+                                    property string toolTipText: passwordField.text
+                                    ToolTip.visible: toolTipText ? ckeckma.containsMouse : false
+                                    ToolTip.text: toolTipText
+                                    MouseArea {
+                                        id: checkma
+                                        anchors.fill: parent
+                                        hoverEnabled: true
+                                    }
+                                }
+                            }
                         }
                     }
 
@@ -201,7 +220,7 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                FactCheckBox {
+                                QGCCheckBox {
                                     id: pcclassify
                                     text: qsTr("Enable")
                                     width: _labelWidth
@@ -246,7 +265,7 @@ Rectangle {
                                 QGCTextField {
                                     id:     smrfScalar
                                     anchors.baseline: smrfScalarInfo.baseline
-                                    width:  _comboFieldWidth
+                                    width:  _comboFieldWidth 
                                 }
                                 QGCButton {
                                     id: smrfScalarInfo

@@ -1,0 +1,10 @@
+[
+{
+    "name":               "smrfScalar",
+    "shortDescription":   "smrf elavation scalar",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       1.25
+}
+]

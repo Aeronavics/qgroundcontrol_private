@@ -101,6 +101,6 @@ void CustomQuickInterface::setUsername(QString username) {
     _username = username;
     QSettings settings;
     settings.beginGroup(kCustomWebODMGroup);
-    settings.value(kUsernameKey, username);
+    settings.setValue(kUsernameKey, username);
     emit usernameChanged();
 }
