@@ -447,7 +447,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:      rerunFrom
-                                    anchors.baseline: rerunFromInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.rerunFrom
                                 }
@@ -531,7 +531,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox { 
                                     id:      orthophotoCompression
-                                    anchors.baseline: orthophotoCompressionInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.orthophotoCompression
                                 }
@@ -708,7 +708,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox { 
                                     id:      texturingOutlierRemoveType
-                                    anchors.baseline: texturingOutlierRemoveTypeInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     fact: QGroundControl.settingsManager.appSettings.TexturingOutlierRemovalType
                                     width:  _comboFieldWidth
                                 }
@@ -1660,7 +1660,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:      merge
-                                    anchors.baseline: mergeInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.merge
                                 }
@@ -1822,7 +1822,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:     textureToneMapping
-                                    anchors.baseline: textureToneMappingInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.texturingToneMapping
                                 }
@@ -1906,7 +1906,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:     cameraLens
-                                    anchors.baseline: cameraLensInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.cameraLens
                                 }
@@ -2059,7 +2059,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:     endWith
-                                    anchors.baseline: endWithInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.endWith
                                 }
@@ -2126,7 +2126,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:     texturingDataTerm
-                                    anchors.baseline: texturingDataTermInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.texturingDataTerm
                                 }
@@ -2210,7 +2210,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactComboBox {
                                     id:     opensfmDepthmapMethod
-                                    anchors.baseline: opensfmDepthmapMethodInfo.baseline
+                                    anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
                                     fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMethod
                                 }
