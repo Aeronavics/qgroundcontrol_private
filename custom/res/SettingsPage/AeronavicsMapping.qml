@@ -500,13 +500,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Use a fill 3D mesh to compute the orthophoto instead of a 2.5D mesh. This option is a bit faster and provides similar results in planar areas. Default: false"
-                                    ToolTip.visible: toolTipText ? use3Dmeshma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: use3Dmeshma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpuse3dDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpuse3dDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: use3Dmesh.fact
+                                        }
                                     }
                                 }
                             }
@@ -542,13 +541,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Set the compression to use. Note that this could break gdal_translate if you don't know what you are doing. Default deflate"
-                                    ToolTip.visible: toolTipText ? orthophotoCompressionma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: orthophotoCompressionma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helporthophotoCompressionDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helporthophotoCompressionDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: orthophotoCompression.fact
+                                        }
                                     }
                                 }
                             }
@@ -611,13 +609,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skip filling hole in the mesh. Default: false"
-                                    ToolTip.visible: toolTipText ? texturingSkipHoleFillingma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingSkipHoleFillingma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingSkipHoleFillingDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingSkipHoleFillingDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingSkipHoleFilling.fact
+                                        }
                                     }
                                 }
                             }
@@ -654,13 +651,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skip global seam leveling. Useful for IR data. Default: false"
-                                    ToolTip.visible: toolTipText ? texturingSkipSeamFillingma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingSkipSeamFillingma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingSkipSeamFillingDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingSkipSeamFillingDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingSkipSeamFilling.fact
+                                        }
                                     }
                                 }
                             }
@@ -722,13 +718,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Type of photometric outlier removal method. Default gauss clamping"
-                                    ToolTip.visible: toolTipText ? texturingOutlierRemoveTypema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingOutlierRemoveTypema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingOutlierRemoveTypeDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingOutlierRemoveTypeDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingOutlierRemoveType.fact
+                                        } 
                                     }
                                 }
                             }
@@ -791,13 +786,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Use this tag to build a DTM (Digital Terrain Model, ground only) using a simple morphological filter. Check the --dem* and --smrf* parameters for finer tuning. Default: false"
-                                    ToolTip.visible: toolTipText ? dtmma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: dtmma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpdtmDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpdtmDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: dtm.fact
+                                        }
                                     }
                                 }
                             }
@@ -834,13 +828,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Set this parameter if you want a stripped geoTIFF. Default: false"
-                                    ToolTip.visible: toolTipText ? orthoNoTiledma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: orthoNoTiledma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helporthoNoTiledDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helporthoNoTiledDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: orthoNoTiled.fact
+                                        }
                                     }
                                 }
                             }
@@ -930,13 +923,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Uses images' GPS exif data for reconstruction, even if there are GCPs present. This flag is useful if you have high precision GPS measurements. If there are no GCPs, this flag does nothing. Default: false"
-                                    ToolTip.visible: toolTipText ? forceGPSma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: forceGPSma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpforceGPSDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpforceGPSDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: forceGPS.fact
+                                        }
                                     }
                                 }
                             }
@@ -973,13 +965,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Ignore ground sampling distance (GSD). GSD caps the maximum resolution of image outputs and resizes images when necessary, resulting in faster processing and lower memory usage. Since GSD is an estimate, sometimes ignoring it can result in slightly better image output quality. Default: false"
-                                    ToolTip.visible: toolTipText ? ignoregsdma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: ignoregsdma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpignoregsdDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpignoregsdDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: ignoregsd.fact
+                                        }
                                     }
                                 }
                             }
@@ -1017,13 +1008,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Build orthophoto overviews using gdaladdo. Default: false"
-                                    ToolTip.visible: toolTipText ? buildOverviewsma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: buildOverviewsma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpbuildOverviewsDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpbuildOverviewsDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: buildOverviews.fact
+                                        }
                                     }
                                 }
                             }
@@ -1061,13 +1051,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Use opensfm to compute dense point cloud alternatively. Default: false"
-                                    ToolTip.visible: toolTipText ? opensfmDensema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: opensfmDensema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpopensfmDenseDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpopensfmDenseDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: opensfmDense.fact
+                                        }
                                     }
                                 }
                             }
@@ -1131,13 +1120,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skip local seam blending. Default: false"
-                                    ToolTip.visible: toolTipText ? texturingSkipLocalSeamLevelingma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingSkipLocalSeamLevelingma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingSkipLocalSeamLevelingDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingSkipLocalSeamLevelingDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingSkipLocalSeamLeveling.fact
+                                        }
                                     }
                                 }
                             }
@@ -1175,13 +1163,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Keep faces in the mesh that are not seen in any camera. Default: false"
-                                    ToolTip.visible: toolTipText ? texturingKeepUnseenFacesma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingKeepUnseenFacesma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingKeepUnseenFacesDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingKeepUnseenFacesDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingKeepUnseenFaces.fact
+                                        }
                                     }
                                 }
                             }
@@ -1219,13 +1206,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Print debug messages. Default: false"
-                                    ToolTip.visible: toolTipText ? debugma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: debugma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpdebugDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpdebugDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: debug.fact
+                                        }
                                     }
                                 }
                             }
@@ -1263,13 +1249,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Use this tag when you have a gcp_list.txt but want to use exif geotags instead. Default: false"
-                                    ToolTip.visible: toolTipText ? useExifma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: useExifma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpuseExifDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpuseExifDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: useExif.fact
+                                        }
                                     }
                                 }
                             }
@@ -1437,13 +1422,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Generates a polygon around the cropping area that cuts the orthophoto around the edges of the feature. This polygome can be useful for stitching seamless mosaics with multiple overlapping orthophotos. Default: false"
-                                    ToolTip.visible: toolTipText ? orthoCutlinema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: orthoCutlinema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helporthoCutlineDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helporthoCutlineDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: orthoCutline.fact
+                                        }
                                     }
                                 }
                             }
@@ -1533,13 +1517,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skips dense reconsturction and 3D model generation. It generates an orthophoto directly from the sparse reconstruction. If you just need an orthophoto and do nopt need a full 3D model, turn on this option. Experimental. Default: false"
-                                    ToolTip.visible: toolTipText ? fastOrthoma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: fastOrthoma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpfastOrthoDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpfastOrthoDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: fastOrtho.fact
+                                        }
                                     }
                                 }
                             }
@@ -1577,13 +1560,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Export the georeferenced point cloud in the Entwine Point Tile (EPT) format. Default: false"
-                                    ToolTip.visible: toolTipText ? pcEptma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: pcEptma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helppcEptDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helppcEptDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: pcEpt.fact
+                                        }
                                     }
                                 }
                             }
@@ -1647,13 +1629,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Export the georeferenced point cloud in LAS format. Default: false"
-                                    ToolTip.visible: toolTipText ? pcLasma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: pcLasma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helppcLasDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helppcLasDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: pcLas.fact
+                                        }
                                     }
                                 }
                             }
@@ -1689,13 +1670,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Choose what to merge in the merge step in a split dataset. By default all avaiable outputs are merged. Default: all"
-                                    ToolTip.visible: toolTipText ? mergema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: mergema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpmergeDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpmergeDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: merge.fact
+                                        }
                                     }
                                 }
                             }
@@ -1733,13 +1713,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Use this tag to build a DSM (Digital Surface Model, ground + objects) using a progressive morphological filter. Check the --dem* parameters for finer tuning. Default: false"
-                                    ToolTip.visible: toolTipText ? dsmma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: dsmma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpdsmDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpdsmDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: dsm.fact
+                                        }
                                     }
                                 }
                             }
@@ -1853,13 +1832,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Turn on gamma tone mapping or none for no tone mapping. Default: none"
-                                    ToolTip.visible: toolTipText ? textureToneMappingma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: textureToneMappingma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptextureToneMappingDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptextureToneMappingDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: textureToneMapping.fact
+                                        }
                                     }
                                 }
                             }
@@ -1897,13 +1875,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Computes an euclidean raste map for each DEM. The map reports the distance from each cell to to the nearest NODATA value (before any hole filling takes place). This can be useful to isolate the areas that have been filled. Default: false"
-                                    ToolTip.visible: toolTipText ? demEuclidianMapma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: demEuclidianMapma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpdemEuclidianMapDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpdemEuclidianMapDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: demEuclidianMap.fact
+                                        }
                                     }
                                 }
                             }
@@ -1939,13 +1916,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Set a camera projection type. Manually set a value can help improve geometric undistortion. By default the application tries to determine a lens type from the images metedata. Default: auto"
-                                    ToolTip.visible: toolTipText ? cameraLensma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: cameraLensma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpcameraLensDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpcameraLensDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: cameraLens.fact
+                                        }
                                     }
                                 }
                             }
@@ -1983,13 +1959,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skips generation of the full 3D model. This can save time if you only need 2D results such as orthophotos and DEMs. Default: false"
-                                    ToolTip.visible: toolTipText ? skip3dmodelma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: skip3dmodelma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpskip3dmodelDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpskip3dmodelDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: skip3dmodel.fact
+                                        }
                                     }
                                 }
                             }
@@ -2053,13 +2028,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Exports the georeferenced point cloud in CSV format. Default: false"
-                                    ToolTip.visible: toolTipText ? pcCsvma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: pcCsvma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helppcCsvDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helppcCsvDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: pcCsv.fact
+                                        }
                                     }
                                 }
                             }
@@ -2095,13 +2069,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Can be one of: dataset, split, merge, opensfm, mve, odm_filterpoints, odm_meshing, mvs_texturing, odm_georeferencing, odm_dem, odm_orthophoto. Default: odm_orthophoto"
-                                    ToolTip.visible: toolTipText ? endWithma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: endWithma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpendWithDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpendWithDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: endWith.fact
+                                        }
                                     }
                                 }
                             }
@@ -2163,13 +2136,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Data term:[area, gmi]. Default: gmi"
-                                    ToolTip.visible: toolTipText ? texturingDataTermma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingDataTermma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingDataTermDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingDataTermDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingDataTerm.fact
+                                        }
                                     }
                                 }
                             }
@@ -2207,13 +2179,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Skip geometric visibility test. Default: false"
-                                    ToolTip.visible: toolTipText ? texturingSkipVisibilityTestma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: texturingSkipVisibilityTestma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helptexturingSkipVisibilityTestTermDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helptexturingSkipVisibilityTestTermDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: texturingSkipVisibilityTest.fact
+                                        }
                                     }
                                 }
                             }
@@ -2249,13 +2220,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Raw depthmap computation algorithm. PATCH_MATCH and PATCH_MATCH_SAMPLE are faster, but might miss some valid points. BRUTE_FORCE takes longer but produces denser reconstuctions. Default: PATCH_MATCH"
-                                    ToolTip.visible: toolTipText ? opensfmDepthmapMethodma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: opensfmDepthmapMethodma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpopensfmDepthmapMethodDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpopensfmDepthmapMethodDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: opensfmDepthmapMethod.fact
+                                        }
                                     }
                                 }
                             }
@@ -2293,13 +2263,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Turn off camera parameter optimization during bundler. Default: false"
-                                    ToolTip.visible: toolTipText ? fixedCameraParamsma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: fixedCameraParamsma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpfixedCameraParamsDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpfixedCameraParamsDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: fixedCameraParams.fact
+                                        }
                                     }
                                 }
                             }
@@ -2363,13 +2332,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Print additional messages to the console. Default: false"
-                                    ToolTip.visible: toolTipText ? verbosema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: verbosema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helpverboseDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helpverboseDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: verbose.fact
+                                        }
                                     }
                                 }
                             }
@@ -2407,13 +2375,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Run local bundle adjustment for every image added to the reconstruction and a global adjustment every 100 images. Speeds up reconstruction for very large datasets. Default: false"
-                                    ToolTip.visible: toolTipText ? hybridBundleAdjustmentma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: hybridBundleAdjustmentma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helphybridBundleAdjustmentDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helphybridBundleAdjustmentDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: hybridBundleAdjustment.fact
+                                        }
                                     }
                                 }
                             }
