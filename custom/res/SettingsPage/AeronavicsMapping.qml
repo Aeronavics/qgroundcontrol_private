@@ -683,6 +683,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      testuringNadirweight
                                     fact: QGroundControl.settingsManager.appSettings.TexturingNadirWeight
@@ -750,6 +751,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      othroRes
                                     width:  _comboFieldWidth
@@ -861,6 +863,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      demRes
                                     width:  _comboFieldWidth
@@ -886,6 +889,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      meshSize
                                     width:  _comboFieldWidth
@@ -1086,6 +1090,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      opensfmDepthmapMinConsistentViews
                                     width:  _comboFieldWidth
@@ -1287,6 +1292,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      meshSamples
                                     width:  _comboFieldWidth
@@ -1312,6 +1318,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      pcSample
                                     width:  _comboFieldWidth
@@ -1363,6 +1370,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      splitOverlap
                                     width:  _comboFieldWidth
@@ -1388,6 +1396,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      demDecimation
                                     width:  _comboFieldWidth
@@ -1457,6 +1466,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      pcFilter
                                     width:  _comboFieldWidth
@@ -1482,6 +1492,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      split
                                     width:  _comboFieldWidth
@@ -1595,6 +1606,7 @@ Rectangle {
                             }   
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      crop
                                     width:  _comboFieldWidth
@@ -1750,6 +1762,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      demGapfillSteps
                                     width:  _comboFieldWidth
@@ -1801,6 +1814,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      maxConcurrency
                                     width:  _comboFieldWidth
@@ -1998,6 +2012,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      matchNeighbours
                                     width:  _comboFieldWidth
@@ -2109,6 +2124,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      depthmapRes
                                     width:  _comboFieldWidth
@@ -2306,6 +2322,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      smrfThreshold
                                     width:  _comboFieldWidth
