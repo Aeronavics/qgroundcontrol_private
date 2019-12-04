@@ -100,7 +100,7 @@ Rectangle {
                                     anchors.baseline:  usernameField.baseline
                                     text:              qsTr("Email: ")
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
@@ -115,7 +115,7 @@ Rectangle {
                                     anchors.baseline:  passwordField.baseline
                                     text:              qsTr("Password: ")
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id: passwordField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
@@ -132,7 +132,7 @@ Rectangle {
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("Check Credentials")
                                     property string toolTipText: passwordField.text
-                                    ToolTip.visible: toolTipText ? ckeckma.containsMouse : false
+                                    ToolTip.visible: toolTipText ? checkma.containsMouse : false
                                     ToolTip.text: toolTipText
                                     MouseArea {
                                         id: checkma
@@ -171,7 +171,7 @@ Rectangle {
                                     anchors.baseline: projectNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.language.visible
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id:                     projectNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:                  _comboFieldWidth
@@ -186,7 +186,7 @@ Rectangle {
                                     anchors.baseline: taskNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.indoorPalette.visible
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id:     taskNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:  _comboFieldWidth
@@ -220,11 +220,12 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCCheckBox {
+                                FactCheckBox {
                                     id: pcclassify
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcclassifyInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.pcClassify
                                 }
                                 QGCButton {
                                     id: pcclassifyInfo
@@ -232,13 +233,12 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Classify the point cloud outputs using a Simple Morphological Filter. You can control the behaviour of this option by tweaking the --dem-* parameters. Default: false"
-                                    ToolTip.visible: toolTipText ? ma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: ma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helppcclassifyDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helppcclassifyDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: pcclassify.fact
+                                        }
                                     }
                                 }
                             }
@@ -262,26 +262,12 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:     smrfScalar
-                                    anchors.baseline: smrfScalarInfo.baseline
                                     width:  _comboFieldWidth 
+                                    fact: QGroundControl.settingsManager.appSettings.smrfScalar
                                 }
-                                QGCButton {
-                                    id: smrfScalarInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Simple Morphological Filter elevation scalar parameter. Default: 1.25"
-                                    ToolTip.visible: toolTipText ? smfrScalarma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: smfrScalarma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
-                                }
+                                
                             }
                             MenuSeparator {
                                 padding: 0
@@ -303,25 +289,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:     opensfmDepthmapMinPatch
-                                    anchors.baseline: opensfmDepthmapMinPatchInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: opensfmDepthmapMinPatchInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "When using PATCH_MATCH or PATCH_MATCH_SAMPLE, controls the standard deviation threshold to include patched. Patches with lower standard deviation are ignored. Default: 1"
-                                    ToolTip.visible: toolTipText ? opensfmDepthmapMinPatchma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: opensfmDepthmapMinPatchma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMinPatchSd
                                 }
                             }
                             MenuSeparator {
@@ -344,25 +315,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      smrfWindow
-                                    anchors.baseline: smrfWindowInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: smrfWindowInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Simple Morphological Filter window raduis parameter (meters). Default: 18"
-                                    ToolTip.visible: toolTipText ? smrfWindowma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: smrfWindowma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.smrfWindow
                                 }
                             }
                             MenuSeparator {
@@ -385,25 +341,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      meshOctreeDepth
-                                    anchors.baseline: meshOctreeDepthInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: meshOctreeDepthInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Oct-tree depth used in the mesh reconstruction, increase to get more vertices recommended values are 8-12. Default: 9"
-                                    ToolTip.visible: toolTipText ? meshOctreeDepthma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: meshOctreeDepthma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.meshOctreeDepth
                                 }
                             }
                             MenuSeparator {
@@ -424,27 +365,12 @@ Rectangle {
                                 }
                             }
                             Row {
-                                spacing: ScreenTools.defaultFontPixelWidth
+                                spacing: ScreenTools.defaultFontPixelWidth 
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      minNumFeatures
-                                    anchors.baseline: minNumFeaturesInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: minNumFeaturesInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Minimum number of features to extract per image. More features leads to better results but slower execution. Default: 8000"
-                                    ToolTip.visible: toolTipText ? minNumFeaturesma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: minNumFeaturesma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.minNumFeatures
                                 }
                             }
                             MenuSeparator {
@@ -467,25 +393,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      resizeTo
-                                    anchors.baseline: resizeToInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: resizeToInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Resizes images by the largest side for feature extraction purposes only. Set to -1 to disable. this does not affest the final orthophoto resolution quality and will not resize the original images. Default: 2048"
-                                    ToolTip.visible: toolTipText ? resizeToma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: resizeToma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.resizeTo
                                 }
                             }
                             MenuSeparator {
@@ -508,25 +419,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      smrfSlope
-                                    anchors.baseline: smrfSlopeInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: smrfSlopeInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Simple Morphological Filter slope parameter (rise over run). Default: 0.15"
-                                    ToolTip.visible: toolTipText ? smrfSlopema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: smrfSlopema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.smrfSlope
                                 }
                             }
                             MenuSeparator {
@@ -549,11 +445,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:      rerunFrom
                                     anchors.baseline: rerunFromInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["dataset", "split","merge","opensfm","mve","odm_filterpoints","odm_meshing","mvs_texturing","odm_georeferencing","odm_dem","odm_orthophoto"]
+                                    fact: QGroundControl.settingsManager.appSettings.rerunFrom
                                 }
                                 QGCButton {
                                     id: rerunFromInfo
@@ -561,14 +457,14 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticleCenter
                                     text: qsTr("\uD83D")
-                                    property string toolTipText: "Can be one of: dataset | split | merge | opensfm | mve | odm_filterpoints | odm_meshing | mvs_texturing | odm_georeferencing | odm_dem | odm_orthophoto"
-                                    ToolTip.visible: toolTipText ? rerunFromma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: rerunFromma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
+                                    onClicked: mainWindow.showComponentDialog(helprerunFromDialogComponent, qsTr("Value Details"), mainWindow.showDialogDefaultWidth, StandardButton.Save | StandardButton.Cancel)
+                                    Component {
+                                        id: helprerunFromDialogComponent
+                                        ParameterEditorDialog {
+                                            fact: rerunFrom.fact
+                                        }
                                     }
+
                                 }
                             }
                             MenuSeparator {
@@ -596,6 +492,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: use3DmeshInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.use3dmesh
                                 }
                                 QGCButton {
                                     id: use3DmeshInfo
@@ -633,11 +530,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox { 
+                                FactComboBox { 
                                     id:      orthophotoCompression
                                     anchors.baseline: orthophotoCompressionInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["deflate", "JPEG","LZW","Packbits","LZMA","none"]
+                                    fact: QGroundControl.settingsManager.appSettings.orthophotoCompression
                                 }
                                 QGCButton {
                                     id: orthophotoCompressionInfo
@@ -675,25 +572,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      mveConfidence
-                                    anchors.baseline: mveConfidenceInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: mveConfidenceInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Dicard points that have les than a certain confidence threshold. This only affects dense reconstructions performed with MVE. Higher values discard more points. Default: 0.6"
-                                    ToolTip.visible: toolTipText ? mveConfidencema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: mveConfidencema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.mveConfidence
                                 }
                             }
                             MenuSeparator {
@@ -721,6 +603,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipHoleFillingInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipHoleFilling
                                 }
                                 QGCButton {
                                     id: texturingSkipHoleFillingInfo
@@ -763,6 +646,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipSeamFillingInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipGlobalSeamLeveling
                                 }
                                 QGCButton {
                                     id: texturingSkipSeamFillingInfo
@@ -799,26 +683,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      testuringNadirweight
-                                    anchors.baseline: testuringNadirweightInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.TexturingNadirWeight
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: testuringNadirweightInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Affects orthophotos only. Higher values result in sharper corners, but it can affect colour distribution and blurriness. Use lower values for planar areas and higher values for urban areas. The default value works well for most scenarios. Default: 16"
-                                    ToolTip.visible: toolTipText ? testuringNadirweightma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: testuringNadirweightma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
                                 }
                             }
                             MenuSeparator {
@@ -841,11 +709,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox { 
+                                FactComboBox { 
                                     id:      texturingOutlierRemoveType
                                     anchors.baseline: texturingOutlierRemoveTypeInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.TexturingOutlierRemovalType
                                     width:  _comboFieldWidth
-                                    model: ["gauss_clamping", "gauss_damping","none"]
                                 }
                                 QGCButton {
                                     id: texturingOutlierRemoveTypeInfo
@@ -882,26 +750,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      othroRes
-                                    anchors.baseline: othroResInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: othroResInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Orthophoto resoultion in cm/pixel. Default: 5"
-                                    ToolTip.visible: toolTipText ? othroResma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: othroResma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.OthrophotoResolution
                                 }
                             }
                             MenuSeparator {
@@ -929,6 +781,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dtmInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.dtm
                                 }
                                 QGCButton {
                                     id: dtmInfo
@@ -970,6 +823,7 @@ Rectangle {
                                     id: orthoNoTiled
                                     text: qsTr("Enable")
                                     width: _labelWidth
+                                    fact: QGroundControl.settingsManager.appSettings.orthophotoNoTiled
                                     anchors.baseline: orthoNoTiledInfo.baseline
                                 }
                                 QGCButton {
@@ -1007,26 +861,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      demRes
-                                    anchors.baseline: demResInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: demResInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "DSM/DTM resoultion in cm/pixel. Default: 5"
-                                    ToolTip.visible: toolTipText ? demResma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: demResma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.demResolution
                                 }
                             }
                             MenuSeparator {
@@ -1048,26 +886,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      meshSize
-                                    anchors.baseline: meshSizeInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: meshSizeInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "The maximum vertex count of the output mesh. Default: 100000"
-                                    ToolTip.visible: toolTipText ? meshSizema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: meshSizema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.meshSize
                                 }
                             }
                             MenuSeparator {
@@ -1095,6 +917,7 @@ Rectangle {
                                     id: forceGPS
                                     text: qsTr("Enable")
                                     width: _labelWidth
+                                    fact: QGroundControl.settingsManager.appSettings.forceGPS
                                     anchors.baseline: forceGPSInfo.baseline
                                 }
                                 QGCButton {
@@ -1138,6 +961,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: ignoregsdInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.ignoreGsd
                                 }
                                 QGCButton {
                                     id: ignoregsdInfo
@@ -1181,6 +1005,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: buildOverviewsInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.buildOverviews
                                 }
                                 QGCButton {
                                     id: buildOverviewsInfo
@@ -1224,6 +1049,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: opensfmDenseInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.opensfmDense
                                 }
                                 QGCButton {
                                     id: opensfmDenseInfo
@@ -1260,26 +1086,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      opensfmDepthmapMinConsistentViews
-                                    anchors.baseline: opensfmDepthmapMinConsistentViewsInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: opensfmDepthmapMinConsistentViewsInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Minimum number of views that should reconstruct a point for it to be valid. Use lower values if your images have less overlap. Lower values result in denser point clouds but with more noise. Default: 3"
-                                    ToolTip.visible: toolTipText ? opensfmDepthmapMinConsistentViewsma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: opensfmDepthmapMinConsistentViewsma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMinConsistentViews
                                 }
                             }
                             MenuSeparator {
@@ -1308,6 +1118,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipLocalSeamLevelingInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.textureingSkipLocalSeamLeveling
                                 }
                                 QGCButton {
                                     id: texturingSkipLocalSeamLevelingInfo
@@ -1351,6 +1162,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingKeepUnseenFacesInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.textureingKeepUnseenFaces
                                 }
                                 QGCButton {
                                     id: texturingKeepUnseenFacesInfo
@@ -1394,6 +1206,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: debugInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.debug
                                 }
                                 QGCButton {
                                     id: debugInfo
@@ -1437,6 +1250,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: useExifInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.useExif
                                 }
                                 QGCButton {
                                     id: useExifInfo
@@ -1473,26 +1287,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      meshSamples
-                                    anchors.baseline: meshSamplesInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: meshSamplesInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Number of points per octree node. Recommended and Default: 1"
-                                    ToolTip.visible: toolTipText ? meshSamplesma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: meshSamplesma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.meshSamples
                                 }
                             }
                             MenuSeparator {
@@ -1514,26 +1312,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      pcSample
-                                    anchors.baseline: pcSampleInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: pcSampleInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Filters the point cloud by keeping only a single point around a radius N (in meters). This can be useful to limit the output resolution of the point cloud set to 0 to diable sampling. Default: 0"
-                                    ToolTip.visible: toolTipText ? pcSamplema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: pcSamplema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.pcSample
                                 }
                             }
                             MenuSeparator {
@@ -1556,25 +1338,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      matcherDistance
-                                    anchors.baseline: matcherDistanceInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: matcherDistanceInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Distance threshold in meters to find pre-matching images based on exif data. Set matcher-neighbors and this to 0 to skip pre-matching. Default: 0"
-                                    ToolTip.visible: toolTipText ? matcherDistancema.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: matcherDistancema
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.matcherDistance
                                 }
                             }
                             MenuSeparator {
@@ -1596,26 +1363,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      splitOverlap
-                                    anchors.baseline: splitOverlapInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: splitOverlapInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Radius of the overlap between submodels. After grouping images into clusters, images that are closer that this radius to a cluster are added to the cluster. This is done to ensure that the neighboring submodels overlap. Default: 150"
-                                    ToolTip.visible: toolTipText ? splitOverlapma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: splitOverlapma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.splitOverlap
                                 }
                             }
                             MenuSeparator {
@@ -1637,26 +1388,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      demDecimation
-                                    anchors.baseline: demDecimationInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id: demDecimationInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Decimate the points before generatiing the DEM. 1 is no decimation (full quality). 100 decimates ~99% of the points. Useful for speeding up the generation. Default: 1"
-                                    ToolTip.visible: toolTipText ? demDecimationma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: demDecimationma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.demDecimation
                                 }
                             }
                             MenuSeparator {
@@ -1685,6 +1420,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: orthoCutlineInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.orthophotoCutline
                                 }
                                 QGCButton {
                                     id: orthoCutlineInfo
@@ -1721,26 +1457,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      pcFilter
-                                    anchors.baseline: pcFilterInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  pcFilterInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Filters the point cloud by removing the points that deviate more that N standard deviations from the local mean. Set to 0 to disable filtering. Default: 2.5"
-                                    ToolTip.visible: toolTipText ? pcFilterma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: pcFilterma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.pcFilter
                                 }
                             }
                             MenuSeparator {
@@ -1762,26 +1482,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      split
-                                    anchors.baseline: splitInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  splitInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Average number of images per submodel. When splitting a large dataset into smaller submodels, images are grouped into clusters. This value regulates the number of images that each cluster should have on average. Default: 999999"
-                                    ToolTip.visible: toolTipText ? splitma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: splitma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.split
                                 }
                             }
                             MenuSeparator {
@@ -1810,6 +1514,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fastOrthoInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.fastOrthophoto
                                 }
                                 QGCButton {
                                     id: fastOrthoInfo
@@ -1853,6 +1558,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcEptInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.pcEpt
                                 }
                                 QGCButton {
                                     id: pcEptInfo
@@ -1889,26 +1595,10 @@ Rectangle {
                             }   
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      crop
-                                    anchors.baseline: cropInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  cropInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Automatically crop image outputs by creating a smooth buffer around the dataset boundaries, shrunk by N meters. Use 0 to disable cropping. Default: 3"
-                                    ToolTip.visible: toolTipText ? cropma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: cropma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.crop
                                 }
                             }
                             MenuSeparator {
@@ -1937,6 +1627,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcLasInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.pcLas
                                 }
                                 QGCButton {
                                     id: pcLasInfo
@@ -1974,11 +1665,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:      merge
                                     anchors.baseline: mergeInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["all", "orthophoto","pointcloud","dem"]
+                                    fact: QGroundControl.settingsManager.appSettings.merge
                                 }
                                 QGCButton {
                                     id: mergeInfo
@@ -2022,6 +1713,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dsmInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.dsm
                                 }
                                 QGCButton {
                                     id: dsmInfo
@@ -2058,26 +1750,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      demGapfillSteps
-                                    anchors.baseline: demGapfillStepsInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  demGapfillStepsInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Number of steps used to fill areas with gaps. Set to 0 to disable gap filling. Starting witha radius equal to the output resulotion, N different DEMs are generated with progressively bigger radius using the inverse distance weighted (IDW) algorthim and merged together. Remaining gaps are then merged using nearest neighbour interpolation. Default: 3"
-                                    ToolTip.visible: toolTipText ? demGapfillStepsma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: demGapfillStepsma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.demGapfillSteps
                                 }
                             }
                             MenuSeparator {
@@ -2100,25 +1776,10 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      meshPointWeight
-                                    anchors.baseline: meshPointWeightInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  meshPointWeightInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "This floating point number specifies the importance that interpolation of the point samples is given in the formulation of the screen Poisson equation. The results of the original (unscreened) Poisson Reconstruction can be obtained by setting this value to 0. Default: 4"
-                                    ToolTip.visible: toolTipText ? meshPointWeightma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: meshPointWeightma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.meshPointWeight
                                 }
                             }
                             MenuSeparator {
@@ -2140,26 +1801,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      maxConcurrency
-                                    anchors.baseline: maxConcurrencyInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  maxConcurrencyInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "The maximum number of processes to use in the various processes. Peak memory requirement is ~1GB per thread and 2 megapixel image resolution. Default: 16"
-                                    ToolTip.visible: toolTipText ? maxConcurrencyma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: maxConcurrencyma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.maxConcurrency
                                 }
                             }
                             MenuSeparator {
@@ -2182,11 +1827,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:     textureToneMapping
                                     anchors.baseline: textureToneMappingInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["none", "gamma","pointcloud","dem"]
+                                    fact: QGroundControl.settingsManager.appSettings.texturingToneMapping
                                 }
                                 QGCButton {
                                     id: textureToneMappingInfo 
@@ -2230,6 +1875,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: demEuclidianMapInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.demEuclidianMap
                                 }
                                 QGCButton {
                                     id: demEuclidianMapInfo
@@ -2267,11 +1913,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:     cameraLens
                                     anchors.baseline: cameraLensInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["auto", "perspective","brown","fisheye","spherical"]
+                                    fact: QGroundControl.settingsManager.appSettings.cameraLens
                                 }
                                 QGCButton {
                                     id: cameraLensInfo
@@ -2315,6 +1961,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: skip3dmodelInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.skip3dmodel
                                 }
                                 QGCButton {
                                     id: skip3dmodelInfo
@@ -2351,26 +1998,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      matchNeighbours
-                                    anchors.baseline: matchNeighboursInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  matchNeighboursInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Number of nearest images to pre-match based on GPS exif data. set to 0 to skip pre-matching. Neighbours works together with Distance parameter, set both to 0 to not user pre-matching. OpenSFM uses both parameters at the same time, bundler uses only one which has value, prefering Neighbours parameter. Default: 8"
-                                    ToolTip.visible: toolTipText ? matchNeighboursma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: matchNeighboursma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.matchNeighbours
                                 }
                             }
                             MenuSeparator {
@@ -2398,6 +2029,7 @@ Rectangle {
                                     id: pcCsv
                                     text: qsTr("Enable")
                                     width: _labelWidth
+                                    fact: QGroundControl.settingsManager.appSettings.pcCsv
                                     anchors.baseline: pcCsvInfo.baseline
                                 }
                                 QGCButton {
@@ -2436,11 +2068,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:     endWith
                                     anchors.baseline: endWithInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["odm_orthophoto","dataset","split", "merge", "opensfm", "mve", "odm_filterpoints", "odm_meshing", "mvs_texturing", "odm_georeferencing", "odm_dem"]
+                                    fact: QGroundControl.settingsManager.appSettings.endWith
                                 }
                                 QGCButton {
                                     id: endWithInfo
@@ -2477,26 +2109,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      depthmapRes
-                                    anchors.baseline: depthmapResInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  depthmapResInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Controls the density of the point cloud by setting the resolution of the depthmap images. Higher values take longer to compute but produce denser point clouds. Default: 640"
-                                    ToolTip.visible: toolTipText ? depthmapResma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: depthmapResma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.depthmapResolution
                                 }
                             }
                             MenuSeparator {
@@ -2519,11 +2135,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:     texturingDataTerm
                                     anchors.baseline: texturingDataTermInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["gmi","area"]
+                                    fact: QGroundControl.settingsManager.appSettings.texturingDataTerm
                                 }
                                 QGCButton {
                                     id: texturingDataTermInfo
@@ -2567,6 +2183,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipVisibilityTestInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipVisibilityTest
                                 }
                                 QGCButton {
                                     id: texturingSkipVisibilityTestInfo
@@ -2604,11 +2221,11 @@ Rectangle {
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 anchors.horizontalCenter: parent.horizontalCenter
-                                ComboBox {
+                                FactComboBox {
                                     id:     opensfmDepthmapMethod
                                     anchors.baseline: opensfmDepthmapMethodInfo.baseline
                                     width:  _comboFieldWidth
-                                    model: ["PATCH_MATCH","PATCH_MATCH_SAMPLE","BRUTE_FORCE"]
+                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMethod
                                 }
                                 QGCButton {
                                     id: opensfmDepthmapMethodInfo
@@ -2652,6 +2269,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fixedCameraParamsInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.useFixedCameraParams
                                 }
                                 QGCButton {
                                     id: fixedCameraParamsInfo
@@ -2688,26 +2306,10 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCTextField {
+                                FactTextField {
                                     id:      smrfThreshold
-                                    anchors.baseline: smrfThresholdInfo.baseline
                                     width:  _comboFieldWidth
-                                }
-                                QGCButton {
-                                    id:  smrfThresholdInfo
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
-                                    text: qsTr("\uD83D")
-                                    property string toolTipText: "Simple Morphological Filter elevation threshold parameter (meters). Default: 0.5"
-                                    ToolTip.visible: toolTipText ? smrfThresholdma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: smrfThresholdma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.smrfThreshold
                                 }
                             }
                             MenuSeparator {
@@ -2736,6 +2338,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: verboseInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.verbose
                                 }
                                 QGCButton {
                                     id: verboseInfo
@@ -2779,6 +2382,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: hybridBundleAdjustmentInfo.baseline
+                                    fact: QGroundControl.settingsManager.appSettings.useHybridBundleAdjustment
                                 }
                                 QGCButton {
                                     id: hybridBundleAdjustmentInfo
@@ -2800,5 +2404,6 @@ Rectangle {
                     }
                 } // settingsColumn
             }
+        
     }
 }
