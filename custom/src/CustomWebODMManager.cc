@@ -57,14 +57,14 @@ static size_t WriteCallback(void* contents, size_t size, size_t nmemb,
 long CustomWebODMManager::queryLoginCredientials(std::string email, std::string password) {
 
     std::string body = "email=" + email +"&password=" + password; 
-    
+    cout << body << " ";
     CURL *hnd;
 
     std::string readBuffer;
 
     hnd = curl_easy_init();
     curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, 102400L);
-    curl_easy_setopt(hnd, CURLOPT_URL, "http://localhost:8000/api/token-auth/");
+    curl_easy_setopt(hnd, CURLOPT_URL, "http://localhost:5000/");
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, body.c_str());
     curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)33);

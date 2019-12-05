@@ -65,7 +65,7 @@ Rectangle {
 
     function saveItems()
     {
-        CustomQuickInterface.username = usernameField.text
+        CustomQuickInterface.email = usernameField.text
         CustomQuickInterface.password = passwordField.text
     }
 
@@ -151,7 +151,7 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr("Check Credentials")
-                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.username, CustomQuickInterface.password)
+                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.email, CustomQuickInterface.password)
                                 }
                             }
                         }
