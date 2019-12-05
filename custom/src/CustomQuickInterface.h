@@ -36,7 +36,9 @@ class CustomQuickInterface : public QObject {
                    NOTIFY serialNumberChanged)
     Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
                    setEnableAutoUpload NOTIFY enableAutoUploadChanged)
-    Q_PROPERTY(QString username READ username WRITE setUsername NOTIFY usernameChanged)
+    Q_PROPERTY(QString email READ email WRITE setEmail NOTIFY emailChanged)
+    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+    Q_PROPERTY(bool correctCredentials READ correctCredentials WRITE setCorrectCredentials NOTIFY correctCredentialsChanged)
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);
@@ -46,23 +48,30 @@ class CustomQuickInterface : public QObject {
 
     QString          networkId() { return _networkId; }
     QString          serialNumber() { return _serialNumber; }
-    QString          username() { return _username;}
+    QString          email() { return _email;}
+    QString          password() { return _password; }
     bool             enableAutoUpload() { return _enableAutoUpload; }
     Q_INVOKABLE bool test_connection(QString networkId);
+    Q_INVOKABLE void login(QString email, QString password);
+    bool             correctCredentials() {return _correctCredentials; }
 
     // Setters
 
     void setNetworkId(QString networkId);
     void setSerialNumber(QString serialNumber);
-    void setUsername(QString username);
+    void setEmail(QString email);
+    void setPassword(QString password);
     void setEnableAutoUpload(bool enable);
+    void setCorrectCredentials(bool correctCredentials);
   signals:
     // void showGimbalControlChanged();
 
     void networkIdChanged();
     void serialNumberChanged();
     void enableAutoUploadChanged();
-    void usernameChanged();
+    void emailChanged();
+    void passwordChanged();
+    void correctCredentialsChanged();
 
   private:
     // bool _showGimbalControl = true;
@@ -70,5 +79,7 @@ class CustomQuickInterface : public QObject {
     QString _serialNumber;
     QString _logPath;
     bool    _enableAutoUpload;
-    QString _username;
+    QString _email;
+    QString _password;
+    bool    _correctCredentials;
 };

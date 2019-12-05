@@ -61,6 +61,14 @@ Rectangle {
 
     readonly property real _internalWidthRatio: 0.8
 
+    QGCPalette { id: qgcPal }
+
+    function saveItems()
+    {
+        CustomQuickInterface.username = usernameField.text
+        CustomQuickInterface.password = passwordField.text
+    }
+
         QGCFlickable {
             clip:               true
             anchors.fill:       parent
@@ -100,11 +108,14 @@ Rectangle {
                                     anchors.baseline:  usernameField.baseline
                                     text:              qsTr("Email: ")
                                 }
-                                FactTextField {
+                                QGCTextField {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
-                                    text: CustomQuickInterface.username
+                                    text: CustomQuickInterface.email
+                                    onEditingFinished: {
+                                        saveItems();
+                                    }
                                 }
                             }
                             Row {
@@ -115,30 +126,32 @@ Rectangle {
                                     anchors.baseline:  passwordField.baseline
                                     text:              qsTr("Password: ")
                                 }
-                                FactTextField {
+                                QGCTextField {
                                     id: passwordField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
                                     echoMode: TextInput.Password
+                                    text: CustomQuickInterface.password
+                                    onEditingFinished: {
+                                        saveItems();
+                                    }
                                 }
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCLabel{
+                                    id: correctCredentials
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: CustomQuickInterface.correctCredentials?"Correct email and password":"Incorrect email or password"
+                                }
                                 QGCButton {
                                     id: checkButton
                                     Layout.preferredWidth: height
                                     Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticleCenter
+                                    anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr("Check Credentials")
-                                    property string toolTipText: passwordField.text
-                                    ToolTip.visible: toolTipText ? checkma.containsMouse : false
-                                    ToolTip.text: toolTipText
-                                    MouseArea {
-                                        id: checkma
-                                        anchors.fill: parent
-                                        hoverEnabled: true
-                                    }
+                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.username, CustomQuickInterface.password)
                                 }
                             }
                         }
@@ -171,7 +184,7 @@ Rectangle {
                                     anchors.baseline: projectNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.language.visible
                                 }
-                                FactTextField {
+                                QGCTextField {
                                     id:                     projectNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:                  _comboFieldWidth
@@ -186,7 +199,7 @@ Rectangle {
                                     anchors.baseline: taskNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.indoorPalette.visible
                                 }
-                                FactTextField {
+                                QGCTextField {
                                     id:     taskNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:  _comboFieldWidth

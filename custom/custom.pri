@@ -52,12 +52,14 @@ SOURCES += \
     $$PWD/src/CustomPlugin.cc \
     $$PWD/src/CustomLogManager.cc \
     $$PWD/src/CustomQuickInterface.cc \
+    $$PWD/src/CustomWebODMManager.cc \
 
 
 HEADERS += \
     $$PWD/src/CustomPlugin.h \
     $$PWD/src/CustomQuickInterface.h \
     $$PWD/src/CustomLogManager.h \
+    $$PWD/src/CustomWebODMManager.h \
 
 INCLUDEPATH += \
     $$PWD/src \

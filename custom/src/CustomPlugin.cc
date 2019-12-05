@@ -19,6 +19,7 @@
 #include "CustomQuickInterface.h"
 #include "CustomVideoManager.h"
 #include "CustomLogManager.h"
+#include "CustomWebODMManager.h"
 
 #include "MultiVehicleManager.h"
 #include "QGCApplication.h"
@@ -112,9 +113,11 @@ CustomPlugin::setToolbox(QGCToolbox* toolbox)
 
     //-- Start Log Sync
     CustomLogManager * _customlogmanager = new CustomLogManager();
+    CustomWebODMManager * _customwebodmmanager = new CustomWebODMManager();
 
     QGCApplication* pApp=qgcApp();
     _customlogmanager->init(pApp);
+    _customwebodmmanager->init();
 }
 
 //-----------------------------------------------------------------------------
