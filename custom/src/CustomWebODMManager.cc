@@ -67,7 +67,6 @@ long CustomWebODMManager::queryLoginCredientials(std::string email, std::string 
     curl_easy_setopt(hnd, CURLOPT_URL, "http://localhost:5000/");
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, body.c_str());
-    curl_easy_setopt(hnd, CURLOPT_POSTFIELDSIZE_LARGE, (curl_off_t)33);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.58.0");
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
     curl_easy_setopt(hnd, CURLOPT_HTTP_VERSION, (long)CURL_HTTP_VERSION_2TLS);
