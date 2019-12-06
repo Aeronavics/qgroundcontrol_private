@@ -272,6 +272,27 @@
     "defaultValue":     false
 },
 {
+    "name":             "email",
+    "shortDescription": "webODM Email address",
+    "longDescription":  "Email address to login to WebODM",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
+    "name":             "projectName",
+    "shortDescription": "Project Name",
+    "longDescription":  "Name of the project that the mapping task to be saved under.",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
+    "name":             "taskName",
+    "shortDescription": "Task Name",
+    "longDescription":  "Name of the task on WebODM.",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
     "name":               "smrfScalar",
     "shortDescription":   "smrf elavation scalar",
     "longDescription":    "Simple Morphological Filter elevation scalar parameter.",
@@ -342,10 +363,10 @@
 {
     "name":               "rerunFrom",
     "shortDescription":   "Rerun from",
-    "longDescription":    "Can be one of: dataset | split | merge | opensfm | mve | odm_filterpoints | odm_meshing | mvs_texturing | odm_georeferencing | odm_dem | odm_orthophoto",
+    "longDescription":    "Can be one of: none | dataset | split | merge | opensfm | mve | odm_filterpoints | odm_meshing | mvs_texturing | odm_georeferencing | odm_dem | odm_orthophoto",
     "type":               "uint32",
-    "enumStrings":        "dataset,split,merge,opensfm,mve,odm_filterpoints,odm_meshing,mvs_texturing,odm_georeferencing,odm_dem,odm_orthophoto",
-    "enumValues":         "0,1,2,3,4,5,6,7,8,9,10",
+    "enumStrings":        "none, dataset,split,merge,opensfm,mve,odm_filterpoints,odm_meshing,mvs_texturing,odm_georeferencing,odm_dem,odm_orthophoto",
+    "enumValues":         "0,1,2,3,4,5,6,7,8,9,10,11",
     "defaultValue":       0
 },
 {
@@ -389,7 +410,7 @@
     "defaultValue":       false
 },
 {
-    "name":               "TexturingNadirWeight",
+    "name":               "texturingNadirWeight",
     "shortDescription":   "Texturing nadir weight",
     "longDescription":    "Affects orthophotos only. Higher values result in sharper corners, but it can affect colour distribution and blurriness. Use lower values for planar areas and higher values for urban areas. The default value works well for most scenarios.",
     "type":               "uint32",
@@ -398,7 +419,7 @@
     "defaultValue":       16
 },
 {
-    "name":               "TexturingOutlierRemovalType",
+    "name":               "texturingOutlierRemovalType",
     "shortDescription":   "Texturing outlier removal type",
     "longDescription":    "Type of photometric outlier removal method.",
     "type":               "uint32",
@@ -407,7 +428,7 @@
     "defaultValue":       0
 },
 {
-    "name":               "OthrophotoResolution",
+    "name":               "othrophotoResolution",
     "shortDescription":   "Othrophoto resolution",
     "longDescription":    "Orthophoto resoultion in cm/pixel.",
     "type":               "double",
@@ -486,15 +507,15 @@
     "defaultValue":       3
 },
 {
-    "name":               "textureingSkipLocalSeamLeveling",
-    "shortDescription":   "Textureing skip local seam leveling",
+    "name":               "texturingSkipLocalSeamLeveling",
+    "shortDescription":   "Texturing skip local seam leveling",
     "longDescription":    "Skip local seam blending.",
     "type":               "bool",
     "defaultValue":       false
 },
 {
-    "name":               "textureingKeepUnseenFaces",
-    "shortDescription":   "Textureing keep unseen faces",
+    "name":               "texturingKeepUnseenFaces",
+    "shortDescription":   "Texturing keep unseen faces",
     "longDescription":    "Keep faces in the mesh that are not seen in any camera.",
     "type":               "bool",
     "defaultValue":       false
@@ -571,6 +592,7 @@
     "longDescription":    "Filters the point cloud by removing the points that deviate more that N standard deviations from the local mean. Set to 0 to disable filtering.",
     "type":               "double",
     "min":                0,
+    "decimalPlaces":      2,
     "defaultValue":       2.5
 },
 {

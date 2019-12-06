@@ -65,7 +65,6 @@ Rectangle {
 
     function saveItems()
     {
-        CustomQuickInterface.email = usernameField.text
         CustomQuickInterface.password = passwordField.text
     }
 
@@ -108,14 +107,11 @@ Rectangle {
                                     anchors.baseline:  usernameField.baseline
                                     text:              qsTr("Email: ")
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
-                                    text: CustomQuickInterface.email
-                                    onEditingFinished: {
-                                        saveItems();
-                                    }
+                                    fact: QGroundControl.settingsManager.appSettings.email
                                 }
                             }
                             Row {
@@ -144,6 +140,7 @@ Rectangle {
                                     id: correctCredentials
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: CustomQuickInterface.correctCredentials?"Correct email and password":"Incorrect email or password"
+                                    color: CustomQuickInterface.correctCredentials?qgcPal.text:qgcPal.warningText
                                 }
                                 QGCButton {
                                     id: checkButton
@@ -151,7 +148,7 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr("Check Credentials")
-                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.email, CustomQuickInterface.password)
+                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.password)
                                 }
                             }
                         }
@@ -184,10 +181,11 @@ Rectangle {
                                     anchors.baseline: projectNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.language.visible
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id:                     projectNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:                  _comboFieldWidth
+                                    fact: QGroundControl.settingsManager.appSettings.projectName
                                 }
                             }
                             Row {
@@ -199,10 +197,11 @@ Rectangle {
                                     anchors.baseline: taskNameField.baseline
                                     visible: QGroundControl.settingsManager.appSettings.indoorPalette.visible
                                 }
-                                QGCTextField {
+                                FactTextField {
                                     id:     taskNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:  _comboFieldWidth
+                                    fact: QGroundControl.settingsManager.appSettings.taskName
                                 }
                             }
                         }
@@ -227,7 +226,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-classify</b>")
+                                    text:  qsTr("<b>Point Cloud Classify</b>")
                                 }
                             }
                             Row {
@@ -269,7 +268,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel { 
-                                    text:  qsTr("<b>smrf-scalar (postitive float)</b>")
+                                    text:  qsTr("<b>smrf scalar (postitive float)</b>")
                                 }
                             }
                             Row {
@@ -296,7 +295,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 
                                 QGCLabel {
-                                    text:  qsTr("<b>opensfm-depthmap-min-patch-sd (postitive float)</b>")
+                                    text:  qsTr("<b>opensfm depthmap min patch sd (postitive float)</b>")
                                 }
                             }
                             Row {
@@ -322,7 +321,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>smrf-window (postitive float)</b>")
+                                    text:  qsTr("<b>smrf window (postitive float)</b>")
                                 }
                             }
                             Row {
@@ -348,7 +347,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel { 
-                                    text:  qsTr("<b>mesh-octree-depth (postitive Integer)</b>")
+                                    text:  qsTr("<b>Mesh octree depth (postitive Integer)</b>")
                                 }
                             }
                             Row {
@@ -374,7 +373,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>min-num-features (Integer)</b>")
+                                    text:  qsTr("<b>min num features (Integer)</b>")
                                 }
                             }
                             Row {
@@ -400,7 +399,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>resize-to (Integer)</b>")
+                                    text:  qsTr("<b>Resize to (Integer)</b>")
                                 }
                             }
                             Row {
@@ -426,7 +425,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>smrf-slope (Positve Float)</b>")
+                                    text:  qsTr("<b>smrf slope (Positve Float)</b>")
                                 }
                             }
                             Row {
@@ -452,7 +451,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>rerun-from</b>")
+                                    text:  qsTr("<b>Rerun from</b>")
                                 }
                             }
                             Row {
@@ -494,7 +493,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 
                                 QGCLabel {
-                                    text:  qsTr("<b>use-3dmesh</b>")
+                                    text:  qsTr("<b>Use 3D mesh</b>")
                                 }
                             }
                             Row {
@@ -536,7 +535,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>orthophoto-compression</b>")
+                                    text:  qsTr("<b>Orthophoto compression</b>")
                                 }
                             }
                             Row {
@@ -577,7 +576,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>mve-confidence (Float: 0 <= x <= 1)</b>")
+                                    text:  qsTr("<b>MVE confidence (Float: 0 <= x <= 1)</b>")
                                 }
                             }
                             Row {
@@ -603,7 +602,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>texturing-skip-hole-filling</b>")
+                                    text:  qsTr("<b>Texturing skip hole filling</b>")
                                 }
                             }
                             Row {
@@ -645,7 +644,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>texturing-skip-global-seam-leveling</b>")
+                                    text:  qsTr("<b>Texturing skip global seam leveling</b>")
                                 }
                             }
                             Row {
@@ -687,7 +686,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("<b>Texturing-nadir-weight (Integer: 0 <= x <= 32)<b>")
+                                    text:  qsTr("<b>Texturing nadir weight (Integer: 0 <= x <= 32)<b>")
                                 }
                             }
                             Row {
@@ -695,7 +694,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      testuringNadirweight
-                                    fact: QGroundControl.settingsManager.appSettings.TexturingNadirWeight
+                                    fact: QGroundControl.settingsManager.appSettings.texturingNadirWeight
                                     width:  _comboFieldWidth
                                 }
                             }
@@ -713,7 +712,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("<b>Texturing-outlier-removal-type</b>")
+                                    text:  qsTr("<b>Texturing outlier removal type</b>")
                                 }
                             }
                             Row {
@@ -722,7 +721,7 @@ Rectangle {
                                 FactComboBox { 
                                     id:      texturingOutlierRemoveType
                                     anchors.baseline: parent.verticleCenter
-                                    fact: QGroundControl.settingsManager.appSettings.TexturingOutlierRemovalType
+                                    fact: QGroundControl.settingsManager.appSettings.texturingOutlierRemovalType
                                     width:  _comboFieldWidth
                                 }
                                 QGCButton {
@@ -754,7 +753,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("<b>Othrophoto-resolution (Float > 0.0)</b>")
+                                    text:  qsTr("<b>Othrophoto resolution (Float > 0.0)</b>")
                                 }
                             }
                             Row {
@@ -763,7 +762,7 @@ Rectangle {
                                 FactTextField {
                                     id:      othroRes
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.OthrophotoResolution
+                                    fact: QGroundControl.settingsManager.appSettings.othrophotoResolution
                                 }
                             }
                             MenuSeparator {
@@ -780,7 +779,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>dtm</b>")
+                                    text:  qsTr("<b>DTM</b>")
                                 }
                             }
                             Row {
@@ -822,7 +821,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>orthophoto-no-tiled</b>")
+                                    text:  qsTr("<b>Orthophoto no tiled</b>")
                                 }
                             }
                             Row {
@@ -864,7 +863,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("<b>dem-resolution (Float > 0.0)</b>")
+                                    text:  qsTr("<b>DEM resolution (Float > 0.0)</b>")
                                 }   
                             }
                             Row {
@@ -890,7 +889,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>mesh-size (Positive Integer)</b>")
+                                    text:  qsTr("<b>Mesh size (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -916,7 +915,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>force-GPS</b>")
+                                    text:  qsTr("<b>Force GPS</b>")
                                 }
                             }
                             Row {
@@ -959,7 +958,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>ignore-gsd</b>")
+                                    text:  qsTr("<b>Ignore GSD</b>")
                                 }
                             }
                             Row {
@@ -1001,7 +1000,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>build-overviews</b>")
+                                    text:  qsTr("<b>Build overviews</b>")
                                 }
                             }
                             Row {
@@ -1044,7 +1043,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>opensfm-dense</b>")
+                                    text:  qsTr("<b>Opensfm dense</b>")
                                 }
                             }
                             Row {
@@ -1087,7 +1086,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>opensfm-depthmap-min-consistent-views (Integer: 2<=x<=9)</b>")
+                                    text:  qsTr("<b>Opensfm depthmap min consistent views (Integer: 2<=x<=9)</b>")
                                 }
                             }
                             Row {
@@ -1113,7 +1112,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>textureing-skip-local-seam-leveling</b>")
+                                    text:  qsTr("<b>Texturing skip local seam leveling</b>")
                                 }
                             }
                             Row {
@@ -1125,7 +1124,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipLocalSeamLevelingInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.textureingSkipLocalSeamLeveling
+                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipLocalSeamLeveling
                                 }
                                 QGCButton {
                                     id: texturingSkipLocalSeamLevelingInfo
@@ -1156,7 +1155,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>textureing-keep-unseen-faces</b>")
+                                    text:  qsTr("<b>Texturing keep unseen faces</b>")
                                 }
                             }
                             Row {
@@ -1168,7 +1167,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingKeepUnseenFacesInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.textureingKeepUnseenFaces
+                                    fact: QGroundControl.settingsManager.appSettings.texturingKeepUnseenFaces
                                 }
                                 QGCButton {
                                     id: texturingKeepUnseenFacesInfo
@@ -1199,7 +1198,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>debug</b>")
+                                    text:  qsTr("<b>Debug</b>")
                                 }
                             }
                             Row {
@@ -1242,7 +1241,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>use-exif</b>")
+                                    text:  qsTr("<b>Use exif</b>")
                                 }
                             }
                             Row {
@@ -1285,7 +1284,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>mesh-samples (Float >= 1.0)</b>")
+                                    text:  qsTr("<b>Mesh samples (Float >= 1.0)</b>")
                                 }
                             }
                             Row {
@@ -1311,7 +1310,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-sample (Positive Integer)</b>")
+                                    text:  qsTr("<b> Point cloud sample (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1337,7 +1336,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>matcher-distance (Integer)</b>")
+                                    text:  qsTr("<b>Matcher distance (Integer)</b>")
                                 }
                             }
                             Row {
@@ -1363,7 +1362,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>split-overlap (Positive Integer)</b>")
+                                    text:  qsTr("<b>Split overlap (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1389,7 +1388,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>dem-decimation (Positive Integer)</b>")
+                                    text:  qsTr("<b>DEM decimation (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1415,7 +1414,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>orthophoto-cutline</b>")
+                                    text:  qsTr("<b>Orthophoto cutline</b>")
                                 }
                             }
                             Row {
@@ -1458,7 +1457,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-filter (Positive Float)</b>")
+                                    text:  qsTr("<b>Point cloud filter (Positive Float)</b>")
                                 }
                             }
                             Row {
@@ -1484,7 +1483,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>split (Positive Integer)</b>")
+                                    text:  qsTr("<b>Split (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1510,7 +1509,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>fast-orthophoto</b>")
+                                    text:  qsTr("<b>Fast orthophoto</b>")
                                 }
                             }
                             Row {
@@ -1553,7 +1552,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-ept</b>")
+                                    text:  qsTr("<b>Point Cloud EPT</b>")
                                 }
                             }
                             Row {
@@ -1596,7 +1595,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>crop (Positive Float)</b>")
+                                    text:  qsTr("<b>Crop (Positive Float)</b>")
                                 }
                             }   
                             Row {
@@ -1622,7 +1621,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-las</b>")
+                                    text:  qsTr("<b>Point cloud LAS</b>")
                                 }
                             }
                             Row {
@@ -1665,7 +1664,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>merge</b>")
+                                    text:  qsTr("<b>Merge</b>")
                                 }
                             }
                             Row {
@@ -1706,7 +1705,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel { 
-                                    text:  qsTr("<b>dsm</b>")
+                                    text:  qsTr("<b>DSM</b>")
                                 }
                             }
                             Row {
@@ -1749,7 +1748,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>dem-gapfill-steps (Positive Integer)</b>")
+                                    text:  qsTr("<b>DEM gapfill steps (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1775,7 +1774,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>mesh-point-weight (Positive Float)</b>")
+                                    text:  qsTr("<b>Mesh point weight (Positive Float)</b>")
                                 }
                             }
                             Row {
@@ -1801,7 +1800,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>max-concurrency (Positive Integer)</b>")
+                                    text:  qsTr("<b>Max concurrency (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -1827,7 +1826,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {   
-                                    text:  qsTr("<b>texturing-tone-mapping</b>")
+                                    text:  qsTr("<b>Texturing tone mapping</b>")
                                 }
                             }
                             Row {
@@ -1868,7 +1867,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>dem-euclidian-map</b>")
+                                    text:  qsTr("<b>DEM euclidian map</b>")
                                 }
                             }
                             Row {
@@ -1911,7 +1910,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>camera-lens</b>")
+                                    text:  qsTr("<b>Camera lens</b>")
                                 }
                             }
                             Row {
@@ -1952,7 +1951,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>skip-3dmodel</b>")
+                                    text:  qsTr("<b>Skip 3D model</b>")
                                 }
                             }
                             Row {
@@ -1995,7 +1994,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>match-neighbours (Positive Integer)</b>")
+                                    text:  qsTr("<b>Match neighbours (Positive Integer)</b>")
                                 }
                             }
                             Row {
@@ -2021,7 +2020,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>pc-csv</b>")
+                                    text:  qsTr("<b>Point cloud CSV</b>")
                                 }
                             }
                             Row {
@@ -2064,7 +2063,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>end-with</b>")
+                                    text:  qsTr("<b>End with</b>")
                                 }
                             }
                             Row {
@@ -2105,7 +2104,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>depthmap-resolution (Positive Float)</b>")
+                                    text:  qsTr("<b>Depthmap resolution (Positive Float)</b>")
                                 }
                             }
                             Row {
@@ -2131,7 +2130,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>texturing-data-term</b>")
+                                    text:  qsTr("<b>Texturing data term</b>")
                                 }
                             }
                             Row {
@@ -2172,7 +2171,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>texturing-skip-visibility-test</b>")
+                                    text:  qsTr("<b>Texturing skip visibility test</b>")
                                 }
                             }
                             Row {
@@ -2215,7 +2214,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>opensfm-depthmap-method</b>")
+                                    text:  qsTr("<b>Opensfm depthmap method</b>")
                                 }
                             }
                             Row {
@@ -2256,7 +2255,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>use-fixed-camera-params</b>")
+                                    text:  qsTr("<b>Use fixed camera parameters</b>")
                                 }
                             }
                             Row {
@@ -2299,7 +2298,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>smrf-threshold (Positive Float)<b>")
+                                    text:  qsTr("<b>smrf threshold (Positive Float)<b>")
                                 }
                             }
                             Row {
@@ -2325,7 +2324,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>verbose</b>")
+                                    text:  qsTr("<b>Verbose</b>")
                                 }
                             }
                             Row {
@@ -2368,7 +2367,7 @@ Rectangle {
                                 spacing: ScreenTools.defaultFontPixelWidth
 
                                 QGCLabel {
-                                    text:  qsTr("<b>use-hybrid-bundle-adjustment</b>")
+                                    text:  qsTr("<b>Use hybrid bundle adjustment</b>")
                                 }
                             }
                             Row {

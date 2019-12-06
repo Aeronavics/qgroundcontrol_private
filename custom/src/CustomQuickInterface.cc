@@ -32,9 +32,10 @@ static const char* kCustomWebODMGroup     = "CustomWebODMGroup";
 static const char* kNetworkIdKey          = "NetworkId";
 static const char* kSerialNumberKey       = "SerialNumber";
 static const char* kEnableAutoUploadKey   = "EnableAutoUpload";
-static const char* kEmailKey           = "Email";
 static const char* kPasswordKey           = "Password";
 static const char* kCorrectCredentialsKey = "CorrectCredentials";
+
+
 
 //-----------------------------------------------------------------------------
 CustomQuickInterface::CustomQuickInterface(QObject* parent) : QObject(parent) {
@@ -58,13 +59,11 @@ void CustomQuickInterface::init(QGCApplication* app) {
         settings.value(kSerialNumberKey, QString("Unknown")).toString());
     setEnableAutoUpload(settings.value(kEnableAutoUploadKey, true).toBool());
     settings.beginGroup(kCustomWebODMGroup);
-    setEmail(
-        settings.value(kEmailKey, QString("james")).toString());
     setPassword(
         settings.value(kPasswordKey, QString("")).toString());
     setCorrectCredentials(
         settings.value(kCorrectCredentialsKey, false).toBool());
-
+    
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
     //qDebug()<< "LOG PATH : "<<_logPath ;
@@ -106,17 +105,8 @@ bool CustomQuickInterface::test_connection(QString networkId) {
 }
 
 //-----------------------------------------------------------------------------
-void CustomQuickInterface::setEmail(QString email) {
-    qDebug() << "setEmail" << email;
-    _email = email;
-    QSettings settings;
-    settings.beginGroup(kCustomWebODMGroup);
-    settings.setValue(kEmailKey, email);
-    emit emailChanged();
-}
-
-//-----------------------------------------------------------------------------
 void CustomQuickInterface::setPassword(QString password) {
+    
     _password = password;
     QSettings settings;
     settings.beginGroup(kCustomWebODMGroup);
@@ -135,11 +125,18 @@ void CustomQuickInterface::setCorrectCredentials(bool correctCredentials) {
 
 
 
-void CustomQuickInterface::login(QString email, QString password) {
-    cout << "login";
-    long res = CustomWebODMManager::queryLoginCredientials(email.toStdString(), password.toStdString());
-    if (res == (long)200){
-        setCorrectCredentials(true);
+void CustomQuickInterface::login(QString password) {
+    CustomWebODMManager* webodm = new CustomWebODMManager();
+    QGCToolbox* toolbox = qgcApp()->toolbox();
+    // Be careful of toolbox not being open yet
+    if (toolbox) {
+        QString email = qgcApp()->toolbox()->settingsManager()->appSettings()->email()->rawValue().toString();
+        long res = webodm->queryLoginCredientials(email.toStdString(), password.toStdString());
+        if (res == (long)200){
+            setCorrectCredentials(true);
+        } else {
+            setCorrectCredentials(false);
+        }
     } else {
         setCorrectCredentials(false);
     }
