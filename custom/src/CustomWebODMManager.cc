@@ -69,8 +69,7 @@ long CustomWebODMManager::queryLoginCredientials(std::string email, std::string 
 
     curl_easy_cleanup(hnd);
     hnd = NULL;
-    long taskId = 140269236841608;
-    startTask(taskId);
+    
     return http_code;
 }
 
@@ -453,7 +452,6 @@ long CustomWebODMManager::createTask(std::string password){
 
 long CustomWebODMManager::postImages(long taskId, std::string image){
 
-    CURLcode ret;
     CURL *hnd;
     struct curl_httppost *post1;
     struct curl_httppost *postend;
@@ -479,30 +477,29 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
     curl_easy_setopt(hnd, CURLOPT_WRITEFUNCTION, WriteCallback);
     curl_easy_setopt(hnd, CURLOPT_WRITEDATA, &readBuffer);
 
-    ret = curl_easy_perform(hnd);
-    cout << "\n" << ret << "\n";
+    curl_easy_perform(hnd);
     curl_easy_cleanup(hnd);
-    hnd = NULL;
+    long http_code = 0;
+    curl_easy_getinfo(hnd, CURLINFO_RESPONSE_CODE, &http_code);
     curl_formfree(post1);
+    hnd = NULL;
     post1 = NULL;
-    cout << taskId << "\n";
-    cout << readBuffer << "\n";
-
-    return (long)0;
+        
+    return http_code;
 }
 
 std::string CustomWebODMManager::startTask(long taskId){
-    cout << taskId;
     CURL *hnd;
 
     std::string readBuffer;
-    std::string url = "http://localhost:5000/task/";
-    url += taskId;
-    url += "/start";
 
+    std::string url = "http://localhost:5000/task/";
+    url += std::to_string(taskId);
+    url += "/start";
+    
     hnd = curl_easy_init();
     curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, 102400L);
-    curl_easy_setopt(hnd, CURLOPT_URL, url);
+    curl_easy_setopt(hnd, CURLOPT_URL, url.c_str());
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.58.0");
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
@@ -515,8 +512,8 @@ std::string CustomWebODMManager::startTask(long taskId){
     curl_easy_perform(hnd);
     long http_code = 0;
     curl_easy_getinfo(hnd, CURLINFO_RESPONSE_CODE, &http_code);
-
     curl_easy_cleanup(hnd);
     hnd = NULL;
+
     return readBuffer;
 }
