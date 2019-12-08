@@ -11,6 +11,7 @@
  */
 
 #include "AppSettings.h"
+#include "MappingSettings.h"
 #include "MAVLinkLogManager.h"
 #include "PositionManager.h"
 #include "QGCApplication.h"
@@ -130,7 +131,7 @@ void CustomQuickInterface::login(QString password) {
     QGCToolbox* toolbox = qgcApp()->toolbox();
     // Be careful of toolbox not being open yet
     if (toolbox) {
-        QString email = qgcApp()->toolbox()->settingsManager()->appSettings()->email()->rawValue().toString();
+        QString email = qgcApp()->toolbox()->settingsManager()->mappingSettings()->email()->rawValue().toString();
         long res = webodm->queryLoginCredientials(email.toStdString(), password.toStdString());
         if (res == (long)200){
             setCorrectCredentials(true);

@@ -31,19 +31,12 @@ Rectangle {
     color:              qgcPal.window
     anchors.fill:       parent
     anchors.margins:    ScreenTools.defaultFontPixelWidth
-
-    property Fact _percentRemainingAnnounce:    QGroundControl.settingsManager.appSettings.batteryPercentRemainingAnnounce
-    property Fact _savePath:                    QGroundControl.settingsManager.appSettings.savePath
-    property Fact _appFontPointSize:            QGroundControl.settingsManager.appSettings.appFontPointSize
-    property Fact _userBrandImageIndoor:        QGroundControl.settingsManager.brandImageSettings.userBrandImageIndoor
-    property Fact _userBrandImageOutdoor:       QGroundControl.settingsManager.brandImageSettings.userBrandImageOutdoor
     property real _labelWidth:                  ScreenTools.defaultFontPixelWidth * 20
     property real _comboFieldWidth:             ScreenTools.defaultFontPixelWidth * 28
     property real _valueFieldWidth:             ScreenTools.defaultFontPixelWidth * 10
     property real _baseFontEdit:                ScreenTools.defaultFontPixelHeight
     property string _mapProvider:               QGroundControl.settingsManager.flightMapSettings.mapProvider.value
     property string _mapType:                   QGroundControl.settingsManager.flightMapSettings.mapType.value
-    property Fact _followTarget:                QGroundControl.settingsManager.appSettings.followTarget
     property real _panelWidth:                  _root.width * _internalWidthRatio
     property real _margins:                     ScreenTools.defaultFontPixelWidth
     property real _columnSpacing:               ScreenTools.defaultFontPixelHeight * 0.25
@@ -86,7 +79,6 @@ Rectangle {
                     QGCLabel {
                         id:         unitsSectionLabel
                         text:       qsTr("Login Details")
-                        visible:    QGroundControl.settingsManager.unitsSettings.visible
                     }
                     Rectangle {
                         Layout.preferredHeight: unitsGrid.height + (_margins * 2)
@@ -111,7 +103,7 @@ Rectangle {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
-                                    fact: QGroundControl.settingsManager.appSettings.email
+                                    fact: QGroundControl.settingsManager.MappingSettings.email
                                 }
                             }
                             Row {
@@ -159,7 +151,6 @@ Rectangle {
                     QGCLabel {
                         id:         taskNameLabel
                         text:       qsTr("Task Name")
-                        visible:    QGroundControl.settingsManager.appSettings.visible
                     }
                     Rectangle {
                         Layout.preferredWidth:  nameGrid.width + (_margins * 2)
@@ -179,13 +170,12 @@ Rectangle {
                                     text:           qsTr("Project Name: ")
                                     width:          _labelWidth
                                     anchors.baseline: projectNameField.baseline
-                                    visible: QGroundControl.settingsManager.appSettings.language.visible
                                 }
                                 FactTextField {
                                     id:                     projectNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:                  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.projectName
+                                    fact: QGroundControl.settingsManager.MappingSettings.projectName
                                 }
                             }
                             Row {
@@ -195,13 +185,12 @@ Rectangle {
                                     text:           qsTr("Task Name: ")
                                     width:          _labelWidth
                                     anchors.baseline: taskNameField.baseline
-                                    visible: QGroundControl.settingsManager.appSettings.indoorPalette.visible
                                 }
                                 FactTextField {
                                     id:     taskNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.taskName
+                                    fact: QGroundControl.settingsManager.MappingSettings.taskName
                                 }
                             }
                         }
@@ -237,7 +226,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcclassifyInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.pcClassify
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcClassify
                                 }
                                 QGCButton {
                                     id: pcclassifyInfo
@@ -277,7 +266,7 @@ Rectangle {
                                 FactTextField {
                                     id:     smrfScalar
                                     width:  _comboFieldWidth 
-                                    fact: QGroundControl.settingsManager.appSettings.smrfScalar
+                                    fact: QGroundControl.settingsManager.MappingSettings.smrfScalar
                                 }
                                 
                             }
@@ -304,7 +293,7 @@ Rectangle {
                                 FactTextField {
                                     id:     opensfmDepthmapMinPatch
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMinPatchSd
+                                    fact: QGroundControl.settingsManager.MappingSettings.opensfmDepthmapMinPatchSd
                                 }
                             }
                             MenuSeparator {
@@ -330,7 +319,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfWindow
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.smrfWindow
+                                    fact: QGroundControl.settingsManager.MappingSettings.smrfWindow
                                 }
                             }
                             MenuSeparator {
@@ -356,7 +345,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshOctreeDepth
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.meshOctreeDepth
+                                    fact: QGroundControl.settingsManager.MappingSettings.meshOctreeDepth
                                 }
                             }
                             MenuSeparator {
@@ -382,7 +371,7 @@ Rectangle {
                                 FactTextField {
                                     id:      minNumFeatures
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.minNumFeatures
+                                    fact: QGroundControl.settingsManager.MappingSettings.minNumFeatures
                                 }
                             }
                             MenuSeparator {
@@ -408,7 +397,7 @@ Rectangle {
                                 FactTextField {
                                     id:      resizeTo
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.resizeTo
+                                    fact: QGroundControl.settingsManager.MappingSettings.resizeTo
                                 }
                             }
                             MenuSeparator {
@@ -434,7 +423,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfSlope
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.smrfSlope
+                                    fact: QGroundControl.settingsManager.MappingSettings.smrfSlope
                                 }
                             }
                             MenuSeparator {
@@ -461,7 +450,7 @@ Rectangle {
                                     id:      rerunFrom
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.rerunFrom
+                                    fact: QGroundControl.settingsManager.MappingSettings.rerunFrom
                                 }
                                 QGCButton {
                                     id: rerunFromInfo
@@ -504,7 +493,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: use3DmeshInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.use3dmesh
+                                    fact: QGroundControl.settingsManager.MappingSettings.use3dmesh
                                 }
                                 QGCButton {
                                     id: use3DmeshInfo
@@ -545,7 +534,7 @@ Rectangle {
                                     id:      orthophotoCompression
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.orthophotoCompression
+                                    fact: QGroundControl.settingsManager.MappingSettings.orthophotoCompression
                                 }
                                 QGCButton {
                                     id: orthophotoCompressionInfo
@@ -585,7 +574,7 @@ Rectangle {
                                 FactTextField {
                                     id:      mveConfidence
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.mveConfidence
+                                    fact: QGroundControl.settingsManager.MappingSettings.mveConfidence
                                 }
                             }
                             MenuSeparator {
@@ -613,7 +602,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipHoleFillingInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipHoleFilling
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingSkipHoleFilling
                                 }
                                 QGCButton {
                                     id: texturingSkipHoleFillingInfo
@@ -655,7 +644,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipSeamFillingInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipGlobalSeamLeveling
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingSkipGlobalSeamLeveling
                                 }
                                 QGCButton {
                                     id: texturingSkipSeamFillingInfo
@@ -694,7 +683,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      testuringNadirweight
-                                    fact: QGroundControl.settingsManager.appSettings.texturingNadirWeight
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingNadirWeight
                                     width:  _comboFieldWidth
                                 }
                             }
@@ -721,7 +710,7 @@ Rectangle {
                                 FactComboBox { 
                                     id:      texturingOutlierRemoveType
                                     anchors.baseline: parent.verticleCenter
-                                    fact: QGroundControl.settingsManager.appSettings.texturingOutlierRemovalType
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingOutlierRemovalType
                                     width:  _comboFieldWidth
                                 }
                                 QGCButton {
@@ -762,7 +751,7 @@ Rectangle {
                                 FactTextField {
                                     id:      othroRes
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.othrophotoResolution
+                                    fact: QGroundControl.settingsManager.MappingSettings.othrophotoResolution
                                 }
                             }
                             MenuSeparator {
@@ -790,7 +779,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dtmInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.dtm
+                                    fact: QGroundControl.settingsManager.MappingSettings.dtm
                                 }
                                 QGCButton {
                                     id: dtmInfo
@@ -831,7 +820,7 @@ Rectangle {
                                     id: orthoNoTiled
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: QGroundControl.settingsManager.appSettings.orthophotoNoTiled
+                                    fact: QGroundControl.settingsManager.MappingSettings.orthophotoNoTiled
                                     anchors.baseline: orthoNoTiledInfo.baseline
                                 }
                                 QGCButton {
@@ -872,7 +861,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demRes
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.demResolution
+                                    fact: QGroundControl.settingsManager.MappingSettings.demResolution
                                 }
                             }
                             MenuSeparator {
@@ -898,7 +887,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshSize
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.meshSize
+                                    fact: QGroundControl.settingsManager.MappingSettings.meshSize
                                 }
                             }
                             MenuSeparator {
@@ -926,7 +915,7 @@ Rectangle {
                                     id: forceGPS
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: QGroundControl.settingsManager.appSettings.forceGPS
+                                    fact: QGroundControl.settingsManager.MappingSettings.forceGPS
                                     anchors.baseline: forceGPSInfo.baseline
                                 }
                                 QGCButton {
@@ -969,7 +958,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: ignoregsdInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.ignoreGsd
+                                    fact: QGroundControl.settingsManager.MappingSettings.ignoreGsd
                                 }
                                 QGCButton {
                                     id: ignoregsdInfo
@@ -1012,7 +1001,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: buildOverviewsInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.buildOverviews
+                                    fact: QGroundControl.settingsManager.MappingSettings.buildOverviews
                                 }
                                 QGCButton {
                                     id: buildOverviewsInfo
@@ -1055,7 +1044,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: opensfmDenseInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.opensfmDense
+                                    fact: QGroundControl.settingsManager.MappingSettings.opensfmDense
                                 }
                                 QGCButton {
                                     id: opensfmDenseInfo
@@ -1095,7 +1084,7 @@ Rectangle {
                                 FactTextField {
                                     id:      opensfmDepthmapMinConsistentViews
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMinConsistentViews
+                                    fact: QGroundControl.settingsManager.MappingSettings.opensfmDepthmapMinConsistentViews
                                 }
                             }
                             MenuSeparator {
@@ -1124,7 +1113,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipLocalSeamLevelingInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipLocalSeamLeveling
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingSkipLocalSeamLeveling
                                 }
                                 QGCButton {
                                     id: texturingSkipLocalSeamLevelingInfo
@@ -1167,7 +1156,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingKeepUnseenFacesInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.texturingKeepUnseenFaces
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingKeepUnseenFaces
                                 }
                                 QGCButton {
                                     id: texturingKeepUnseenFacesInfo
@@ -1210,7 +1199,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: debugInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.debug
+                                    fact: QGroundControl.settingsManager.MappingSettings.debug
                                 }
                                 QGCButton {
                                     id: debugInfo
@@ -1253,7 +1242,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: useExifInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.useExif
+                                    fact: QGroundControl.settingsManager.MappingSettings.useExif
                                 }
                                 QGCButton {
                                     id: useExifInfo
@@ -1293,7 +1282,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshSamples
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.meshSamples
+                                    fact: QGroundControl.settingsManager.MappingSettings.meshSamples
                                 }
                             }
                             MenuSeparator {
@@ -1319,7 +1308,7 @@ Rectangle {
                                 FactTextField {
                                     id:      pcSample
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.pcSample
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcSample
                                 }
                             }
                             MenuSeparator {
@@ -1345,7 +1334,7 @@ Rectangle {
                                 FactTextField {
                                     id:      matcherDistance
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.matcherDistance
+                                    fact: QGroundControl.settingsManager.MappingSettings.matcherDistance
                                 }
                             }
                             MenuSeparator {
@@ -1371,7 +1360,7 @@ Rectangle {
                                 FactTextField {
                                     id:      splitOverlap
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.splitOverlap
+                                    fact: QGroundControl.settingsManager.MappingSettings.splitOverlap
                                 }
                             }
                             MenuSeparator {
@@ -1397,7 +1386,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demDecimation
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.demDecimation
+                                    fact: QGroundControl.settingsManager.MappingSettings.demDecimation
                                 }
                             }
                             MenuSeparator {
@@ -1426,7 +1415,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: orthoCutlineInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.orthophotoCutline
+                                    fact: QGroundControl.settingsManager.MappingSettings.orthophotoCutline
                                 }
                                 QGCButton {
                                     id: orthoCutlineInfo
@@ -1466,7 +1455,7 @@ Rectangle {
                                 FactTextField {
                                     id:      pcFilter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.pcFilter
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcFilter
                                 }
                             }
                             MenuSeparator {
@@ -1492,7 +1481,7 @@ Rectangle {
                                 FactTextField {
                                     id:      split
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.split
+                                    fact: QGroundControl.settingsManager.MappingSettings.split
                                 }
                             }
                             MenuSeparator {
@@ -1521,7 +1510,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fastOrthoInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.fastOrthophoto
+                                    fact: QGroundControl.settingsManager.MappingSettings.fastOrthophoto
                                 }
                                 QGCButton {
                                     id: fastOrthoInfo
@@ -1564,7 +1553,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcEptInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.pcEpt
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcEpt
                                 }
                                 QGCButton {
                                     id: pcEptInfo
@@ -1604,7 +1593,7 @@ Rectangle {
                                 FactTextField {
                                     id:      crop
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.crop
+                                    fact: QGroundControl.settingsManager.MappingSettings.crop
                                 }
                             }
                             MenuSeparator {
@@ -1633,7 +1622,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcLasInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.pcLas
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcLas
                                 }
                                 QGCButton {
                                     id: pcLasInfo
@@ -1674,7 +1663,7 @@ Rectangle {
                                     id:      merge
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.merge
+                                    fact: QGroundControl.settingsManager.MappingSettings.merge
                                 }
                                 QGCButton {
                                     id: mergeInfo
@@ -1717,7 +1706,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dsmInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.dsm
+                                    fact: QGroundControl.settingsManager.MappingSettings.dsm
                                 }
                                 QGCButton {
                                     id: dsmInfo
@@ -1757,7 +1746,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demGapfillSteps
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.demGapfillSteps
+                                    fact: QGroundControl.settingsManager.MappingSettings.demGapfillSteps
                                 }
                             }
                             MenuSeparator {
@@ -1783,7 +1772,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshPointWeight
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.meshPointWeight
+                                    fact: QGroundControl.settingsManager.MappingSettings.meshPointWeight
                                 }
                             }
                             MenuSeparator {
@@ -1809,7 +1798,7 @@ Rectangle {
                                 FactTextField {
                                     id:      maxConcurrency
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.maxConcurrency
+                                    fact: QGroundControl.settingsManager.MappingSettings.maxConcurrency
                                 }
                             }
                             MenuSeparator {
@@ -1836,7 +1825,7 @@ Rectangle {
                                     id:     textureToneMapping
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.texturingToneMapping
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingToneMapping
                                 }
                                 QGCButton {
                                     id: textureToneMappingInfo 
@@ -1879,7 +1868,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: demEuclidianMapInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.demEuclidianMap
+                                    fact: QGroundControl.settingsManager.MappingSettings.demEuclidianMap
                                 }
                                 QGCButton {
                                     id: demEuclidianMapInfo
@@ -1920,7 +1909,7 @@ Rectangle {
                                     id:     cameraLens
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.cameraLens
+                                    fact: QGroundControl.settingsManager.MappingSettings.cameraLens
                                 }
                                 QGCButton {
                                     id: cameraLensInfo
@@ -1963,7 +1952,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: skip3dmodelInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.skip3dmodel
+                                    fact: QGroundControl.settingsManager.MappingSettings.skip3dmodel
                                 }
                                 QGCButton {
                                     id: skip3dmodelInfo
@@ -2003,7 +1992,7 @@ Rectangle {
                                 FactTextField {
                                     id:      matchNeighbours
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.matchNeighbours
+                                    fact: QGroundControl.settingsManager.MappingSettings.matchNeighbours
                                 }
                             }
                             MenuSeparator {
@@ -2031,7 +2020,7 @@ Rectangle {
                                     id: pcCsv
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: QGroundControl.settingsManager.appSettings.pcCsv
+                                    fact: QGroundControl.settingsManager.MappingSettings.pcCsv
                                     anchors.baseline: pcCsvInfo.baseline
                                 }
                                 QGCButton {
@@ -2073,7 +2062,7 @@ Rectangle {
                                     id:     endWith
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.endWith
+                                    fact: QGroundControl.settingsManager.MappingSettings.endWith
                                 }
                                 QGCButton {
                                     id: endWithInfo
@@ -2113,7 +2102,7 @@ Rectangle {
                                 FactTextField {
                                     id:      depthmapRes
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.depthmapResolution
+                                    fact: QGroundControl.settingsManager.MappingSettings.depthmapResolution
                                 }
                             }
                             MenuSeparator {
@@ -2140,7 +2129,7 @@ Rectangle {
                                     id:     texturingDataTerm
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.texturingDataTerm
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingDataTerm
                                 }
                                 QGCButton {
                                     id: texturingDataTermInfo
@@ -2183,7 +2172,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipVisibilityTestInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.texturingSkipVisibilityTest
+                                    fact: QGroundControl.settingsManager.MappingSettings.texturingSkipVisibilityTest
                                 }
                                 QGCButton {
                                     id: texturingSkipVisibilityTestInfo
@@ -2224,7 +2213,7 @@ Rectangle {
                                     id:     opensfmDepthmapMethod
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.opensfmDepthmapMethod
+                                    fact: QGroundControl.settingsManager.MappingSettings.opensfmDepthmapMethod
                                 }
                                 QGCButton {
                                     id: opensfmDepthmapMethodInfo
@@ -2267,7 +2256,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fixedCameraParamsInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.useFixedCameraParams
+                                    fact: QGroundControl.settingsManager.MappingSettings.useFixedCameraParams
                                 }
                                 QGCButton {
                                     id: fixedCameraParamsInfo
@@ -2307,7 +2296,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfThreshold
                                     width:  _comboFieldWidth
-                                    fact: QGroundControl.settingsManager.appSettings.smrfThreshold
+                                    fact: QGroundControl.settingsManager.MappingSettings.smrfThreshold
                                 }
                             }
                             MenuSeparator {
@@ -2336,7 +2325,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: verboseInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.verbose
+                                    fact: QGroundControl.settingsManager.MappingSettings.verbose
                                 }
                                 QGCButton {
                                     id: verboseInfo
@@ -2379,7 +2368,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: hybridBundleAdjustmentInfo.baseline
-                                    fact: QGroundControl.settingsManager.appSettings.useHybridBundleAdjustment
+                                    fact: QGroundControl.settingsManager.MappingSettings.useHybridBundleAdjustment
                                 }
                                 QGCButton {
                                     id: hybridBundleAdjustmentInfo

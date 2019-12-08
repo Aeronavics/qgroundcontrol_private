@@ -15,6 +15,7 @@
 #include "MultiVehicleManager.h"
 #include "QGCToolbox.h"
 #include "AppSettings.h"
+#include "MappingSettings.h"
 #include "UnitsSettings.h"
 #include "AutoConnectSettings.h"
 #include "VideoSettings.h"
@@ -43,6 +44,7 @@ public:
     Q_PROPERTY(QObject* airMapSettings                  READ airMapSettings                 CONSTANT)
 #endif
     Q_PROPERTY(QObject* appSettings                     READ appSettings                    CONSTANT)
+    Q_PROPERTY(QObject* mappingSettings                 READ mappingSettings                CONSTANT)
     Q_PROPERTY(QObject* unitsSettings                   READ unitsSettings                  CONSTANT)
     Q_PROPERTY(QObject* autoConnectSettings             READ autoConnectSettings            CONSTANT)
     Q_PROPERTY(QObject* videoSettings                   READ videoSettings                  CONSTANT)
@@ -63,6 +65,7 @@ public:
     AirMapSettings*         airMapSettings      (void) { return _airMapSettings; }
 #endif
     AppSettings*                    appSettings                 (void) { return _appSettings; }
+    MappingSettings*                mappingSettings             (void) { return _mappingSettings; }
     UnitsSettings*                  unitsSettings               (void) { return _unitsSettings; }
     AutoConnectSettings*            autoConnectSettings         (void) { return _autoConnectSettings; }
     VideoSettings*                  videoSettings               (void) { return _videoSettings; }
@@ -81,6 +84,7 @@ private:
     AirMapSettings*         _airMapSettings;
 #endif
     AppSettings*                    _appSettings;
+    MappingSettings*                _mappingSettings;
     UnitsSettings*                  _unitsSettings;
     AutoConnectSettings*            _autoConnectSettings;
     VideoSettings*                  _videoSettings;
