@@ -4,6 +4,27 @@ pipeline {
         stage('build') {
             parallel {
 
+                stage('Doc'){
+                    agent {
+                        docker{
+                            image "python"
+                            args '-u root'
+                        }
+                    }
+                    environment {
+                        QGC_REGISTRY_CREDS = credentials('qgc_uploader')
+                    }
+                    when {
+                        branch 'doc'
+                    }
+                    steps{
+                        sh 'pip install --no-cache-dir mkdocs && mkdocs build'
+                        sh './deploy_doc.sh ${QGC_REGISTRY_CREDS} http://192.168.2.144:8086/nexus/repository/qgroundcontrol_devguide/'
+                        sh 'rm -r site'
+                    }
+                }
+
+
                 stage('Android Release') {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
