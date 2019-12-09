@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vehicle.h"
-
+#include "MappingSettings.h"
 #include <QNetworkAccessManager> 
 #include <QFileInfo>
 
@@ -35,6 +35,7 @@ class CustomWebODMManager : public QObject {
     long _taskId;
     long _imagesUploaded;
     std::string _webodmTaskId;
+    MappingSettings* _mappingSettings;
 
-    static std::string getOptions();
+    std::string getOptions();
 };
