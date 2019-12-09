@@ -38,6 +38,8 @@ class CustomQuickInterface : public QObject {
                    setEnableAutoUpload NOTIFY enableAutoUploadChanged)
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(bool correctCredentials READ correctCredentials WRITE setCorrectCredentials NOTIFY correctCredentialsChanged)
+    Q_PROPERTY(bool advancedSettings READ advancedSettings WRITE setAdvancedSettings NOTIFY advancedSettingsChanged)
+
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);
@@ -51,7 +53,8 @@ class CustomQuickInterface : public QObject {
     bool             enableAutoUpload() { return _enableAutoUpload; }
     Q_INVOKABLE bool test_connection(QString networkId);
     Q_INVOKABLE void login(QString password);
-    bool             correctCredentials() {return _correctCredentials; }
+    bool             correctCredentials() { return _correctCredentials; }
+    bool             advancedSettings()   { return _advancedSettings; }
 
     // Setters
 
@@ -60,6 +63,10 @@ class CustomQuickInterface : public QObject {
     void setPassword(QString password);
     void setEnableAutoUpload(bool enable);
     void setCorrectCredentials(bool correctCredentials);
+    Q_INVOKABLE void setAdvancedSettings(bool advancedSettings);
+    Q_INVOKABLE void setCustom();
+    Q_INVOKABLE void presetChanged();
+    
   signals:
     // void showGimbalControlChanged();
 
@@ -68,6 +75,7 @@ class CustomQuickInterface : public QObject {
     void enableAutoUploadChanged();
     void passwordChanged();
     void correctCredentialsChanged();
+    void advancedSettingsChanged();
 
   private:
     // bool _showGimbalControl = true;
@@ -77,4 +85,16 @@ class CustomQuickInterface : public QObject {
     bool    _enableAutoUpload;
     QString _password;
     bool    _correctCredentials;
+    bool    _advancedSettings;
+
+
+    void dsmdtm();
+    void returnToDefault();
+    void forest();
+    void fastOrtho();
+    void model();
+    void highRes();
+    void buildings();
+    void pointOfInterest();
+    void volumeAnalysis();
 };

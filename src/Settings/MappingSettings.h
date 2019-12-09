@@ -86,4 +86,5 @@ public:
     DEFINE_SETTINGFACT(smrfThreshold)
     DEFINE_SETTINGFACT(verbose)
     DEFINE_SETTINGFACT(useHybridBundleAdjustment)
+    DEFINE_SETTINGFACT(processingPresets)
 };

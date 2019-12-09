@@ -522,5 +522,14 @@
     "longDescription":    "Run local bundle adjustment for every image added to the reconstruction and a global adjustment every 100 images. Speeds up reconstruction for very large datasets.",
     "type":               "bool",
     "defaultValue":       false
+},
+{
+    "name":               "processingPresets",
+    "shortDescription":   "Processing presets",
+    "longDescription":    "WebODM's preset processing options",
+    "type":               "uint32",
+    "enumStrings":        "Default,High Resolution,Fast Orthophoto,DSM + DTM,Forest,Point of Interest,Buildings,3D Model,Volume Analysis,Custom",
+    "enumValues":         "0,1,2,3,4,5,6,7,8,9",
+    "defaultValue":       0
 }
 ]

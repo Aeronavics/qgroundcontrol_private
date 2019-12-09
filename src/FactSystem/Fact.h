@@ -174,6 +174,8 @@ public:
     /// Generally this is done during parsing. But if you know what you are doing, you can.
     void setEnumInfo(const QStringList& strings, const QVariantList& values);
 
+    void setToDefault();
+
 signals:
     void bitmaskStringsChanged(void);
     void bitmaskValuesChanged(void);
