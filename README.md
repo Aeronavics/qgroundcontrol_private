@@ -1,3 +1,5 @@
+# [Aeronavics QGC Developer Guide](https://services.aeronavics.com/nexus/repository/qgroundcontrol_devguide/site/)
+
 # QGroundControl Ground Control Station
 
 [![Releases](https://img.shields.io/github/release/mavlink/QGroundControl.svg)](https://github.com/mavlink/QGroundControl/releases)
