@@ -2,7 +2,7 @@ pipeline {
     agent none
     stages {
         stage('build') {
-            parallel {
+            steps {
 
                 stage('Android Release') {
                     environment {
