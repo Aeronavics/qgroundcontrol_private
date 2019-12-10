@@ -40,7 +40,7 @@ class CustomQuickInterface : public QObject {
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(bool correctCredentials READ correctCredentials WRITE setCorrectCredentials NOTIFY correctCredentialsChanged)
     Q_PROPERTY(bool advancedSettings READ advancedSettings WRITE setAdvancedSettings NOTIFY advancedSettingsChanged)
-
+    Q_PROPERTY(QObject* customMappingSettings         READ customMappingSettings        CONSTANT)
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);
@@ -56,6 +56,8 @@ class CustomQuickInterface : public QObject {
     Q_INVOKABLE void login(QString password);
     bool             correctCredentials() { return _correctCredentials; }
     bool             advancedSettings()   { return _advancedSettings; }
+    CustomMappingSettings* customMappingSettings(void) { return _mapping; }
+
 
     // Setters
 
@@ -87,7 +89,7 @@ class CustomQuickInterface : public QObject {
     QString _password;
     bool    _correctCredentials;
     bool    _advancedSettings;
-    MappingSettings* _mapping;
+    CustomMappingSettings* _mapping;
 
     void dsmdtm();
     void returnToDefault();

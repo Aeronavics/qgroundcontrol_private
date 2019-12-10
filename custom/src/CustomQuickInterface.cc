@@ -66,7 +66,7 @@ void CustomQuickInterface::init(QGCApplication* app) {
         settings.value(kCorrectCredentialsKey, false).toBool());
     setAdvancedSettings(
         settings.value(kAdvancedSettingsKey, false).toBool());
-    _mapping = new MappingSettings();
+    _mapping = new CustomMappingSettings();
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
     //qDebug()<< "LOG PATH : "<<_logPath ;

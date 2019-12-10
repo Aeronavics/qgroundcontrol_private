@@ -35,7 +35,7 @@ class CustomWebODMManager : public QObject {
     long _taskId;
     long _imagesUploaded;
     std::string _webodmTaskId;
-    MappingSettings* _mappingSettings;
+    CustomMappingSettings* _mappingSettings;
 
     std::string getOptions();
 };

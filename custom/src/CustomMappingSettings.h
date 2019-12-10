@@ -12,12 +12,12 @@
 #include "SettingsGroup.h"
 #include "QGCMAVLink.h"
 
-class MappingSettings : public SettingsGroup
+class CustomMappingSettings : public SettingsGroup
 {
     Q_OBJECT
 
 public:
-    MappingSettings(QObject* parent = nullptr);
+    CustomMappingSettings(QObject* parent = nullptr);
 
     DEFINE_SETTING_NAME_GROUP()
 

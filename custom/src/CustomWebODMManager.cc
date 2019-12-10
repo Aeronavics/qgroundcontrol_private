@@ -34,7 +34,7 @@ void CustomWebODMManager::init() {
     settings.beginGroup(kCustomWebODMGroup);
     _password =
         settings.value(kPassword, QString("")).toString();
-    _mappingSettings = new MappingSettings();
+    _mappingSettings = new CustomMappingSettings();
 }
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb,

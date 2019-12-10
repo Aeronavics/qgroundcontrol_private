@@ -13,6 +13,6 @@
     </qresource>
     <qresource prefix="/Custom/Widgets"/>
     <qresource prefix="/json">
-        <file alias="Mapping.SettingsGroup.json">src/Mapping.SettingsGroup.json</file>
+        <file alias="CustomMapping.SettingsGroup.json">src/CustomMapping.SettingsGroup.json</file>
     </qresource>
 </RCC>

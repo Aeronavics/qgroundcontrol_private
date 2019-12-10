@@ -3,7 +3,7 @@
  *   (c) 2009-2016 QGROUNDCONTROL PROJECT <http://www.qgroundcontrol.org>
  *
  * QGroundControl is licensed according to the terms in the file
- * COPYING.md in the root of the source code directory.
+ *COPYING.md in the root of the source code directory.
  *
  ****************************************************************************/
 
@@ -25,7 +25,6 @@ import QGroundControl.Controllers           1.0
 import QGroundControl.SettingsManager       1.0
 
 import CustomQuickInterface                 1.0
-import CustomMappingSettings                1.0
 
 Rectangle {
     id:                 _root
@@ -104,7 +103,7 @@ Rectangle {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
-                                    fact: CustomMappingSettings.email
+                                    fact: CustomQuickInterface.customMappingSettings.email
                                 }
                             }
                             Row {
@@ -176,7 +175,7 @@ Rectangle {
                                     id:                     projectNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:                  _comboFieldWidth
-                                    fact: CustomMappingSettings.projectName
+                                    fact: CustomQuickInterface.customMappingSettings.projectName
                                 }
                             }
                             Row {
@@ -191,7 +190,7 @@ Rectangle {
                                     id:     taskNameField
                                     anchors.verticalCenter: parent.verticalCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.taskName
+                                    fact: CustomQuickInterface.customMappingSettings.taskName
                                 }
                             }
                         }
@@ -218,7 +217,7 @@ Rectangle {
                                     id:      processingPresets
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.processingPresets
+                                    fact: CustomQuickInterface.customMappingSettings.processingPresets
                                     onActivated: CustomQuickInterface.presetChanged()
                                 }
                                 QGCButton {
@@ -264,7 +263,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcclassifyInfo.baseline
-                                    fact: CustomMappingSettings.pcClassify
+                                    fact: CustomQuickInterface.customMappingSettings.pcClassify
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -305,7 +304,7 @@ Rectangle {
                                 FactTextField {
                                     id:     smrfScalar
                                     width:  _comboFieldWidth 
-                                    fact: CustomMappingSettings.smrfScalar
+                                    fact: CustomQuickInterface.customMappingSettings.smrfScalar
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                                 
@@ -333,7 +332,7 @@ Rectangle {
                                 FactTextField {
                                     id:     opensfmDepthmapMinPatch
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.opensfmDepthmapMinPatchSd
+                                    fact: CustomQuickInterface.customMappingSettings.opensfmDepthmapMinPatchSd
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -360,7 +359,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfWindow
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.smrfWindow
+                                    fact: CustomQuickInterface.customMappingSettings.smrfWindow
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -387,7 +386,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshOctreeDepth
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.meshOctreeDepth
+                                    fact: CustomQuickInterface.customMappingSettings.meshOctreeDepth
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -414,7 +413,7 @@ Rectangle {
                                 FactTextField {
                                     id:      minNumFeatures
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.minNumFeatures
+                                    fact: CustomQuickInterface.customMappingSettings.minNumFeatures
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -441,7 +440,7 @@ Rectangle {
                                 FactTextField {
                                     id:      resizeTo
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.resizeTo
+                                    fact: CustomQuickInterface.customMappingSettings.resizeTo
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -468,7 +467,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfSlope
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.smrfSlope
+                                    fact: CustomQuickInterface.customMappingSettings.smrfSlope
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -496,7 +495,7 @@ Rectangle {
                                     id:      rerunFrom
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.rerunFrom
+                                    fact: CustomQuickInterface.customMappingSettings.rerunFrom
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -540,7 +539,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: use3DmeshInfo.baseline
-                                    fact: CustomMappingSettings.use3dmesh
+                                    fact: CustomQuickInterface.customMappingSettings.use3dmesh
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -582,7 +581,7 @@ Rectangle {
                                     id:      orthophotoCompression
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.orthophotoCompression
+                                    fact: CustomQuickInterface.customMappingSettings.orthophotoCompression
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -623,7 +622,7 @@ Rectangle {
                                 FactTextField {
                                     id:      mveConfidence
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.mveConfidence
+                                    fact: CustomQuickInterface.customMappingSettings.mveConfidence
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -652,7 +651,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipHoleFillingInfo.baseline
-                                    fact: CustomMappingSettings.texturingSkipHoleFilling
+                                    fact: CustomQuickInterface.customMappingSettings.texturingSkipHoleFilling
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -695,7 +694,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipSeamFillingInfo.baseline
-                                    fact: CustomMappingSettings.texturingSkipGlobalSeamLeveling
+                                    fact: CustomQuickInterface.customMappingSettings.texturingSkipGlobalSeamLeveling
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -735,7 +734,7 @@ Rectangle {
                                 anchors.horizontalCenter: parent.horizontalCenter
                                 FactTextField {
                                     id:      testuringNadirweight
-                                    fact: CustomMappingSettings.texturingNadirWeight
+                                    fact: CustomQuickInterface.customMappingSettings.texturingNadirWeight
                                     width:  _comboFieldWidth
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
@@ -763,7 +762,7 @@ Rectangle {
                                 FactComboBox { 
                                     id:      texturingOutlierRemoveType
                                     anchors.baseline: parent.verticleCenter
-                                    fact: CustomMappingSettings.texturingOutlierRemovalType
+                                    fact: CustomQuickInterface.customMappingSettings.texturingOutlierRemovalType
                                     width:  _comboFieldWidth
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
@@ -805,7 +804,7 @@ Rectangle {
                                 FactTextField {
                                     id:      othroRes
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.othrophotoResolution
+                                    fact: CustomQuickInterface.customMappingSettings.othrophotoResolution
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -834,7 +833,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dtmInfo.baseline
-                                    fact: CustomMappingSettings.dtm
+                                    fact: CustomQuickInterface.customMappingSettings.dtm
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -876,7 +875,7 @@ Rectangle {
                                     id: orthoNoTiled
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: CustomMappingSettings.orthophotoNoTiled
+                                    fact: CustomQuickInterface.customMappingSettings.orthophotoNoTiled
                                     anchors.baseline: orthoNoTiledInfo.baseline
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
@@ -918,7 +917,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demRes
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.demResolution
+                                    fact: CustomQuickInterface.customMappingSettings.demResolution
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -945,7 +944,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshSize
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.meshSize
+                                    fact: CustomQuickInterface.customMappingSettings.meshSize
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -974,7 +973,7 @@ Rectangle {
                                     id: forceGPS
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: CustomMappingSettings.forceGPS
+                                    fact: CustomQuickInterface.customMappingSettings.forceGPS
                                     anchors.baseline: forceGPSInfo.baseline
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
@@ -1018,7 +1017,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: ignoregsdInfo.baseline
-                                    fact: CustomMappingSettings.ignoreGsd
+                                    fact: CustomQuickInterface.customMappingSettings.ignoreGsd
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1062,7 +1061,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: buildOverviewsInfo.baseline
-                                    fact: CustomMappingSettings.buildOverviews
+                                    fact: CustomQuickInterface.customMappingSettings.buildOverviews
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1106,7 +1105,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: opensfmDenseInfo.baseline
-                                    fact: CustomMappingSettings.opensfmDense
+                                    fact: CustomQuickInterface.customMappingSettings.opensfmDense
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1147,7 +1146,7 @@ Rectangle {
                                 FactTextField {
                                     id:      opensfmDepthmapMinConsistentViews
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.opensfmDepthmapMinConsistentViews
+                                    fact: CustomQuickInterface.customMappingSettings.opensfmDepthmapMinConsistentViews
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1177,7 +1176,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipLocalSeamLevelingInfo.baseline
-                                    fact: CustomMappingSettings.texturingSkipLocalSeamLeveling
+                                    fact: CustomQuickInterface.customMappingSettings.texturingSkipLocalSeamLeveling
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1221,7 +1220,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingKeepUnseenFacesInfo.baseline
-                                    fact: CustomMappingSettings.texturingKeepUnseenFaces
+                                    fact: CustomQuickInterface.customMappingSettings.texturingKeepUnseenFaces
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1265,7 +1264,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: debugInfo.baseline
-                                    fact: CustomMappingSettings.debug
+                                    fact: CustomQuickInterface.customMappingSettings.debug
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1309,7 +1308,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: useExifInfo.baseline
-                                    fact: CustomMappingSettings.useExif
+                                    fact: CustomQuickInterface.customMappingSettings.useExif
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1350,7 +1349,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshSamples
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.meshSamples
+                                    fact: CustomQuickInterface.customMappingSettings.meshSamples
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1377,7 +1376,7 @@ Rectangle {
                                 FactTextField {
                                     id:      pcSample
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.pcSample
+                                    fact: CustomQuickInterface.customMappingSettings.pcSample
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1404,7 +1403,7 @@ Rectangle {
                                 FactTextField {
                                     id:      matcherDistance
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.matcherDistance
+                                    fact: CustomQuickInterface.customMappingSettings.matcherDistance
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1431,7 +1430,7 @@ Rectangle {
                                 FactTextField {
                                     id:      splitOverlap
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.splitOverlap
+                                    fact: CustomQuickInterface.customMappingSettings.splitOverlap
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1458,7 +1457,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demDecimation
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.demDecimation
+                                    fact: CustomQuickInterface.customMappingSettings.demDecimation
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1488,7 +1487,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: orthoCutlineInfo.baseline
-                                    fact: CustomMappingSettings.orthophotoCutline
+                                    fact: CustomQuickInterface.customMappingSettings.orthophotoCutline
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1529,7 +1528,7 @@ Rectangle {
                                 FactTextField {
                                     id:      pcFilter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.pcFilter
+                                    fact: CustomQuickInterface.customMappingSettings.pcFilter
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1556,7 +1555,7 @@ Rectangle {
                                 FactTextField {
                                     id:      split
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.split
+                                    fact: CustomQuickInterface.customMappingSettings.split
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1586,7 +1585,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fastOrthoInfo.baseline
-                                    fact: CustomMappingSettings.fastOrthophoto
+                                    fact: CustomQuickInterface.customMappingSettings.fastOrthophoto
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1630,7 +1629,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcEptInfo.baseline
-                                    fact: CustomMappingSettings.pcEpt
+                                    fact: CustomQuickInterface.customMappingSettings.pcEpt
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1671,7 +1670,7 @@ Rectangle {
                                 FactTextField {
                                     id:      crop
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.crop
+                                    fact: CustomQuickInterface.customMappingSettings.crop
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1701,7 +1700,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: pcLasInfo.baseline
-                                    fact: CustomMappingSettings.pcLas
+                                    fact: CustomQuickInterface.customMappingSettings.pcLas
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1743,7 +1742,7 @@ Rectangle {
                                     id:      merge
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.merge
+                                    fact: CustomQuickInterface.customMappingSettings.merge
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1787,7 +1786,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: dsmInfo.baseline
-                                    fact: CustomMappingSettings.dsm
+                                    fact: CustomQuickInterface.customMappingSettings.dsm
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1828,7 +1827,7 @@ Rectangle {
                                 FactTextField {
                                     id:      demGapfillSteps
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.demGapfillSteps
+                                    fact: CustomQuickInterface.customMappingSettings.demGapfillSteps
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1855,7 +1854,7 @@ Rectangle {
                                 FactTextField {
                                     id:      meshPointWeight
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.meshPointWeight
+                                    fact: CustomQuickInterface.customMappingSettings.meshPointWeight
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1882,7 +1881,7 @@ Rectangle {
                                 FactTextField {
                                     id:      maxConcurrency
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.maxConcurrency
+                                    fact: CustomQuickInterface.customMappingSettings.maxConcurrency
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -1910,7 +1909,7 @@ Rectangle {
                                     id:     textureToneMapping
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.texturingToneMapping
+                                    fact: CustomQuickInterface.customMappingSettings.texturingToneMapping
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1954,7 +1953,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: demEuclidianMapInfo.baseline
-                                    fact: CustomMappingSettings.demEuclidianMap
+                                    fact: CustomQuickInterface.customMappingSettings.demEuclidianMap
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -1996,7 +1995,7 @@ Rectangle {
                                     id:     cameraLens
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.cameraLens
+                                    fact: CustomQuickInterface.customMappingSettings.cameraLens
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2040,7 +2039,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: skip3dmodelInfo.baseline
-                                    fact: CustomMappingSettings.skip3dmodel
+                                    fact: CustomQuickInterface.customMappingSettings.skip3dmodel
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2081,7 +2080,7 @@ Rectangle {
                                 FactTextField {
                                     id:      matchNeighbours
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.matchNeighbours
+                                    fact: CustomQuickInterface.customMappingSettings.matchNeighbours
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -2110,7 +2109,7 @@ Rectangle {
                                     id: pcCsv
                                     text: qsTr("Enable")
                                     width: _labelWidth
-                                    fact: CustomMappingSettings.pcCsv
+                                    fact: CustomQuickInterface.customMappingSettings.pcCsv
                                     anchors.baseline: pcCsvInfo.baseline
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
@@ -2153,7 +2152,7 @@ Rectangle {
                                     id:     endWith
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.endWith
+                                    fact: CustomQuickInterface.customMappingSettings.endWith
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2194,7 +2193,7 @@ Rectangle {
                                 FactTextField {
                                     id:      depthmapRes
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.depthmapResolution
+                                    fact: CustomQuickInterface.customMappingSettings.depthmapResolution
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -2222,7 +2221,7 @@ Rectangle {
                                     id:     texturingDataTerm
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.texturingDataTerm
+                                    fact: CustomQuickInterface.customMappingSettings.texturingDataTerm
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2266,7 +2265,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: texturingSkipVisibilityTestInfo.baseline
-                                    fact: CustomMappingSettings.texturingSkipVisibilityTest
+                                    fact: CustomQuickInterface.customMappingSettings.texturingSkipVisibilityTest
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2308,7 +2307,7 @@ Rectangle {
                                     id:     opensfmDepthmapMethod
                                     anchors.baseline: parent.verticleCenter
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.opensfmDepthmapMethod
+                                    fact: CustomQuickInterface.customMappingSettings.opensfmDepthmapMethod
                                     onActivated: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2352,7 +2351,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: fixedCameraParamsInfo.baseline
-                                    fact: CustomMappingSettings.useFixedCameraParams
+                                    fact: CustomQuickInterface.customMappingSettings.useFixedCameraParams
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2393,7 +2392,7 @@ Rectangle {
                                 FactTextField {
                                     id:      smrfThreshold
                                     width:  _comboFieldWidth
-                                    fact: CustomMappingSettings.smrfThreshold
+                                    fact: CustomQuickInterface.customMappingSettings.smrfThreshold
                                     onEditingFinished: CustomQuickInterface.setCustom()
                                 }
                             }
@@ -2423,7 +2422,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: verboseInfo.baseline
-                                    fact: CustomMappingSettings.verbose
+                                    fact: CustomQuickInterface.customMappingSettings.verbose
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
@@ -2467,7 +2466,7 @@ Rectangle {
                                     text: qsTr("Enable")
                                     width: _labelWidth
                                     anchors.baseline: hybridBundleAdjustmentInfo.baseline
-                                    fact: CustomMappingSettings.useHybridBundleAdjustment
+                                    fact: CustomQuickInterface.customMappingSettings.useHybridBundleAdjustment
                                     onClicked: CustomQuickInterface.setCustom()
                                 }
                                 QGCButton {
