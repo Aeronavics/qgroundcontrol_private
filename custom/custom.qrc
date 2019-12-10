@@ -7,10 +7,12 @@
         <file alias="CustomLogSettings.qml">res/SettingsPage/LogSettings.qml</file>
         <file alias="CustomAeronavicsMapping.qml">res/SettingsPage/AeronavicsMapping.qml</file>
     </qresource>
-    <qresource prefix="custom/img">
+    <qresource prefix="/custom/img">
         <file alias="aeronavics.svg">res/Images/aeronavics.svg</file>
         <file alias="void.png">res/Images/void.png</file>
     </qresource>
-    <qresource prefix="Custom/Widgets">
+    <qresource prefix="/Custom/Widgets"/>
+    <qresource prefix="/json">
+        <file alias="Mapping.SettingsGroup.json">src/Mapping.SettingsGroup.json</file>
     </qresource>
 </RCC>

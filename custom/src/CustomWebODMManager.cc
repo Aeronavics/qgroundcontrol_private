@@ -4,6 +4,7 @@
 
 #include "CustomWebODMManager.h"
 #include "CustomPlugin.h"
+#include "CustomMappingSettings.h"
 
 
 #include <QJsonDocument>
@@ -33,7 +34,7 @@ void CustomWebODMManager::init() {
     settings.beginGroup(kCustomWebODMGroup);
     _password =
         settings.value(kPassword, QString("")).toString();
-    _mappingSettings = qgcApp()->toolbox()->settingsManager()->mappingSettings();
+    _mappingSettings = new MappingSettings();
 }
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb,

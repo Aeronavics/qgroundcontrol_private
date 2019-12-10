@@ -754,19 +754,3 @@ void Fact::_setIgnoreQGCRebootRequired(bool ignore)
 {
     _ignoreQGCRebootRequired = ignore;
 }
-
-void Fact::setToDefault() {
-    if (_metaData) {
-        if (!_metaData->defaultValueAvailable()) {
-            qDebug() << "Access to unavailable default value";
-        }
-        _rawValue.setValue(_metaData->rawDefaultValue());
-        _sendValueChangedSignal(cookedValue());
-        //-- Must be in this order
-        emit _containerRawValueChanged(rawValue());
-        emit rawValueChanged(_rawValue);
-    } else {
-        qWarning() << kMissingMetadata << name();
-    }
-}
-

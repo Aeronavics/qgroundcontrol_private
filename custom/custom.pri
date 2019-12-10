@@ -49,6 +49,7 @@ QML_IMPORT_PATH += \
 
 # Our own, custom sources
 SOURCES += \
+    $$PWD/src/CustomMappingSettings.cc \
     $$PWD/src/CustomPlugin.cc \
     $$PWD/src/CustomLogManager.cc \
     $$PWD/src/CustomQuickInterface.cc \
@@ -56,6 +57,7 @@ SOURCES += \
 
 
 HEADERS += \
+    $$PWD/src/CustomMappingSettings.h \
     $$PWD/src/CustomPlugin.h \
     $$PWD/src/CustomQuickInterface.h \
     $$PWD/src/CustomLogManager.h \

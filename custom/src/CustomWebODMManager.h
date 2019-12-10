@@ -1,7 +1,7 @@
 #pragma once
 
 #include "Vehicle.h"
-#include "MappingSettings.h"
+#include "CustomMappingSettings.h"
 #include <QNetworkAccessManager> 
 #include <QFileInfo>
 

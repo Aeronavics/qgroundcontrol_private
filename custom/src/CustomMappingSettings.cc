@@ -7,7 +7,7 @@
  *
  ****************************************************************************/
 
-#include "MappingSettings.h"
+#include "CustomMappingSettings.h"
 #include "QGCPalette.h"
 #include "QGCApplication.h"
 #include "ParameterManager.h"
@@ -18,7 +18,7 @@
 
 DECLARE_SETTINGGROUP(Mapping, "Mapping")
 {
-    qmlRegisterUncreatableType<MappingSettings>("QGroundControl.SettingsManager", 1, 0, "MappingSettings", "Reference only");
+    qmlRegisterUncreatableType<MappingSettings>("CustomMappingSettings", 1, 0, "MappingSettings", "Reference only");
 }
 
 DECLARE_SETTINGSFACT(MappingSettings, smrfScalar)

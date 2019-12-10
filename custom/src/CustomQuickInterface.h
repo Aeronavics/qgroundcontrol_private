@@ -13,6 +13,7 @@
 #pragma once
 
 #include "Vehicle.h"
+#include "CustomMappingSettings.h"
 
 #include <QColor>
 #include <QGeoPositionInfo>
@@ -86,7 +87,7 @@ class CustomQuickInterface : public QObject {
     QString _password;
     bool    _correctCredentials;
     bool    _advancedSettings;
-
+    MappingSettings* _mapping;
 
     void dsmdtm();
     void returnToDefault();
@@ -97,4 +98,5 @@ class CustomQuickInterface : public QObject {
     void buildings();
     void pointOfInterest();
     void volumeAnalysis();
+
 };

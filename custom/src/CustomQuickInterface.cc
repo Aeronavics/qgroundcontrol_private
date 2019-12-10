@@ -11,13 +11,13 @@
  */
 
 #include "AppSettings.h"
-#include "MappingSettings.h"
 #include "MAVLinkLogManager.h"
 #include "PositionManager.h"
 #include "QGCApplication.h"
 #include "QGCMapEngine.h"
 #include "SettingsManager.h"
 
+#include "CustomMappingSettings.h"
 #include "CustomPlugin.h"
 #include "CustomQuickInterface.h"
 #include "CustomLogManager.h"
@@ -66,7 +66,7 @@ void CustomQuickInterface::init(QGCApplication* app) {
         settings.value(kCorrectCredentialsKey, false).toBool());
     setAdvancedSettings(
         settings.value(kAdvancedSettingsKey, false).toBool());
-    
+    _mapping = new MappingSettings();
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
     //qDebug()<< "LOG PATH : "<<_logPath ;
@@ -133,7 +133,7 @@ void CustomQuickInterface::login(QString password) {
     QGCToolbox* toolbox = qgcApp()->toolbox();
     // Be careful of toolbox not being open yet
     if (toolbox) {
-        QString email = qgcApp()->toolbox()->settingsManager()->mappingSettings()->email()->rawValue().toString();
+        QString email = _mapping->email()->rawValue().toString();
         long res = webodm->queryLoginCredientials(email.toStdString(), password.toStdString());
         if (res == (long)200){
             setCorrectCredentials(true);
@@ -156,116 +156,116 @@ void CustomQuickInterface::setAdvancedSettings(bool advancedSettings) {
 
 
 void CustomQuickInterface::returnToDefault() {
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcClassify()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->smrfScalar()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->opensfmDepthmapMinPatchSd()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->smrfWindow()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshOctreeDepth()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->minNumFeatures()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->resizeTo()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->smrfSlope()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->rerunFrom()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->use3dmesh()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->orthophotoCompression()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->mveConfidence()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingSkipHoleFilling()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingSkipGlobalSeamLeveling()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingNadirWeight()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingOutlierRemovalType()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->othrophotoResolution()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->dtm()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->orthophotoNoTiled()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->demResolution()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshSize()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->forceGPS()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->ignoreGsd()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->buildOverviews()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->opensfmDense()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->opensfmDepthmapMinConsistentViews()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingSkipLocalSeamLeveling()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingKeepUnseenFaces()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->debug()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->useExif()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshSamples()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcSample()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->matcherDistance()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->splitOverlap()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->demDecimation()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->orthophotoCutline()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcFilter()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->split()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->fastOrthophoto()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcEpt()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->crop()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcLas()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->merge()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->dsm()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->demGapfillSteps()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshPointWeight()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->maxConcurrency()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingToneMapping()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->demEuclidianMap()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->cameraLens()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->skip3dmodel()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->matchNeighbours()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->pcCsv()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->endWith()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->depthmapResolution()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingDataTerm()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingSkipVisibilityTest()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->opensfmDepthmapMethod()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->useFixedCameraParams()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->smrfThreshold()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->verbose()->setToDefault();
-        qgcApp()->toolbox()->settingsManager()->mappingSettings()->useHybridBundleAdjustment()->setToDefault();
+        _mapping->pcClassify()->rawValue() = _mapping->pcClassify()->rawDefaultValue();
+        _mapping->smrfScalar()->rawValue() = _mapping->smrfScalar()->rawDefaultValue();
+        _mapping->opensfmDepthmapMinPatchSd()->rawValue() = _mapping->opensfmDepthmapMinPatchSd()->rawDefaultValue();
+        _mapping->smrfWindow()->rawValue() = _mapping->smrfWindow()->rawDefaultValue();
+        _mapping->meshOctreeDepth()->rawValue() =_mapping->meshOctreeDepth()->rawDefaultValue();
+        _mapping->minNumFeatures()->rawValue() =_mapping->minNumFeatures()->rawDefaultValue();
+        _mapping->resizeTo()->rawValue() =_mapping->resizeTo()->rawDefaultValue();
+        _mapping->smrfSlope()->rawValue() =_mapping->smrfSlope()->rawDefaultValue();
+        _mapping->rerunFrom()->rawValue() =_mapping->rerunFrom()->rawDefaultValue();
+        _mapping->use3dmesh()->rawValue() =_mapping->use3dmesh()->rawDefaultValue();
+        _mapping->orthophotoCompression()->rawValue() =_mapping->orthophotoCompression()->rawDefaultValue();
+        _mapping->mveConfidence()->rawValue() = _mapping->mveConfidence()->rawDefaultValue();
+        _mapping->texturingSkipHoleFilling()->rawValue() = _mapping->texturingSkipHoleFilling()->rawDefaultValue();
+        _mapping->texturingSkipGlobalSeamLeveling()->rawValue() = _mapping->texturingSkipGlobalSeamLeveling()->rawDefaultValue();
+        _mapping->texturingNadirWeight()->rawValue() = _mapping->texturingNadirWeight()->rawDefaultValue();
+        _mapping->texturingOutlierRemovalType()->rawValue() = _mapping->texturingOutlierRemovalType()->rawDefaultValue();
+        _mapping->othrophotoResolution()->rawValue() = _mapping->othrophotoResolution()->rawDefaultValue();
+        _mapping->dtm()->rawValue() = _mapping->dtm()->rawDefaultValue();
+        _mapping->orthophotoNoTiled()->rawValue() = _mapping->orthophotoNoTiled()->rawDefaultValue();
+        _mapping->demResolution()->rawValue() = _mapping->demResolution()->rawDefaultValue();
+        _mapping->meshSize()->rawValue() = _mapping->meshSize()->rawDefaultValue();
+        _mapping->forceGPS()->rawValue() = _mapping->forceGPS()->rawDefaultValue();
+        _mapping->ignoreGsd()->rawValue() = _mapping->ignoreGsd()->rawDefaultValue();
+        _mapping->buildOverviews()->rawValue() = _mapping->buildOverviews()->rawDefaultValue();
+        _mapping->opensfmDense()->rawValue() = _mapping->opensfmDense()->rawDefaultValue();
+        _mapping->opensfmDepthmapMinConsistentViews()->rawValue() = _mapping->opensfmDepthmapMinConsistentViews()->rawDefaultValue();
+        _mapping->texturingSkipLocalSeamLeveling()->rawValue() = _mapping->texturingSkipLocalSeamLeveling()->rawDefaultValue();
+        _mapping->texturingKeepUnseenFaces()->rawValue() = _mapping->texturingKeepUnseenFaces()->rawDefaultValue();
+        _mapping->debug()->rawValue() = _mapping->debug()->rawDefaultValue();
+        _mapping->useExif()->rawValue() = _mapping->useExif()->rawDefaultValue();
+        _mapping->meshSamples()->rawValue() = _mapping->meshSamples()->rawDefaultValue();
+        _mapping->pcSample()->rawValue() = _mapping->pcSample()->rawDefaultValue();
+        _mapping->matcherDistance()->rawValue() = _mapping->matcherDistance()->rawDefaultValue();
+        _mapping->splitOverlap()->rawValue() = _mapping->splitOverlap()->rawDefaultValue();
+        _mapping->demDecimation()->rawValue() = _mapping->demDecimation()->rawDefaultValue();
+        _mapping->orthophotoCutline()->rawValue() = _mapping->orthophotoCutline()->rawDefaultValue();
+        _mapping->pcFilter()->rawValue() = _mapping->pcFilter()->rawDefaultValue();
+        _mapping->split()->rawValue() = _mapping->split()->rawDefaultValue();
+        _mapping->fastOrthophoto()->rawValue() = _mapping->fastOrthophoto()->rawDefaultValue();
+        _mapping->pcEpt()->rawValue() = _mapping->pcEpt()->rawDefaultValue();
+        _mapping->crop()->rawValue() = _mapping->crop()->rawDefaultValue();
+        _mapping->pcLas()->rawValue() = _mapping->pcLas()->rawDefaultValue();
+        _mapping->merge()->rawValue() = _mapping->merge()->rawDefaultValue();
+        _mapping->dsm()->rawValue() = _mapping->dsm()->rawDefaultValue();
+        _mapping->demGapfillSteps()->rawValue() = _mapping->demGapfillSteps()->rawDefaultValue();
+        _mapping->meshPointWeight()->rawValue() = _mapping->meshPointWeight()->rawDefaultValue();
+        _mapping->maxConcurrency()->rawValue() = _mapping->maxConcurrency()->rawDefaultValue();
+        _mapping->texturingToneMapping()->rawValue() = _mapping->texturingToneMapping()->rawDefaultValue();
+        _mapping->demEuclidianMap()->rawValue() = _mapping->demEuclidianMap()->rawDefaultValue();
+        _mapping->cameraLens()->rawValue() = _mapping->cameraLens()->rawDefaultValue();
+        _mapping->skip3dmodel()->rawValue() = _mapping->skip3dmodel()->rawDefaultValue();
+        _mapping->matchNeighbours()->rawValue() = _mapping->matchNeighbours()->rawDefaultValue();
+        _mapping->pcCsv()->rawValue() = _mapping->pcCsv()->rawDefaultValue();
+        _mapping->endWith()->rawValue() = _mapping->endWith()->rawDefaultValue();
+        _mapping->depthmapResolution()->rawValue() = _mapping->depthmapResolution()->rawDefaultValue();
+        _mapping->texturingDataTerm()->rawValue() = _mapping->texturingDataTerm()->rawDefaultValue();
+        _mapping->texturingSkipVisibilityTest()->rawValue() = _mapping->texturingSkipVisibilityTest()->rawDefaultValue();
+        _mapping->opensfmDepthmapMethod()->rawValue() = _mapping->opensfmDepthmapMethod()->rawDefaultValue();
+        _mapping->useFixedCameraParams()->rawValue() = _mapping->useFixedCameraParams()->rawDefaultValue();
+        _mapping->smrfThreshold()->rawValue() = _mapping->smrfThreshold()->rawDefaultValue();
+        _mapping->verbose()->rawValue() = _mapping->verbose()->rawDefaultValue();
+        _mapping->useHybridBundleAdjustment()->rawValue() = _mapping->useHybridBundleAdjustment()->rawDefaultValue();
 }
 
 void CustomQuickInterface::dsmdtm() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->dsm()->setRawValue(true);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->dtm()->setRawValue(true);
+    _mapping->dsm()->setRawValue(true);
+    _mapping->dtm()->setRawValue(true);
 }
 
 void CustomQuickInterface::highRes() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->dsm()->setRawValue(true);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->ignoreGsd()->setRawValue(true);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->depthmapResolution()->setRawValue(1000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->demResolution()->setRawValue(2.0);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->othrophotoResolution()->setRawValue(2.0);
+    _mapping->dsm()->setRawValue(true);
+    _mapping->ignoreGsd()->setRawValue(true);
+    _mapping->depthmapResolution()->setRawValue(1000);
+    _mapping->demResolution()->setRawValue(2.0);
+    _mapping->othrophotoResolution()->setRawValue(2.0);
 }
 
 void CustomQuickInterface::fastOrtho() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->fastOrthophoto()->setRawValue(true);
+    _mapping->fastOrthophoto()->setRawValue(true);
 }
 
 void CustomQuickInterface::volumeAnalysis() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->dsm()->setRawValue(true);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->demResolution()->setRawValue(2.0);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->depthmapResolution()->setRawValue(1000);
+    _mapping->dsm()->setRawValue(true);
+    _mapping->demResolution()->setRawValue(2.0);
+    _mapping->depthmapResolution()->setRawValue(1000);
 }
 
 void CustomQuickInterface::model() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->depthmapResolution()->setRawValue(1000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshSize()->setRawValue(600000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->use3dmesh()->setRawValue(true);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshOctreeDepth()->setRawValue(11);
+    _mapping->depthmapResolution()->setRawValue(1000);
+    _mapping->meshSize()->setRawValue(600000);
+    _mapping->use3dmesh()->setRawValue(true);
+    _mapping->meshOctreeDepth()->setRawValue(11);
 }
 
 void CustomQuickInterface::buildings() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshOctreeDepth()->setRawValue(10);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshSize()->setRawValue(300000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->depthmapResolution()->setRawValue(1000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingNadirWeight()->setRawValue(28);
+    _mapping->meshOctreeDepth()->setRawValue(10);
+    _mapping->meshSize()->setRawValue(300000);
+    _mapping->depthmapResolution()->setRawValue(1000);
+    _mapping->texturingNadirWeight()->setRawValue(28);
 }
 
 
 void CustomQuickInterface::pointOfInterest() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->meshSize()->setRawValue(600000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->use3dmesh()->setRawValue(true);
+    _mapping->meshSize()->setRawValue(600000);
+    _mapping->use3dmesh()->setRawValue(true);
 }
 
 void CustomQuickInterface::forest() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->minNumFeatures()->setRawValue(18000);
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->texturingDataTerm()->setEnumIndex(0);
+    _mapping->minNumFeatures()->setRawValue(18000);
+    _mapping->texturingDataTerm()->setEnumIndex(0);
 }
 
 void CustomQuickInterface::presetChanged() {
@@ -274,7 +274,7 @@ void CustomQuickInterface::presetChanged() {
     if (toolbox) {
         returnToDefault();
 
-        std::string value = qgcApp()->toolbox()->settingsManager()->mappingSettings()->processingPresets()->enumStringValue().toStdString();
+        std::string value = _mapping->processingPresets()->enumStringValue().toStdString();
         if (value == "DSM + DTM") {
                 dsmdtm();
         } else if (value == "High Resolution") {
@@ -296,5 +296,5 @@ void CustomQuickInterface::presetChanged() {
 }
 
 void CustomQuickInterface::setCustom() {
-    qgcApp()->toolbox()->settingsManager()->mappingSettings()->processingPresets()->setEnumIndex(9);
+    _mapping->processingPresets()->setEnumIndex(9);
 }
