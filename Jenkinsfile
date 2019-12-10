@@ -2,7 +2,6 @@ pipeline {
     agent none
     stages {
         stage('build') {
-            steps {
 
                 stage('Android Release') {
                     environment {
@@ -125,7 +124,6 @@ pipeline {
                         }
                     }
                 }
-            }
         }
         stage('deploy stable') {
 	        agent {
