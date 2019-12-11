@@ -1,12 +1,6 @@
 pipeline {
     agent none
     stages {
-        stage('build') {
-<<<<<<< HEAD
-            stages {
-=======
->>>>>>> parent of 05ac6db4e... Fixed JenkinsFile so builds run in series
-
                 stage('Android Release') {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
@@ -128,11 +122,6 @@ pipeline {
                         }
                     }
                 }
-<<<<<<< HEAD
-            }
-=======
->>>>>>> parent of 05ac6db4e... Fixed JenkinsFile so builds run in series
-        }
         stage('deploy stable') {
 	        agent {
 	        	node{
