@@ -25,16 +25,15 @@ using namespace std;
 
 static const char* kCustomWebODMGroup     = "CustomWebODMGroup";
 static const char* kPassword            = "Password";
-static const char* baseUrl = "http://localhost:5000/";
 
 //-----------------------------------------------------------------------------
-void CustomWebODMManager::init() {
+void CustomWebODMManager::init(CustomMappingSettings* mappingSettings) {
     //-- Get saved settings
     QSettings settings;
     settings.beginGroup(kCustomWebODMGroup);
     _password =
         settings.value(kPassword, QString("")).toString();
-    _mappingSettings = new CustomMappingSettings();
+    _mappingSettings = mappingSettings;
 }
 
 static size_t WriteCallback(void* contents, size_t size, size_t nmemb,
@@ -50,12 +49,14 @@ long CustomWebODMManager::queryLoginCredientials(std::string email, std::string 
 
     std::string body = "email=" + email +"&password=" + password; 
     CURL *hnd;
-
+    
+    std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
+    url += "/";
     std::string readBuffer;
 
     hnd = curl_easy_init();
     curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, 102400L);
-    curl_easy_setopt(hnd, CURLOPT_URL, baseUrl);
+    curl_easy_setopt(hnd, CURLOPT_URL, url.c_str());
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_POSTFIELDS, body.c_str());
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.58.0");
@@ -414,7 +415,7 @@ long CustomWebODMManager::createTask(std::string password){
     if (projectName != "") { body += "&projectName=" + projectName; }
     if (taskName != "") { body += "&taskName=" + taskName; }
 
-    std::string url = baseUrl;
+    std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
     url += "/task";
     
     CURL *hnd;
@@ -455,7 +456,8 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
     struct curl_httppost *postend;
 
     std::string readBuffer;
-    std::string url = baseUrl + std::string("/task/") + std::to_string(taskId);
+    std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
+    url += std::string("/task/") + std::to_string(taskId);
     post1 = NULL;
     postend = NULL;
     curl_formadd(&post1, &postend,
@@ -490,8 +492,8 @@ std::string CustomWebODMManager::startTask(long taskId){
     CURL *hnd;
 
     std::string readBuffer;
-
-    std::string url = baseUrl +std::string("/task/");
+    std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
+    url += std::string("/task/");
     url += std::to_string(taskId);
     url += "/start";
     

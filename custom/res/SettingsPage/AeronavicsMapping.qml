@@ -90,7 +90,21 @@ Rectangle {
                             id:                unitsGrid
                             spacing:           _columnSpacing
                             anchors.centerIn:  parent
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
 
+                                QGCLabel {
+                                    width:             _labelWidth
+                                    anchors.baseline:  serverField.baseline
+                                    text:              qsTr("Server Address: ")
+                                }
+                                FactTextField {
+                                    id: serverField
+                                    width: _comboFieldWidth
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    fact: CustomQuickInterface.customMappingSettings.server
+                                }
+                            }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
                                 

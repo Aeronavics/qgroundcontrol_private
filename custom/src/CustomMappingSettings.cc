@@ -21,6 +21,7 @@ DECLARE_SETTINGGROUP(CustomMapping, "Mapping")
     qmlRegisterUncreatableType<CustomMappingSettings>("CustomQuickInterface", 1, 0, "CustomMappingSettings", "Reference only");
 }
 
+DECLARE_SETTINGSFACT(CustomMappingSettings, server)
 DECLARE_SETTINGSFACT(CustomMappingSettings, smrfScalar)
 DECLARE_SETTINGSFACT(CustomMappingSettings, pcClassify)
 DECLARE_SETTINGSFACT(CustomMappingSettings, opensfmDepthmapMinPatchSd)

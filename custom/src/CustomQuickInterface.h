@@ -14,6 +14,7 @@
 
 #include "Vehicle.h"
 #include "CustomMappingSettings.h"
+#include "CustomWebODMManager.h"
 
 #include <QColor>
 #include <QGeoPositionInfo>
@@ -90,6 +91,7 @@ class CustomQuickInterface : public QObject {
     bool    _correctCredentials;
     bool    _advancedSettings;
     CustomMappingSettings* _mapping;
+    CustomWebODMManager* _webodmManager;
 
     void dsmdtm();
     void returnToDefault();

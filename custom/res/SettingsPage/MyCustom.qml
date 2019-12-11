@@ -36,6 +36,7 @@ Rectangle {
         property bool _showField: !_showCombo && !_root.fact.typeIsBool
         Row {
             spacing: ScreenTools.defaultFontPixelWidth
+            anchors.horizontalCenter: parent.horizontalCenter
             QGCLabel {
                 text: _root.fact.shortDescription
             }

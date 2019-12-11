@@ -67,6 +67,8 @@ void CustomQuickInterface::init(QGCApplication* app) {
     setAdvancedSettings(
         settings.value(kAdvancedSettingsKey, false).toBool());
     _mapping = new CustomMappingSettings();
+    _webodmManager = new CustomWebODMManager();
+    _webodmManager->init(_mapping);
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
     //qDebug()<< "LOG PATH : "<<_logPath ;
@@ -129,12 +131,11 @@ void CustomQuickInterface::setCorrectCredentials(bool correctCredentials) {
 
 
 void CustomQuickInterface::login(QString password) {
-    CustomWebODMManager* webodm = new CustomWebODMManager();
     QGCToolbox* toolbox = qgcApp()->toolbox();
     // Be careful of toolbox not being open yet
     if (toolbox) {
         QString email = _mapping->email()->rawValue().toString();
-        long res = webodm->queryLoginCredientials(email.toStdString(), password.toStdString());
+        long res = _webodmManager->queryLoginCredientials(email.toStdString(), password.toStdString());
         if (res == (long)200){
             setCorrectCredentials(true);
         } else {

@@ -21,6 +21,7 @@ public:
 
     DEFINE_SETTING_NAME_GROUP()
 
+    DEFINE_SETTINGFACT(server)
     DEFINE_SETTINGFACT(email)
     DEFINE_SETTINGFACT(projectName)
     DEFINE_SETTINGFACT(taskName)

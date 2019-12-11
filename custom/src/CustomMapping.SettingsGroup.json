@@ -1,7 +1,14 @@
 [
 {
+    "name":             "server",
+    "shortDescription": "Chocolate Eclair Server address",
+    "longDescription":  "Server address for Chocolate Eclair server",
+    "type":             "string",
+    "defaultValue":     "http://localhost:5000"
+},
+{
     "name":             "email",
-    "shortDescription": "webODM Email address",
+    "shortDescription": "WebODM Email address",
     "longDescription":  "Email address to login to WebODM",
     "type":             "string",
     "defaultValue":     ""

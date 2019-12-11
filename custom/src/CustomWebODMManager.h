@@ -10,7 +10,7 @@
 class CustomWebODMManager : public QObject {
     Q_OBJECT
   public:
-    void init();
+    void init(CustomMappingSettings* mappingSettings);
 
     // Getters
 
