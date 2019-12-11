@@ -1,6 +1,9 @@
 pipeline {
     agent none
     stages {
+        stage('build') {
+            parallel {
+
                 stage('Android Release') {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
@@ -122,6 +125,8 @@ pipeline {
                         }
                     }
                 }
+            }
+        }
         stage('deploy stable') {
 	        agent {
 	        	node{
