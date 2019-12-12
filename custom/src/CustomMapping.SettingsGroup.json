@@ -382,7 +382,7 @@
     "shortDescription":   "DSM",
     "longDescription":    "Use this tag to build a DSM (Digital Surface Model, ground + objects) using a progressive morphological filter. Check the --dem* parameters for finer tuning.",
     "type":               "bool",
-    "defaultValue":       false
+    "defaultValue":       true
 },
 {
     "name":               "demGapfillSteps",
