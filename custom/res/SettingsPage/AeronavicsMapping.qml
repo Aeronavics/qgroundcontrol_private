@@ -111,7 +111,7 @@ Rectangle {
                                 QGCLabel {
                                     width:             _labelWidth
                                     anchors.baseline:  usernameField.baseline
-                                    text:              qsTr("Email: ")
+                                    text:              qsTr("WebODM Email: ")
                                 }
                                 FactTextField {
                                     id: usernameField
@@ -126,7 +126,7 @@ Rectangle {
                                 QGCLabel {
                                     width:             _labelWidth
                                     anchors.baseline:  passwordField.baseline
-                                    text:              qsTr("Password: ")
+                                    text:              qsTr("WebODM Password: ")
                                 }
                                 QGCTextField {
                                     id: passwordField
@@ -153,10 +153,40 @@ Rectangle {
                                     Layout.preferredWidth: height
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticalCenter
-                                    text: qsTr("Check Credentials")
+                                    text: qsTr("Log in")
                                     onClicked: CustomQuickInterface.login(CustomQuickInterface.password)
                                 }
                             }
+                            Row {
+                                visible: CustomQuickInterface.correctCredentials
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    width:             _labelWidth
+                                    anchors.baseline:  userPasswordField.baseline
+                                    text:              qsTr("Computer Password: ")
+                                }
+                                QGCTextField {
+                                    id: userPasswordField
+                                    width: _comboFieldWidth
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    echoMode: TextInput.Password
+                                }
+                            }
+                            Row {
+                                visible: CustomQuickInterface.correctCredentials
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                anchors.horizontalCenter: parent.horizontalCenter
+                                QGCButton {
+                                    id: uploadButton
+                                    Layout.preferredWidth: height
+                                    Layout.preferredHeight: _baseFontEdit
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: qsTr("Upload Images")
+                                    onClicked: CustomQuickInterface.upload(userPasswordField.text)
+                                }
+                            }
+
                         }
                     }
 

@@ -5,12 +5,19 @@
 #include "CustomWebODMManager.h"
 #include "CustomPlugin.h"
 #include "CustomMappingSettings.h"
+#include "Vehicle.h"
+#include "ParameterManager.h"
+#include "Fact.h"
 
-
+#include <QDir>
 #include <QJsonDocument>
 #include <QJsonObject>
 #include <QSettings>
 #include <QCryptographicHash> 
+#include <QSysInfo>
+#include <QInputDialog>
+#include <QApplication>
+
 
 #include <curl/curl.h>
 #include <fcntl.h>
@@ -20,19 +27,14 @@
 #include <stdio.h>
 #include <string>
 #include <sys/stat.h>
+#include <sys/mount.h>
+#include <errno.h>
+#include <unistd.h>
 
 using namespace std;
 
-static const char* kCustomWebODMGroup     = "CustomWebODMGroup";
-static const char* kPassword            = "Password";
-
 //-----------------------------------------------------------------------------
 void CustomWebODMManager::init(CustomMappingSettings* mappingSettings) {
-    //-- Get saved settings
-    QSettings settings;
-    settings.beginGroup(kCustomWebODMGroup);
-    _password =
-        settings.value(kPassword, QString("")).toString();
     _mappingSettings = mappingSettings;
 }
 
@@ -46,6 +48,8 @@ static size_t WriteCallback(void* contents, size_t size, size_t nmemb,
 
 //-----------------------------------------------------------------------------
 long CustomWebODMManager::queryLoginCredientials(std::string email, std::string password) {
+
+    _password = password;
 
     std::string body = "email=" + email +"&password=" + password; 
     CURL *hnd;
@@ -417,7 +421,7 @@ long CustomWebODMManager::createTask(std::string password){
 
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
     url += "/task";
-    
+
     CURL *hnd;
 
     std::string readBuffer;
@@ -488,7 +492,7 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
     return http_code;
 }
 
-std::string CustomWebODMManager::startTask(long taskId){
+void CustomWebODMManager::startTask(long taskId){
     CURL *hnd;
 
     std::string readBuffer;
@@ -498,7 +502,7 @@ std::string CustomWebODMManager::startTask(long taskId){
     url += "/start";
     
     hnd = curl_easy_init();
-    curl_easy_setopt(hnd, CURLOPT_BUFFERSIZE, 102400L);
+
     curl_easy_setopt(hnd, CURLOPT_URL, url.c_str());
     curl_easy_setopt(hnd, CURLOPT_NOPROGRESS, 1L);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.58.0");
@@ -514,6 +518,47 @@ std::string CustomWebODMManager::startTask(long taskId){
     curl_easy_getinfo(hnd, CURLINFO_RESPONSE_CODE, &http_code);
     curl_easy_cleanup(hnd);
     hnd = NULL;
+}
 
-    return readBuffer;
+void CustomWebODMManager::uploadImages(std::string password){
+ 
+    ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
+    if (parameterManager->parametersReady()){
+
+        parameterManager->getParameter(51, "USB_EN")->setRawValue(0);
+
+        QTime dieTime= QTime::currentTime().addSecs(7);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        std::string mount;
+        std::string type = QSysInfo::productType().toStdString();
+        if (type == "winrt" || type == "windows"){
+            mount = "net use q: \\\\10.10.1.2\\airside_shared";
+        } else {
+            mount = "echo " + password + " | sudo -S mkdir -p -m777 /tmp/images; echo " + password + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
+        }
+        qDebug() << system(mount.c_str());
+
+        long taskId = CustomWebODMManager::createTask(_password);
+
+        QDir directory("/tmp/images/payload/SonyCamera/DCIM/100MSDCF");
+        directory.setNameFilters(QStringList() << "*.*");
+        directory.setFilter(QDir::Files);
+        foreach(QString filename, directory.entryList()) {
+            string filepath = "/tmp/images/payload/SonyCamera/DCIM/100MSDCF/" + filename.toStdString();
+            CustomWebODMManager::postImages(taskId, filepath);
+            directory.remove(filename);
+        }
+        CustomWebODMManager::startTask(taskId);
+
+        parameterManager->getParameter(51, "USB_EN")->setRawValue(1);
+        std::string umount;
+        if (type == "winrt" || type == "windows"){
+            umount = "net use q: /delete";
+        } else {
+            umount = "echo " + password + " | sudo -S umount /tmp/images";
+        }
+
+        qDebug() << system(umount.c_str());
+    }
 }

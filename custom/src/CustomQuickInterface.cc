@@ -146,6 +146,10 @@ void CustomQuickInterface::login(QString password) {
     }
 }
 
+void CustomQuickInterface::upload(QString password) {
+    _webodmManager->uploadImages(password.toStdString());
+}
+
 
 void CustomQuickInterface::setAdvancedSettings(bool advancedSettings) {
     _advancedSettings = advancedSettings;

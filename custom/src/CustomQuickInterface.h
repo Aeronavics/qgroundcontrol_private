@@ -68,6 +68,7 @@ class CustomQuickInterface : public QObject {
     void setEnableAutoUpload(bool enable);
     void setCorrectCredentials(bool correctCredentials);
     Q_INVOKABLE void setAdvancedSettings(bool advancedSettings);
+    Q_INVOKABLE void upload(QString password);
     Q_INVOKABLE void setCustom();
     Q_INVOKABLE void presetChanged();
     
