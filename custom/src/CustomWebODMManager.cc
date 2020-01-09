@@ -17,7 +17,7 @@
 #include <QSysInfo>
 #include <QInputDialog>
 #include <QApplication>
-
+#include <QtConcurrent>
 
 #include <curl/curl.h>
 #include <fcntl.h>
@@ -524,41 +524,47 @@ void CustomWebODMManager::uploadImages(std::string password){
  
     ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
     if (parameterManager->parametersReady()){
-
         parameterManager->getParameter(51, "USB_EN")->setRawValue(0);
+        QFuture<void> future = QtConcurrent::run([=]() {
+            QTime dieTime= QTime::currentTime().addSecs(7);
+            while (QTime::currentTime() < dieTime)
+                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            std::string mount;
+            std::string type = QSysInfo::productType().toStdString();
+            if (type == "winrt" || type == "windows"){
+                mount = "net use q: \\\\10.10.1.2\\airside_shared";
+            } else {
+                mount = "echo " + password + " | sudo -S mkdir -p -m777 /tmp/images; echo " + password + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
+            }
+            qDebug() << system(mount.c_str());
 
-        QTime dieTime= QTime::currentTime().addSecs(7);
-        while (QTime::currentTime() < dieTime)
-            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-        std::string mount;
-        std::string type = QSysInfo::productType().toStdString();
-        if (type == "winrt" || type == "windows"){
-            mount = "net use q: \\\\10.10.1.2\\airside_shared";
-        } else {
-            mount = "echo " + password + " | sudo -S mkdir -p -m777 /tmp/images; echo " + password + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
-        }
-        qDebug() << system(mount.c_str());
+            long taskId = CustomWebODMManager::createTask(_password);
+            QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (it.hasNext()){
+                it.next();
+                if (it.fileInfo().isFile()){
+                    qDebug() << CustomWebODMManager::postImages(taskId, it.filePath().toStdString());
+                    qDebug() << QFile::remove(it.filePath());
+                }
+            }
+            dieTime= QTime::currentTime().addSecs(15);
+            while (QTime::currentTime() < dieTime)
+                QCoreApplication::processEvents(QEventLoop::AllEvents, 100); 
+            
 
-        long taskId = CustomWebODMManager::createTask(_password);
+            
+            CustomWebODMManager::startTask(taskId);
 
-        QDir directory("/tmp/images/payload/SonyCamera/DCIM/100MSDCF");
-        directory.setNameFilters(QStringList() << "*.*");
-        directory.setFilter(QDir::Files);
-        foreach(QString filename, directory.entryList()) {
-            string filepath = "/tmp/images/payload/SonyCamera/DCIM/100MSDCF/" + filename.toStdString();
-            CustomWebODMManager::postImages(taskId, filepath);
-            directory.remove(filename);
-        }
-        CustomWebODMManager::startTask(taskId);
+            parameterManager->getParameter(51, "USB_EN")->setRawValue(1);
+            std::string umount;
+            if (type == "winrt" || type == "windows"){
+                umount = "net use q: /delete";
+            } else {
+                umount = "echo " + password + " | sudo -S umount /tmp/images";
+            }
 
-        parameterManager->getParameter(51, "USB_EN")->setRawValue(1);
-        std::string umount;
-        if (type == "winrt" || type == "windows"){
-            umount = "net use q: /delete";
-        } else {
-            umount = "echo " + password + " | sudo -S umount /tmp/images";
-        }
-
-        qDebug() << system(umount.c_str());
+            qDebug() << system(umount.c_str());
+            qDebug() << QString("Upload Complete");
+        });
     }
 }
