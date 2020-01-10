@@ -28,13 +28,16 @@ class CustomWebODMManager : public QObject {
    
     void startTask(long taskId);
 
-    void uploadImages(std::string password);
+    void uploadImages();
+    void webodm(std::string password);
 
-
+  public slots:
+    void _vehicleArmedChanged(bool armed);
 
   private:
     QString _email;
     std::string _password;
+    std::string _userPassword;
     long _taskId;
     long _imagesUploaded;
     std::string _webodmTaskId;

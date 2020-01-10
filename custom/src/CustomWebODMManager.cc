@@ -476,6 +476,7 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
     curl_easy_setopt(hnd, CURLOPT_HTTPPOST, post1);
     curl_easy_setopt(hnd, CURLOPT_USERAGENT, "curl/7.47.0");
     curl_easy_setopt(hnd, CURLOPT_MAXREDIRS, 50L);
+    curl_easy_setopt(hnd, CURLOPT_TIMEOUT, 10L);
     curl_easy_setopt(hnd, CURLOPT_CUSTOMREQUEST, "POST");
     curl_easy_setopt(hnd, CURLOPT_TCP_KEEPALIVE, 1L);
     curl_easy_setopt(hnd, CURLOPT_WRITEFUNCTION, WriteCallback);
@@ -520,13 +521,13 @@ void CustomWebODMManager::startTask(long taskId){
     hnd = NULL;
 }
 
-void CustomWebODMManager::uploadImages(std::string password){
+void CustomWebODMManager::uploadImages(){
  
     ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
     if (parameterManager->parametersReady()){
         parameterManager->getParameter(51, "USB_EN")->setRawValue(0);
         QFuture<void> future = QtConcurrent::run([=]() {
-            QTime dieTime= QTime::currentTime().addSecs(7);
+            QTime dieTime= QTime::currentTime().addSecs(10);
             while (QTime::currentTime() < dieTime)
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
             std::string mount;
@@ -534,19 +535,27 @@ void CustomWebODMManager::uploadImages(std::string password){
             if (type == "winrt" || type == "windows"){
                 mount = "net use q: \\\\10.10.1.2\\airside_shared";
             } else {
-                mount = "echo " + password + " | sudo -S mkdir -p -m777 /tmp/images; echo " + password + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
+                mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
             }
             qDebug() << system(mount.c_str());
 
+            dieTime= QTime::currentTime().addSecs(10);
+            while (QTime::currentTime() < dieTime)
+                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+
             long taskId = CustomWebODMManager::createTask(_password);
+            qDebug() << QString("Ceated task");
+            qDebug() << taskId;
             QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (it.hasNext()){
                 it.next();
                 if (it.fileInfo().isFile()){
+                    qDebug() << it.filePath();
                     qDebug() << CustomWebODMManager::postImages(taskId, it.filePath().toStdString());
                     qDebug() << QFile::remove(it.filePath());
                 }
             }
+            qDebug() << QString("No further files found");
             dieTime= QTime::currentTime().addSecs(15);
             while (QTime::currentTime() < dieTime)
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100); 
@@ -560,11 +569,23 @@ void CustomWebODMManager::uploadImages(std::string password){
             if (type == "winrt" || type == "windows"){
                 umount = "net use q: /delete";
             } else {
-                umount = "echo " + password + " | sudo -S umount /tmp/images";
+                umount = "echo " + _userPassword + " | sudo -S umount /tmp/images";
             }
 
             qDebug() << system(umount.c_str());
             qDebug() << QString("Upload Complete");
         });
+    }
+}
+
+void CustomWebODMManager::webodm(std::string password){
+    _userPassword = password;
+    Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
+    connect(activeVehicle, &Vehicle::armedChanged,this, &CustomWebODMManager::_vehicleArmedChanged);
+}
+
+void CustomWebODMManager::_vehicleArmedChanged(bool armed){
+    if (!armed){
+        uploadImages();
     }
 }

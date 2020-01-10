@@ -56,11 +56,6 @@ Rectangle {
 
     QGCPalette { id: qgcPal }
 
-    function saveItems()
-    {
-        CustomQuickInterface.password = passwordField.text
-    }
-
         QGCFlickable {
             clip:               true
             anchors.fill:       parent
@@ -69,7 +64,7 @@ Rectangle {
 
             Item {
                 id:     outerItem
-            width:  Math.max(_root.width, settingsColumn.width)
+                width:  Math.max(_root.width, settingsColumn.width)
                 height: settingsColumn.height
 
                 ColumnLayout {
@@ -77,14 +72,54 @@ Rectangle {
                     anchors.horizontalCenter:   parent.horizontalCenter
 
                     QGCLabel {
+                        id: mappingMainLabel
+                        text: qsTr("Aeronavics Mapping")
+                    }
+                    Rectangle {
+                        Layout.preferredHeight: mappingMainGrid.height + (_margins * 2)
+                        Layout.preferredWidth:  mappingMainGrid.width + (_margins * 2)
+                        color:                  qgcPal.windowShade
+                        Layout.fillWidth:       true
+
+                        Column {
+                            id:                mappingMainGrid
+                            spacing:           _columnSpacing
+                            anchors.centerIn:  parent
+
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel {
+                                    width:             _labelWidth
+                                    anchors.bottom:  mappingSwitch.bottom
+                                    text:              qsTr("Aeronavics Mapping: ")
+                                }
+                                QGCSwitch {
+                                    id: mappingSwitch
+                                    checked: CustomQuickInterface.mapSurvey
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    onClicked: CustomQuickInterface.setMapSurvey(!CustomQuickInterface.mapSurvey)
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+                                QGCLabel{
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    text: CustomQuickInterface.correctCredentials?qsTr("Data from this flight will be uploaded for processing"):qsTr("Data will not be uploaded")
+                                }
+                            }
+                        }
+                    }
+                    QGCLabel {
                         id:         unitsSectionLabel
                         text:       qsTr("Login Details")
+                        visible: CustomQuickInterface.mapSurvey && !CustomQuickInterface.correctCredentials
                     }
                     Rectangle {
                         Layout.preferredHeight: unitsGrid.height + (_margins * 2)
                         Layout.preferredWidth:  unitsGrid.width + (_margins * 2)
                         color:                  qgcPal.windowShade
                         Layout.fillWidth:       true
+                        visible: CustomQuickInterface.mapSurvey && !CustomQuickInterface.correctCredentials
 
                         Column {
                             id:                unitsGrid
@@ -130,13 +165,26 @@ Rectangle {
                                 }
                                 QGCTextField {
                                     id: passwordField
+                                    objectName: "test"
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
                                     echoMode: TextInput.Password
                                     text: CustomQuickInterface.password
-                                    onEditingFinished: {
-                                        saveItems();
-                                    }
+                                }
+                            }
+                            Row {
+                                spacing: ScreenTools.defaultFontPixelWidth
+
+                                QGCLabel {
+                                    width:             _labelWidth
+                                    anchors.baseline:  userPasswordField.baseline
+                                    text:              qsTr("Computer Password: ")
+                                }
+                                QGCTextField {
+                                    id: userPasswordField
+                                    width: _comboFieldWidth
+                                    anchors.verticalCenter: parent.verticalCenter
+                                    echoMode: TextInput.Password
                                 }
                             }
                             Row {
@@ -154,39 +202,13 @@ Rectangle {
                                     Layout.preferredHeight: _baseFontEdit
                                     anchors.verticalCenter: parent.verticalCenter
                                     text: qsTr("Log in")
-                                    onClicked: CustomQuickInterface.login(CustomQuickInterface.password)
+                                    onClicked: {
+                                        CustomQuickInterface.login(passwordField.text, userPasswordField.text)
+                                        passwordField.text = ""
+                                        userPasswordField.text = ""
+                                    }
                                 }
                             }
-                            Row {
-                                visible: CustomQuickInterface.correctCredentials
-                                spacing: ScreenTools.defaultFontPixelWidth
-
-                                QGCLabel {
-                                    width:             _labelWidth
-                                    anchors.baseline:  userPasswordField.baseline
-                                    text:              qsTr("Computer Password: ")
-                                }
-                                QGCTextField {
-                                    id: userPasswordField
-                                    width: _comboFieldWidth
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    echoMode: TextInput.Password
-                                }
-                            }
-                            Row {
-                                visible: CustomQuickInterface.correctCredentials
-                                spacing: ScreenTools.defaultFontPixelWidth
-                                anchors.horizontalCenter: parent.horizontalCenter
-                                QGCButton {
-                                    id: uploadButton
-                                    Layout.preferredWidth: height
-                                    Layout.preferredHeight: _baseFontEdit
-                                    anchors.verticalCenter: parent.verticalCenter
-                                    text: qsTr("Upload Images")
-                                    onClicked: CustomQuickInterface.upload(userPasswordField.text)
-                                }
-                            }
-
                         }
                     }
 
@@ -195,12 +217,14 @@ Rectangle {
                     QGCLabel {
                         id:         taskNameLabel
                         text:       qsTr("Task Name")
+                        visible: CustomQuickInterface.correctCredentials
                     }
                     Rectangle {
                         Layout.preferredWidth:  nameGrid.width + (_margins * 2)
                         Layout.preferredHeight: nameGrid.height + (_margins * 2)
                         Layout.fillWidth:       true
                         color:                  qgcPal.windowShade
+                        visible: CustomQuickInterface.correctCredentials
 
                         Column {
                             id:                nameGrid
@@ -243,12 +267,14 @@ Rectangle {
                     QGCLabel {
                         id:         processingOptionsLabel
                         text:       qsTr("Processing Options")
+                        visible: CustomQuickInterface.correctCredentials
                     }
                     Rectangle {
                         Layout.preferredHeight: processingOptionsCol.height + (_margins * 2)
                         Layout.preferredWidth:  processingOptionsCol.width + (_margins * 2)
                         color:                  qgcPal.windowShade
                         Layout.fillWidth:       true
+                        visible: CustomQuickInterface.correctCredentials
 
                         Column {
                             id:                         processingOptionsCol

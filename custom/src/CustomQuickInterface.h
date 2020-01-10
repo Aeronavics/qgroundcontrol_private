@@ -41,6 +41,7 @@ class CustomQuickInterface : public QObject {
     Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
     Q_PROPERTY(bool correctCredentials READ correctCredentials WRITE setCorrectCredentials NOTIFY correctCredentialsChanged)
     Q_PROPERTY(bool advancedSettings READ advancedSettings WRITE setAdvancedSettings NOTIFY advancedSettingsChanged)
+    Q_PROPERTY(bool mapSurvey READ mapSurvey WRITE setMapSurvey NOTIFY mapSurveyChanged)
     Q_PROPERTY(QObject* customMappingSettings         READ customMappingSettings        CONSTANT)
 
     // bool showGimbalControl() { return _showGimbalControl; }
@@ -54,9 +55,10 @@ class CustomQuickInterface : public QObject {
     QString          password() { return _password; }
     bool             enableAutoUpload() { return _enableAutoUpload; }
     Q_INVOKABLE bool test_connection(QString networkId);
-    Q_INVOKABLE void login(QString password);
+    Q_INVOKABLE void login(QString password, QString compPassword);
     bool             correctCredentials() { return _correctCredentials; }
     bool             advancedSettings()   { return _advancedSettings; }
+    bool             mapSurvey()          { return _mapSurvey;        }
     CustomMappingSettings* customMappingSettings(void) { return _mapping; }
 
 
@@ -68,7 +70,7 @@ class CustomQuickInterface : public QObject {
     void setEnableAutoUpload(bool enable);
     void setCorrectCredentials(bool correctCredentials);
     Q_INVOKABLE void setAdvancedSettings(bool advancedSettings);
-    Q_INVOKABLE void upload(QString password);
+    Q_INVOKABLE void setMapSurvey(bool mapSurvey);
     Q_INVOKABLE void setCustom();
     Q_INVOKABLE void presetChanged();
     
@@ -81,6 +83,7 @@ class CustomQuickInterface : public QObject {
     void passwordChanged();
     void correctCredentialsChanged();
     void advancedSettingsChanged();
+    void mapSurveyChanged();
 
   private:
     // bool _showGimbalControl = true;
@@ -93,6 +96,7 @@ class CustomQuickInterface : public QObject {
     bool    _advancedSettings;
     CustomMappingSettings* _mapping;
     CustomWebODMManager* _webodmManager;
+    bool _mapSurvey;
 
     void dsmdtm();
     void returnToDefault();

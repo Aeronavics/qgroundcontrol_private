@@ -36,7 +36,7 @@ static const char* kEnableAutoUploadKey   = "EnableAutoUpload";
 static const char* kPasswordKey           = "Password";
 static const char* kCorrectCredentialsKey = "CorrectCredentials";
 static const char* kAdvancedSettingsKey   = "AdvancedSettings";
-
+static const char* kMapSurveyKey   = "MapSurvey";
 
 //-----------------------------------------------------------------------------
 CustomQuickInterface::CustomQuickInterface(QObject* parent) : QObject(parent) {
@@ -66,6 +66,8 @@ void CustomQuickInterface::init(QGCApplication* app) {
         settings.value(kCorrectCredentialsKey, false).toBool());
     setAdvancedSettings(
         settings.value(kAdvancedSettingsKey, false).toBool());
+    setMapSurvey(
+        settings.value(kMapSurveyKey, false).toBool());
     _mapping = new CustomMappingSettings();
     _webodmManager = new CustomWebODMManager();
     _webodmManager->init(_mapping);
@@ -105,7 +107,7 @@ void CustomQuickInterface::setEnableAutoUpload(bool enable) {
 
 //-----------------------------------------------------------------------------
 bool CustomQuickInterface::test_connection(QString networkId) {
-    return (CustomLogManager::queryLogServer(networkId.toStdString(), "") !=
+     return (CustomLogManager::queryLogServer(networkId.toStdString(), "") !=
             "");
 }
 
@@ -130,24 +132,15 @@ void CustomQuickInterface::setCorrectCredentials(bool correctCredentials) {
 
 
 
-void CustomQuickInterface::login(QString password) {
-    QGCToolbox* toolbox = qgcApp()->toolbox();
-    // Be careful of toolbox not being open yet
-    if (toolbox) {
-        QString email = _mapping->email()->rawValue().toString();
-        long res = _webodmManager->queryLoginCredientials(email.toStdString(), password.toStdString());
-        if (res == (long)200){
-            setCorrectCredentials(true);
-        } else {
-            setCorrectCredentials(false);
-        }
+void CustomQuickInterface::login(QString password, QString compPassword) {
+    QString email = _mapping->email()->rawValue().toString();
+    long res = _webodmManager->queryLoginCredientials(email.toStdString(), password.toStdString());
+    if (res == (long)200){
+        setCorrectCredentials(true);
+        _webodmManager->webodm(compPassword.toStdString());
     } else {
         setCorrectCredentials(false);
     }
-}
-
-void CustomQuickInterface::upload(QString password) {
-    _webodmManager->uploadImages(password.toStdString());
 }
 
 
@@ -157,6 +150,19 @@ void CustomQuickInterface::setAdvancedSettings(bool advancedSettings) {
     settings.beginGroup(kCustomWebODMGroup);
     settings.setValue(kAdvancedSettingsKey, advancedSettings);
     emit advancedSettingsChanged();
+}
+
+
+void CustomQuickInterface::setMapSurvey(bool mapSurvey) {
+    _mapSurvey = mapSurvey;
+    QSettings settings;
+    settings.beginGroup(kCustomWebODMGroup);
+    settings.setValue(kMapSurveyKey, mapSurvey);
+    emit mapSurveyChanged();
+    if (!mapSurvey) {
+        QObject::disconnect(qgcApp()->toolbox()->multiVehicleManager()->activeVehicle(),0,_webodmManager, 0);
+        setCorrectCredentials(false);
+    }
 }
 
 
