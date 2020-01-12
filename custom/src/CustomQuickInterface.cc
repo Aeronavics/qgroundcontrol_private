@@ -157,7 +157,7 @@ void CustomQuickInterface::setMapSurvey(bool mapSurvey) {
     if (!mapSurvey) {
         QObject::disconnect(qgcApp()->toolbox()->multiVehicleManager()->activeVehicle(),0,_webodmManager, 0);
         QObject::disconnect(_webodmManager,0,_webodmManager,0);
-        _correctCredentials = false;
+        setCorrectCredentials(false);
     }
     _mapSurvey = mapSurvey;
     QSettings settings;
