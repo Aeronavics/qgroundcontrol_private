@@ -33,6 +33,12 @@ class CustomWebODMManager : public QObject {
 
   public slots:
     void _vehicleArmedChanged(bool armed);
+    void _imageUploadComplete();
+    void _imageUploaded(QString message);
+
+  signals:
+    void uploadComplete();
+    void imageUploaded(QString message);
 
   private:
     QString _email;

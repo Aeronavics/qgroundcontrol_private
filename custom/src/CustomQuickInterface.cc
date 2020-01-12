@@ -66,11 +66,11 @@ void CustomQuickInterface::init(QGCApplication* app) {
         settings.value(kCorrectCredentialsKey, false).toBool());
     setAdvancedSettings(
         settings.value(kAdvancedSettingsKey, false).toBool());
-    setMapSurvey(
-        settings.value(kMapSurveyKey, false).toBool());
     _mapping = new CustomMappingSettings();
     _webodmManager = new CustomWebODMManager();
     _webodmManager->init(_mapping);
+    setMapSurvey(
+        settings.value(kMapSurveyKey, false).toBool());
     //_logPath =
     //    app->toolbox()->settingsManager()->appSettings()->telemetrySavePath();
     //qDebug()<< "LOG PATH : "<<_logPath ;
@@ -154,15 +154,16 @@ void CustomQuickInterface::setAdvancedSettings(bool advancedSettings) {
 
 
 void CustomQuickInterface::setMapSurvey(bool mapSurvey) {
+    if (!mapSurvey) {
+        QObject::disconnect(qgcApp()->toolbox()->multiVehicleManager()->activeVehicle(),0,_webodmManager, 0);
+        QObject::disconnect(_webodmManager,0,_webodmManager,0);
+        _correctCredentials = false;
+    }
     _mapSurvey = mapSurvey;
     QSettings settings;
     settings.beginGroup(kCustomWebODMGroup);
     settings.setValue(kMapSurveyKey, mapSurvey);
     emit mapSurveyChanged();
-    if (!mapSurvey) {
-        QObject::disconnect(qgcApp()->toolbox()->multiVehicleManager()->activeVehicle(),0,_webodmManager, 0);
-        setCorrectCredentials(false);
-    }
 }
 
 

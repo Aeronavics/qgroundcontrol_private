@@ -525,6 +525,7 @@ void CustomWebODMManager::uploadImages(){
  
     ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
     if (parameterManager->parametersReady()){
+        qgcApp()->showMessage(tr("Starting image upload"));
         parameterManager->getParameter(51, "USB_EN")->setRawValue(0);
         QFuture<void> future = QtConcurrent::run([=]() {
             QTime dieTime= QTime::currentTime().addSecs(10);
@@ -544,18 +545,27 @@ void CustomWebODMManager::uploadImages(){
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
 
             long taskId = CustomWebODMManager::createTask(_password);
-            qDebug() << QString("Ceated task");
-            qDebug() << taskId;
+            int totalImages = 0;
+            int sentImages = 0;
+            QDirIterator dir("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            while (dir.hasNext()){
+                dir.next();
+                if (dir.fileInfo().isFile()){
+                    totalImages++;
+                }
+            }
             QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (it.hasNext()){
                 it.next();
                 if (it.fileInfo().isFile()){
-                    qDebug() << it.filePath();
-                    qDebug() << CustomWebODMManager::postImages(taskId, it.filePath().toStdString());
-                    qDebug() << QFile::remove(it.filePath());
+                    it.filePath();
+                    CustomWebODMManager::postImages(taskId, it.filePath().toStdString());
+                    QFile::remove(it.filePath());
+                    sentImages++;
+                    QString str = "Uploaded image "+ QString::number(sentImages) +" of " + QString::number(totalImages);
+                    emit imageUploaded(str);
                 }
             }
-            qDebug() << QString("No further files found");
             dieTime= QTime::currentTime().addSecs(15);
             while (QTime::currentTime() < dieTime)
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100); 
@@ -573,7 +583,7 @@ void CustomWebODMManager::uploadImages(){
             }
 
             qDebug() << system(umount.c_str());
-            qDebug() << QString("Upload Complete");
+            emit uploadComplete();
         });
     }
 }
@@ -582,10 +592,21 @@ void CustomWebODMManager::webodm(std::string password){
     _userPassword = password;
     Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
     connect(activeVehicle, &Vehicle::armedChanged,this, &CustomWebODMManager::_vehicleArmedChanged);
+    connect(this, &CustomWebODMManager::uploadComplete, this, &CustomWebODMManager::_imageUploadComplete);
+    connect(this, &CustomWebODMManager::imageUploaded, this, &CustomWebODMManager::_imageUploaded);
 }
 
 void CustomWebODMManager::_vehicleArmedChanged(bool armed){
     if (!armed){
         uploadImages();
     }
+}
+
+void CustomWebODMManager::_imageUploadComplete() {
+    qgcApp()->showMessage(tr("Image upload complete"));
+    disconnect(this, 0, this, 0);
+}
+
+void CustomWebODMManager::_imageUploaded(QString message) {
+    qgcApp()->toolbox()->uasMessageHandler()->handleTextMessage(0,51,6, message);
 }
