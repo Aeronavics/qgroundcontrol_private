@@ -28,7 +28,6 @@
 #include <string>
 #include <sys/stat.h>
 #include <errno.h>
-#include <unistd.h>
 
 using namespace std;
 
