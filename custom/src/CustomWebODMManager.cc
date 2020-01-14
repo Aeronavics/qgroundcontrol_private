@@ -524,6 +524,8 @@ void CustomWebODMManager::uploadImages(){
     ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
     if (parameterManager->parametersReady()){
         qgcApp()->showMessage(tr("Starting image upload"));
+        connect(this, &CustomWebODMManager::uploadComplete, this, &CustomWebODMManager::_imageUploadComplete);
+        connect(this, &CustomWebODMManager::imageUploaded, this, &CustomWebODMManager::_imageUploaded);
         parameterManager->getParameter(51, "USB_EN")->setRawValue(0);
         QFuture<void> future = QtConcurrent::run([=]() {
             QTime dieTime= QTime::currentTime().addSecs(10);
@@ -590,8 +592,6 @@ void CustomWebODMManager::webodm(std::string password){
     _userPassword = password;
     Vehicle* activeVehicle = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle();
     connect(activeVehicle, &Vehicle::armedChanged,this, &CustomWebODMManager::_vehicleArmedChanged);
-    connect(this, &CustomWebODMManager::uploadComplete, this, &CustomWebODMManager::_imageUploadComplete);
-    connect(this, &CustomWebODMManager::imageUploaded, this, &CustomWebODMManager::_imageUploaded);
 }
 
 void CustomWebODMManager::_vehicleArmedChanged(bool armed){
