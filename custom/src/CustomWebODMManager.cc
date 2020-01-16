@@ -520,7 +520,7 @@ void CustomWebODMManager::startTask(long taskId){
 }
 
 void CustomWebODMManager::uploadImages(){
- 
+  
     ParameterManager* parameterManager = qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager();
     if (parameterManager->parametersReady()){
         qgcApp()->showMessage(tr("Starting image upload"));
@@ -533,10 +533,11 @@ void CustomWebODMManager::uploadImages(){
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
             std::string mount;
             std::string type = QSysInfo::productType().toStdString();
+            std::string sid = parameterManager->getParameter(1, "SYSID_THISMAV")->rawValue().toString().toStdString();
             if (type == "winrt" || type == "windows"){
-                mount = "net use q: \\\\10.10.1.2\\airside_shared";
+                mount = "net use q: \\\\10.10."+sid+".2\\airside_shared";
             } else {
-                mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10.1.2/airside_shared /tmp/images";
+                mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /tmp/images";
             }
             qDebug() << system(mount.c_str());
 
