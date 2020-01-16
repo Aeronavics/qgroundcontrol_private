@@ -7,8 +7,11 @@ pipeline {
                 stage('Android Release') {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
+                        CCACHE_CPP2 = '1'
                         QGC_CONFIG = 'release'
                         QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
+                        QT_MKSPEC = "android-clang"
+                        BITNESS=32
                         GSTREAMER_ROOT_ANDROID = "/qgroundcontrol/gstreamerr"
                         QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
