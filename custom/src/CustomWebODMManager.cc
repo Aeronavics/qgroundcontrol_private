@@ -75,7 +75,7 @@ long CustomWebODMManager::queryLoginCredientials(std::string email, std::string 
 
     curl_easy_cleanup(hnd);
     hnd = NULL;
-    
+
     return http_code;
 }
 
@@ -403,7 +403,7 @@ std::string CustomWebODMManager::getOptions(){
     return options;
 } 
 
-long CustomWebODMManager::createTask(std::string password){
+void CustomWebODMManager::createTask(std::string password){
     std::string options = getOptions();
     std::string email = "";
     std::string projectName = "";
@@ -416,6 +416,7 @@ long CustomWebODMManager::createTask(std::string password){
     std::string body = "email=" + email +"&password=" + password + "&options=" + options;
     if (projectName != "") { body += "&projectName=" + projectName; }
     if (taskName != "") { body += "&taskName=" + taskName; }
+
 
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
     url += "/task";
@@ -440,18 +441,18 @@ long CustomWebODMManager::createTask(std::string password){
     curl_easy_perform(hnd);
     long http_code = 0;
     curl_easy_getinfo(hnd, CURLINFO_RESPONSE_CODE, &http_code);
-
     curl_easy_cleanup(hnd);
     hnd = NULL;
-
-    long taskId = 0;
-    
-    taskId = atol(readBuffer.substr(6,15).c_str());
-    return taskId;
+    QTime dieTime= QTime::currentTime().addSecs(10);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    QString id = QString::fromStdString(readBuffer);
+    _taskId = id.toLong();
+    qDebug() << QString::number(_taskId);
 }
 
 
-long CustomWebODMManager::postImages(long taskId, std::string image){
+long CustomWebODMManager::postImages(std::string image){
 
     CURL *hnd;
     struct curl_httppost *post1;
@@ -459,7 +460,7 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
 
     std::string readBuffer;
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
-    url += std::string("/task/") + std::to_string(taskId);
+    url += std::string("/task/") + std::to_string(_taskId);
     post1 = NULL;
     postend = NULL;
     curl_formadd(&post1, &postend,
@@ -491,13 +492,13 @@ long CustomWebODMManager::postImages(long taskId, std::string image){
     return http_code;
 }
 
-void CustomWebODMManager::startTask(long taskId){
+void CustomWebODMManager::startTask(){
     CURL *hnd;
 
     std::string readBuffer;
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
     url += std::string("/task/");
-    url += std::to_string(taskId);
+    url += std::to_string(_taskId);
     url += "/start";
     
     hnd = curl_easy_init();
@@ -544,47 +545,61 @@ void CustomWebODMManager::uploadImages(){
             dieTime= QTime::currentTime().addSecs(10);
             while (QTime::currentTime() < dieTime)
                 QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            
 
-            long taskId = CustomWebODMManager::createTask(_password);
-            int totalImages = 0;
-            int sentImages = 0;
+            _totalImages = 0;
+            _numImagesUploaded = 0;
+            _numImagesFailed = 0;
+            _failedImageName = "";
+            _connectionLost = false;
+            _uploadFailed = false;
+
+
             QDirIterator dir("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (dir.hasNext()){
                 dir.next();
                 if (dir.fileInfo().isFile()){
-                    totalImages++;
+                    _totalImages++;
                 }
             }
-            QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
-            while (it.hasNext()){
-                it.next();
-                if (it.fileInfo().isFile()){
-                    it.filePath();
-                    CustomWebODMManager::postImages(taskId, it.filePath().toStdString());
-                    QFile::remove(it.filePath());
-                    sentImages++;
-                    QString str = "Uploaded image "+ QString::number(sentImages) +" of " + QString::number(totalImages);
-                    emit imageUploaded(str);
+
+            std::string email = _mappingSettings->email()->rawValueString().toStdString();
+
+            if (queryLoginCredientials(email, _password) != long(200)){
+                _connectionLost = true;
+            }
+            if (_connectionLost || _totalImages == 0){
+                _unmount();    
+            } else if(_totalImages != 0){                
+    
+                CustomWebODMManager::createTask(_password);
+
+                dieTime= QTime::currentTime().addSecs(5);
+                while (QTime::currentTime() < dieTime)
+                    QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    
+                
+               while (_numImagesUploaded + _numImagesFailed < _totalImages){
+                   QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+                    int skipped = 0;
+                    while (it.hasNext() && skipped < _numImagesUploaded + _numImagesFailed){
+                        it.next();
+                        if (it.fileInfo().isFile()){
+                            skipped++;
+                        }
+                    }
+                    while (it.hasNext()){
+                        it.next();
+                        QString str = "";
+                        if (it.fileInfo().isFile()){
+                            QString filepath = it.filePath();
+                            QString filename = it.fileName();
+                            _uploadImage(filepath, filename);
+                        }
+                    }
                 }
+                _deleteImages();
             }
-            dieTime= QTime::currentTime().addSecs(15);
-            while (QTime::currentTime() < dieTime)
-                QCoreApplication::processEvents(QEventLoop::AllEvents, 100); 
-            
-
-            
-            CustomWebODMManager::startTask(taskId);
-
-            parameterManager->getParameter(51, "USB_EN")->setRawValue(1);
-            std::string umount;
-            if (type == "winrt" || type == "windows"){
-                umount = "net use q: /delete";
-            } else {
-                umount = "echo " + _userPassword + " | sudo -S umount /tmp/images";
-            }
-
-            qDebug() << system(umount.c_str());
-            emit uploadComplete();
         });
     }
 }
@@ -601,11 +616,80 @@ void CustomWebODMManager::_vehicleArmedChanged(bool armed){
     }
 }
 
-void CustomWebODMManager::_imageUploadComplete() {
-    qgcApp()->showMessage(tr("Image upload complete"));
+void CustomWebODMManager::_imageUploadComplete(QString uploadMsg) {
+    qgcApp()->showMessage(uploadMsg);
     disconnect(this, 0, this, 0);
 }
 
 void CustomWebODMManager::_imageUploaded(QString message) {
     qgcApp()->toolbox()->uasMessageHandler()->handleTextMessage(0,51,6, message);
+}
+
+void CustomWebODMManager::_uploadImage(QString filepath, QString filename) {
+    qDebug() << filepath;
+    QString str = "";
+    if (CustomWebODMManager::postImages(filepath.toStdString()) != long(200)){
+        QTime dieTime= QTime::currentTime().addSecs(5);
+        while (QTime::currentTime() < dieTime)
+            QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+        if (CustomWebODMManager::postImages(filepath.toStdString()) != long(200)){
+            str = "Failed to upload image " + filename;
+            emit imageUploaded(str);
+            _numImagesFailed++;
+            _uploadFailed = true;
+            _failedImageName.append(filename +", ");
+            return;
+        }
+    }
+    _numImagesUploaded++;
+    str = "Uploaded image "+ QString::number(_numImagesUploaded) +" of " + QString::number(_totalImages);
+    emit imageUploaded(str);
+}
+
+void CustomWebODMManager::_deleteImages(){
+    if (!_uploadFailed){
+        QDir deleteDir("/tmp/images/payload/SonyCamera/DCIM");
+        while (deleteDir.exists()){
+            deleteDir.removeRecursively();
+            QTime dieTime= QTime::currentTime().addSecs(5);
+            while (QTime::currentTime() < dieTime)
+                QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+            deleteDir.refresh();
+        }
+    }
+
+    QTime dieTime= QTime::currentTime().addSecs(30);
+    while (QTime::currentTime() < dieTime)
+        QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
+    startTask();
+    _unmount();
+}
+
+void CustomWebODMManager::_unmount() {
+    qgcApp()->toolbox()->multiVehicleManager()->activeVehicle()->parameterManager()->getParameter(51, "USB_EN")->setRawValue(1);
+    std::string umount;
+    std::string type = QSysInfo::productType().toStdString();
+    if (type == "winrt" || type == "windows"){
+        umount = "net use q: /delete";
+    } else {
+        umount = "echo " + _userPassword + " | sudo -S umount /tmp/images";
+    }
+
+    qDebug() << system(umount.c_str());
+
+    if (_connectionLost){
+        emit uploadComplete("Connection lost to server.");
+    } else if (_uploadFailed){
+        _failedImageName.prepend("Failed to upload all images. Uploaded " + QString::number(_numImagesUploaded) +" of " + QString::number(_totalImages) + ".<br>Images which failed to upload are: ");
+        _failedImageName.chop(2);
+        _failedImageName.append("<br>Images will not be removed from the camera.");
+        emit uploadComplete(_failedImageName);
+    } else if (_totalImages == 0){
+         QString noImages("No images found to be uploaded.");
+         emit uploadComplete(noImages);
+    } else {
+        QString uploadCompleted("Image upload complete.");
+        emit uploadComplete(uploadCompleted);
+    }
+
 }

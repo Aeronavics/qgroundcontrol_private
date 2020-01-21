@@ -22,22 +22,22 @@ class CustomWebODMManager : public QObject {
 
     long queryLoginCredientials(std::string email, std::string password);
 
-    long createTask(std::string password);
+    void createTask(std::string password);
 
-    long postImages(long taskId, std::string image);
+    long postImages(std::string image);
    
-    void startTask(long taskId);
+    void startTask();
 
     void uploadImages();
     void webodm(std::string password);
 
   public slots:
     void _vehicleArmedChanged(bool armed);
-    void _imageUploadComplete();
+    void _imageUploadComplete(QString uploadMsg);
     void _imageUploaded(QString message);
 
   signals:
-    void uploadComplete();
+    void uploadComplete(QString uploadMsg);
     void imageUploaded(QString message);
 
   private:
@@ -48,5 +48,16 @@ class CustomWebODMManager : public QObject {
     long _imagesUploaded;
     std::string _webodmTaskId;
     CustomMappingSettings* _mappingSettings;
+    QString _failedImageName;
+    int _numImagesUploaded;
+    int _totalImages;
+    int _numImagesFailed;
+    bool _uploadFailed;
+    bool _connectionLost;
+
+
+    void _unmount();
+    void _deleteImages();
+    void _uploadImage(QString filepath, QString filename);
     std::string getOptions();
 };
