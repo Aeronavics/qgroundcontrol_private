@@ -537,8 +537,10 @@ void CustomWebODMManager::uploadImages(){
             std::string sid = parameterManager->getParameter(1, "SYSID_THISMAV")->rawValue().toString().toStdString();
             if (type == "winrt" || type == "windows"){
                 mount = "net use q: \\\\10.10."+sid+".2\\airside_shared";
+                _mountpath = QString("q:\\payload\\SonyCamera\\DCIM");
             } else {
                 mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /tmp/images";
+                _mountpath = QString("/tmp/images/payload/SonyCamera/DCIM");
             }
             qDebug() << system(mount.c_str());
 
@@ -555,7 +557,7 @@ void CustomWebODMManager::uploadImages(){
             _uploadFailed = false;
 
 
-            QDirIterator dir("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+            QDirIterator dir(_mountpath, QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
             while (dir.hasNext()){
                 dir.next();
                 if (dir.fileInfo().isFile()){
@@ -580,7 +582,7 @@ void CustomWebODMManager::uploadImages(){
     
                 
                while (_numImagesUploaded + _numImagesFailed < _totalImages){
-                   QDirIterator it("/tmp/images/payload/SonyCamera/DCIM",QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+                   QDirIterator it(_mountpath, QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
                     int skipped = 0;
                     while (it.hasNext() && skipped < _numImagesUploaded + _numImagesFailed){
                         it.next();
@@ -648,7 +650,7 @@ void CustomWebODMManager::_uploadImage(QString filepath, QString filename) {
 
 void CustomWebODMManager::_deleteImages(){
     if (!_uploadFailed){
-        QDir deleteDir("/tmp/images/payload/SonyCamera/DCIM");
+        QDir deleteDir(_mountpath);
         while (deleteDir.exists()){
             deleteDir.removeRecursively();
             QTime dieTime= QTime::currentTime().addSecs(5);
