@@ -447,6 +447,7 @@ void CustomWebODMManager::createTask(std::string password){
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     QString id = QString::fromStdString(readBuffer);
+    qDebug() << id;
     _taskId = id.toLong();
     qDebug() << QString::number(_taskId);
 }
@@ -580,9 +581,11 @@ void CustomWebODMManager::uploadImages(){
                 while (QTime::currentTime() < dieTime)
                     QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     
-                
-               while (_numImagesUploaded + _numImagesFailed < _totalImages){
+               _cameraLost = false;
+               int attempts = 0;
+               while (_numImagesUploaded + _numImagesFailed < _totalImages && attempts < 10){
                    QDirIterator it(_mountpath, QDir::AllEntries |QDir::NoDotAndDotDot, QDirIterator::Subdirectories);
+                    attempts++;
                     int skipped = 0;
                     while (it.hasNext() && skipped < _numImagesUploaded + _numImagesFailed){
                         it.next();
@@ -599,6 +602,9 @@ void CustomWebODMManager::uploadImages(){
                             _uploadImage(filepath, filename);
                         }
                     }
+                }
+                if (attempts == 10){
+                    _cameraLost = true;
                 }
                 _deleteImages();
             }
@@ -649,7 +655,7 @@ void CustomWebODMManager::_uploadImage(QString filepath, QString filename) {
 }
 
 void CustomWebODMManager::_deleteImages(){
-    if (!_uploadFailed){
+    if (!_uploadFailed && !_cameraLost){
         QDir deleteDir(_mountpath);
         while (deleteDir.exists()){
             deleteDir.removeRecursively();
@@ -678,8 +684,9 @@ void CustomWebODMManager::_unmount() {
     }
 
     qDebug() << system(umount.c_str());
-
-    if (_connectionLost){
+    if (_cameraLost){
+        emit uploadComplete("Lost connection to the camera during the upload.<br> Uploaded " + QString::number(_numImagesUploaded) +" of " + QString::number(_totalImages) + ".");
+    } else if (_connectionLost){
         emit uploadComplete("Connection lost to server.");
     } else if (_uploadFailed){
         _failedImageName.prepend("Failed to upload all images. Uploaded " + QString::number(_numImagesUploaded) +" of " + QString::number(_totalImages) + ".<br>Images which failed to upload are: ");

@@ -54,6 +54,7 @@ class CustomWebODMManager : public QObject {
     int _numImagesFailed;
     bool _uploadFailed;
     bool _connectionLost;
+    bool _cameraLost;
     QString _mountpath;
 
 
