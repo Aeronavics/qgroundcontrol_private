@@ -446,7 +446,7 @@ void CustomWebODMManager::createTask(std::string password){
     QTime dieTime= QTime::currentTime().addSecs(10);
     while (QTime::currentTime() < dieTime)
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
-    QString id = QString::fromStdString(readBuffer);
+    QString id = QString::fromStdString(readBuffer).simplified();
     qDebug() << id;
     _taskId = id.toLong();
     qDebug() << QString::number(_taskId);
