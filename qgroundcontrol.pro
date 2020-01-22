@@ -51,7 +51,6 @@ LinuxBuild {
 WindowsBuild {
     RC_ICONS = resources/icons/qgroundcontrol.ico
     CONFIG += resources_big
-    CONFIG += console
 }
 
 #
@@ -301,7 +300,7 @@ ReleaseBuild {
 #
 # Build-specific settings
 #
-
+CONFIG += console
 DebugBuild {
 !iOSBuild {
     CONFIG += console
