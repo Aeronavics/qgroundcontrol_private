@@ -55,76 +55,76 @@ pipeline {
                     }
                 }
 
-               // stage('Linux Release') {
-               //     environment {
-               //         CCACHE_BASEDIR = "${env.WORKSPACE}"
-               //         QGC_CONFIG = 'release'
-               //         QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
-               //     }
-               //     agent {
-               //         docker{
-               //             registryUrl 'http://pelardon.aeronavics.com:8083'
-               //             registryCredentialsId 'aeronavics_registry_user'
-               //             image 'pelardon.aeronavics.com:8083/qgc_linux'
-               //         }
-               //     }
-               //     steps {
-               //         sh 'export'
-               //         sh 'ccache -z'
-               //         sh 'git submodule deinit -f .'
-               //         sh 'git clean -ff -x -d .'
-               //         sh 'git submodule update --init --recursive --force'
-               //         withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
-               //             sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
-               //         }
-               //         sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} CONFIG+=QGC_DISABLE_APM_PLUGIN_FACTORY -spec linux-g++-64 INCLUDEPATH+=${WORKSPACE}/libs/gdal/linux/include LIBS+=" -L${WORKSPACE}/libs/gdal/linux/lib/ -lproj"'
-               //         sh 'cd build; make -j`nproc --all`'
-               //         sh 'ccache -s'
-               //         sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'
-               //         sh './deploy/create_linux_deb.sh ${WORKSPACE}/build/release/QGroundControl ${WORKSPACE}/deploy/control ${WORKSPACE}/build/release/package'
-               //     }
-               //     post {
-               //         success {
-               //             stash(includes: 'build/**/*.AppImage', name: 'linux_appimage')
-               //             stash(includes: 'build/**/*.deb', name: 'linux_deb')
-               //             archiveArtifacts artifacts: 'build/**/*.AppImage'
-               //             archiveArtifacts artifacts: 'build/**/*.deb'
-               //         }
-               //         cleanup {
-               //             sh 'rm -r ${WORKSPACE}/build || true'
-               //             sh 'git clean -ff -x -d .'
-               //         }
-               //     }
-               // }
+                stage('Linux Release') {
+                    environment {
+                        CCACHE_BASEDIR = "${env.WORKSPACE}"
+                        QGC_CONFIG = 'release'
+                        QMAKE_VER = "5.11.0/gcc_64/bin/qmake"
+                    }
+                    agent {
+                        docker{
+                            registryUrl 'http://pelardon.aeronavics.com:8083'
+                            registryCredentialsId 'aeronavics_registry_user'
+                            image 'pelardon.aeronavics.com:8083/qgc_linux'
+                        }
+                    }
+                    steps {
+                        sh 'export'
+                        sh 'ccache -z'
+                        sh 'git submodule deinit -f .'
+                        sh 'git clean -ff -x -d .'
+                        sh 'git submodule update --init --recursive --force'
+                        withCredentials([file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
+                            sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
+                        }
+                        sh 'mkdir build; cd build; ${QT_PATH}/${QMAKE_VER} -r ${WORKSPACE}/qgroundcontrol.pro CONFIG+=WarningsAsErrorsOn CONFIG+=installer CONFIG+=${QGC_CONFIG} CONFIG+=QGC_DISABLE_APM_PLUGIN_FACTORY -spec linux-g++-64 INCLUDEPATH+=${WORKSPACE}/libs/gdal/linux/include LIBS+=" -L${WORKSPACE}/libs/gdal/linux/lib/ -lproj"'
+                        sh 'cd build; make -j`nproc --all`'
+                        sh 'ccache -s'
+                        sh './deploy/create_linux_appimage.sh ${WORKSPACE} ${WORKSPACE}/build/release ${WORKSPACE}/build/release/package'
+                        sh './deploy/create_linux_deb.sh ${WORKSPACE}/build/release/QGroundControl ${WORKSPACE}/deploy/control ${WORKSPACE}/build/release/package'
+                    }
+                    post {
+                        success {
+                            stash(includes: 'build/**/*.AppImage', name: 'linux_appimage')
+                            stash(includes: 'build/**/*.deb', name: 'linux_deb')
+                            archiveArtifacts artifacts: 'build/**/*.AppImage'
+                            archiveArtifacts artifacts: 'build/**/*.deb'
+                        }
+                        cleanup {
+                            sh 'rm -r ${WORKSPACE}/build || true'
+                            sh 'git clean -ff -x -d .'
+                        }
+                    }
+                }
 
 
 
-               // stage('Windows Release') {
-               //     agent {
-               //         node {
-               //             label 'windows'
-               //         }
+                stage('Windows Release') {
+                    agent {
+                        node {
+                            label 'windows'
+                        }
 
-               //     }
-               //     environment {
-               //         QGC_CONFIG = 'release'
-               //         QMAKE_VER = '5.11.0/gcc_64/bin/qmake'
-               //     }
-               //     steps {
-               //         bat 'git fetch --tags'
-               //         bat "call vcvarsall.bat"
-               //         withCredentials(bindings: [file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
-               //             sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
-               //         }
-               //         bat "call winbuild.bat"
-               //     }
-               //     post {
-               //         success {
-               //             stash(includes: 'build/release/*installer*.exe', name: 'windows_binary')
-               //             archiveArtifacts artifacts: 'build/release/*installer*.exe'
-               //         }
-               //     }
-               // }
+                    }
+                    environment {
+                        QGC_CONFIG = 'release'
+                        QMAKE_VER = '5.11.0/gcc_64/bin/qmake'
+                    }
+                    steps {
+                        bat 'git fetch --tags'
+                        bat "call vcvarsall.bat"
+                        withCredentials(bindings: [file(credentialsId: 'QGC_Airmap_api_key', variable: 'AIRMAP_API_HEADER')]) {
+                            sh 'cp $AIRMAP_API_HEADER ${WORKSPACE}/src/Airmap/Airmap_api_key.h'
+                        }
+                        bat "call winbuild.bat"
+                    }
+                    post {
+                        success {
+                            stash(includes: 'build/release/*installer*.exe', name: 'windows_binary')
+                            archiveArtifacts artifacts: 'build/release/*installer*.exe'
+                        }
+                    }
+                }
             }
         }
         stage('deploy stable') {
