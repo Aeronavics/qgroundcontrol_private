@@ -448,7 +448,7 @@ void CustomWebODMManager::createTask(std::string password){
         QCoreApplication::processEvents(QEventLoop::AllEvents, 100);
     QString id = QString::fromStdString(readBuffer).simplified();
     qDebug() << id;
-    _taskId = id.toLong();
+    _taskId = id.toLongLong();
     qDebug() << QString::number(_taskId);
 }
 
@@ -461,7 +461,7 @@ long CustomWebODMManager::postImages(std::string image){
 
     std::string readBuffer;
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
-    url += std::string("/task/") + std::to_string(_taskId);
+    url += std::string("/task/") + QString::number(_taskId).toStdString();
     post1 = NULL;
     postend = NULL;
     curl_formadd(&post1, &postend,
@@ -499,7 +499,7 @@ void CustomWebODMManager::startTask(){
     std::string readBuffer;
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
     url += std::string("/task/");
-    url += std::to_string(_taskId);
+    url += QString::number(_taskId).toStdString();
     url += "/start";
     
     hnd = curl_easy_init();

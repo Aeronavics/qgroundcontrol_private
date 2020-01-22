@@ -44,7 +44,7 @@ class CustomWebODMManager : public QObject {
     QString _email;
     std::string _password;
     std::string _userPassword;
-    long _taskId;
+    qlonglong _taskId;
     long _imagesUploaded;
     std::string _webodmTaskId;
     CustomMappingSettings* _mappingSettings;
