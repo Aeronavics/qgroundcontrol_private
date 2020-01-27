@@ -1,5 +1,3 @@
-pipeline {
-    agent none
     stages {
         stage('build') {
             parallel {
@@ -8,7 +6,7 @@ pipeline {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
                         QGC_CONFIG = 'release'
-                        QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
+                        QMAKE_VER = "5.12.6/android_armv7/bin/qmake"
                         GSTREAMER_ROOT_ANDROID = "/qgroundcontrol/gstreamerr"
                         QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
