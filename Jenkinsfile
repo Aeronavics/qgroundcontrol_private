@@ -1,3 +1,5 @@
+pipeline {
+    agent none
     stages {
         stage('build') {
             parallel {
