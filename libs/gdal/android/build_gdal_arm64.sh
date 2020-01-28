@@ -7,9 +7,9 @@
 apt update
 apt install -y python pkg-config automake autoconf autogen libtool
 
-/opt/android-ndk/build/tools/make_standalone_toolchain.py --arch=arm64 --api=21 --install-dir=/android-21-toolchain
+/opt/android-sdk/ndk-r20b/build/tools/make_standalone_toolchain.py --arch=arm64 --api=21 --install-dir=/android-21-toolchain
 
-export ANDROID_NDK='/opt/android-ndk'
+export ANDROID_NDK='/opt/android-sdk/ndk-r20b'
 export ANDROID_SDK='/opt/android-sdk'
 export PATH=$PATH:/android-21-toolchain/bin/
 
