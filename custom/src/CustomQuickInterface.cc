@@ -132,12 +132,24 @@ void CustomQuickInterface::setCorrectCredentials(bool correctCredentials) {
 
 
 
+
 void CustomQuickInterface::login(QString password, QString compPassword) {
     QString email = _mapping->email()->rawValue().toString();
     long res = _webodmManager->queryLoginCredientials(email.toStdString(), password.toStdString());
     if (res == (long)200){
         setCorrectCredentials(true);
-        _webodmManager->webodm(compPassword.toStdString());
+        std::string type = QSysInfo::productType().toStdString();
+        if (type != "winrt" && type != "windows"){
+            std::string testPass = "echo " + compPassword.toStdString() + " | sudo -S -v ";
+            int pass = system(testPass.c_str());
+            qDebug() << QString::number(pass);
+            if (pass == 0){
+                _webodmManager->webodm(compPassword.toStdString());
+                setCorrectCredentials(true);
+            } else {
+                setCorrectCredentials(false);
+            }
+        }
     } else {
         setCorrectCredentials(false);
     }
