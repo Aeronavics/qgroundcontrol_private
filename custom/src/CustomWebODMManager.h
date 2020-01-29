@@ -14,13 +14,13 @@ class CustomWebODMManager : public QObject {
 
     // Getters
 
-    QString username() { return _username; }
+    QString email() { return _email; }
     std::string password() { return _password; }
     long taskId() { return _taskId; }
     long imagesUploaded() { return _imagesUploaded; }
     std::string webodmTaskId() { return _webodmTaskId; }
 
-    long queryLoginCredientials(std::string username, std::string password);
+    long queryLoginCredientials(std::string email, std::string password);
 
     void createTask(std::string password);
 
@@ -41,7 +41,7 @@ class CustomWebODMManager : public QObject {
     void imageUploaded(QString message);
 
   private:
-    QString _username;
+    QString _email;
     std::string _password;
     std::string _userPassword;
     qlonglong _taskId;

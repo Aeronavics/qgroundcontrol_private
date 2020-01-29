@@ -7,9 +7,9 @@
     "defaultValue":     "http://localhost:5000"
 },
 {
-    "name":             "username",
-    "shortDescription": "WebODM Username",
-    "longDescription":  "Username to login to WebODM",
+    "name":             "email",
+    "shortDescription": "WebODM Email address",
+    "longDescription":  "Email address to login to WebODM",
     "type":             "string",
     "defaultValue":     ""
 },

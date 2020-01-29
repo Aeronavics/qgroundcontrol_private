@@ -45,11 +45,11 @@ static size_t WriteCallback(void* contents, size_t size, size_t nmemb,
 
 
 //-----------------------------------------------------------------------------
-long CustomWebODMManager::queryLoginCredientials(std::string username, std::string password) {
+long CustomWebODMManager::queryLoginCredientials(std::string email, std::string password) {
 
     _password = password;
 
-    std::string body = "username=" + username +"&password=" + password; 
+    std::string body = "email=" + email +"&password=" + password; 
     CURL *hnd;
     
     std::string url = _mappingSettings->server()->rawValue().toString().toStdString();
@@ -405,15 +405,15 @@ std::string CustomWebODMManager::getOptions(){
 
 void CustomWebODMManager::createTask(std::string password){
     std::string options = getOptions();
-    std::string username = "";
+    std::string email = "";
     std::string projectName = "";
     std::string taskName = "";
     if (_mappingSettings){
-        username = _mappingSettings->username()->rawValueString().toStdString();
+        email = _mappingSettings->email()->rawValueString().toStdString();
         projectName = _mappingSettings->projectName()->rawValueString().toStdString();
         taskName = _mappingSettings->taskName()->rawValueString().toStdString();
     }
-    std::string body = "username=" + username +"&password=" + password + "&options=" + options;
+    std::string body = "email=" + email +"&password=" + password + "&options=" + options;
     if (projectName != "") { body += "&projectName=" + projectName; }
     if (taskName != "") { body += "&taskName=" + taskName; }
 
@@ -539,9 +539,6 @@ void CustomWebODMManager::uploadImages(){
             if (type == "winrt" || type == "windows"){
                 mount = "net use q: \\\\10.10."+sid+".2\\airside_shared";
                 _mountpath = QString("q:\\payload\\SonyCamera\\DCIM");
-            } else if (type == "android") {
-                mount = "mkdir -p -m777 /tmp/images; mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /sdcard/mount";
-                _mountpath = QString("/sdcard/mount/payload/SonyCamera/DCIM");
             } else {
                 mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /tmp/images";
                 _mountpath = QString("/tmp/images/payload/SonyCamera/DCIM");
@@ -569,9 +566,9 @@ void CustomWebODMManager::uploadImages(){
                 }
             }
 
-            std::string username = _mappingSettings->username()->rawValueString().toStdString();
+            std::string email = _mappingSettings->email()->rawValueString().toStdString();
 
-            if (queryLoginCredientials(username, _password) != long(200)){
+            if (queryLoginCredientials(email, _password) != long(200)){
                 _connectionLost = true;
             }
             if (_connectionLost || _totalImages == 0){
