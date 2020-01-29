@@ -150,253 +150,253 @@ std::string CustomWebODMManager::getOptions(){
 
             if (pcClassify != _mappingSettings->pcClassify()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-classify', 'value':'true'}";
+                options += "{\"name\":\"pc-classify\", \"value\":\"true\"}";
             }
             if (smrfScalar != _mappingSettings->smrfScalar()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
                 std::stringstream stream;
                 stream << std::fixed << std::setprecision(2) << smrfScalar;
-                options += "{'name':'smrf-scalar', 'value':" + stream.str() + "}";
+                options += "{\"name\":\"smrf-scalar\", \"value\":" + stream.str() + "}";
             }
             if (opensfmDepthmapMinPatchSd != _mappingSettings->opensfmDepthmapMinPatchSd()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'opensfm-depthmap-min-patch-sd', 'value':" + std::to_string(opensfmDepthmapMinPatchSd) + "}";
+                options += "{\"name\":\"opensfm-depthmap-min-patch-sd\", \"value\":" + std::to_string(opensfmDepthmapMinPatchSd) + "}";
             }
             if (smrfWindow != _mappingSettings->smrfWindow()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'smrf-window', 'value':" + std::to_string(smrfWindow) + "}";
+                options += "{\"name\":\"smrf-window\", \"value\":" + std::to_string(smrfWindow) + "}";
             }
             if (meshOctreeDepth != _mappingSettings->meshOctreeDepth()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'mesh-octree-depth', 'value':" + std::to_string(meshOctreeDepth) + "}";
+                options += "{\"name\":\"mesh-octree-depth\", \"value\":" + std::to_string(meshOctreeDepth) + "}";
             }
             if (minNumFeatures != _mappingSettings->minNumFeatures()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'min-num-features', 'value':" + std::to_string(minNumFeatures) + "}";
+                options += "{\"name\":\"min-num-features\", \"value\":" + std::to_string(minNumFeatures) + "}";
             }
             if (resizeTo != _mappingSettings->resizeTo()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'resize-to', 'value':" + std::to_string(resizeTo) + "}";
+                options += "{\"name\":\"resize-to\", \"value\":" + std::to_string(resizeTo) + "}";
             }
             if (smrfSlope != _mappingSettings->smrfSlope()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'smrf-slope', 'value':" + std::to_string(smrfSlope) + "}";
+                options += "{\"name\":\"smrf-slope\", \"value\":" + std::to_string(smrfSlope) + "}";
             }
             if (rerunFrom != _mappingSettings->rerunFrom()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'rerun-from', 'value':'" + _mappingSettings->rerunFrom()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"rerun-from\", \"value\":\"" + _mappingSettings->rerunFrom()->enumStringValue().toStdString() + "\"}";
             }
             if (use3dmesh != _mappingSettings->use3dmesh()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'use-3dmesh', 'value':'true'}";
+                options += "{\"name\":\"use-3dmesh\", \"value\":\"true\"}";
             }
             if (orthophotoCompression != _mappingSettings->orthophotoCompression()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'orthophoto-compression', 'value':'" + _mappingSettings->orthophotoCompression()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"orthophoto-compression\", \"value\":\"" + _mappingSettings->orthophotoCompression()->enumStringValue().toStdString() + "\"}";
             }
             if (mveConfidence != _mappingSettings->mveConfidence()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'mve-confidence', 'value':" + std::to_string(mveConfidence) + "}";
+                options += "{\"name\":\"mve-confidence\", \"value\":" + std::to_string(mveConfidence) + "}";
             }
             if (texturingSkipHoleFilling != _mappingSettings->texturingSkipHoleFilling()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-skip-hole-filling', 'value':'true'}";
+                options += "{\"name\":\"texturing-skip-hole-filling\", \"value\":\"true\"}";
             }
             if (texturingSkipGlobalSeamLeveling != _mappingSettings->texturingSkipGlobalSeamLeveling()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-skip-global-seam-leveling', 'value':'true'}";
+                options += "{\"name\":\"texturing-skip-global-seam-leveling\", \"value\":\"true\"}";
             }
             if (texturingNadirWeight != _mappingSettings->texturingNadirWeight()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-nadir-weight', 'value':" + std::to_string(texturingNadirWeight) + "}";
+                options += "{\"name\":\"texturing-nadir-weight\", \"value\":" + std::to_string(texturingNadirWeight) + "}";
             }
             if (texturingOutlierRemovalType != _mappingSettings->texturingOutlierRemovalType()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-outlier-removal-type', 'value':'" + _mappingSettings->texturingOutlierRemovalType()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"texturing-outlier-removal-type\", \"value\":\"" + _mappingSettings->texturingOutlierRemovalType()->enumStringValue().toStdString() + "\"}";
             }
             if (othrophotoResolution != _mappingSettings->othrophotoResolution()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'orthophoto-resolution', 'value':" + std::to_string(othrophotoResolution) + "}";
+                options += "{\"name\":\"orthophoto-resolution\", \"value\":" + std::to_string(othrophotoResolution) + "}";
             }
             if (dtm != _mappingSettings->dtm()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dtm', 'value':'true'}";
+                options += "{\"name\":\"dtm\", \"value\":\"true\"}";
             }
             if (orthophotoNoTiled != _mappingSettings->orthophotoNoTiled()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'orthophoto-no-tiled', 'value':'true'}";
+                options += "{\"name\":\"orthophoto-no-tiled\", \"value\":\"true\"}";
             }
             if (demResolution != _mappingSettings->demResolution()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dem-resolution ', 'value':" + std::to_string(demResolution) + "}";
+                options += "{\"name\":\"dem-resolution \", \"value\":" + std::to_string(demResolution) + "}";
             }
             if (meshSize != _mappingSettings->meshSize()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'mesh-size', 'value':" + std::to_string(meshSize) + "}";
+                options += "{\"name\":\"mesh-size\", \"value\":" + std::to_string(meshSize) + "}";
             }
             if (forceGPS != _mappingSettings->forceGPS()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'force-gps', 'value':'true'}";
+                options += "{\"name\":\"force-gps\", \"value\":\"true\"}";
             }
             if (ignoreGsd != _mappingSettings->ignoreGsd()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'ignore-gsd', 'value':'true'}";
+                options += "{\"name\":\"ignore-gsd\", \"value\":\"true\"}";
             }
             if (buildOverviews != _mappingSettings->buildOverviews()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'build-overviews', 'value':'true'}";
+                options += "{\"name\":\"build-overviews\", \"value\":\"true\"}";
             }
             if (opensfmDense != _mappingSettings->opensfmDense()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'use-opensfm-dense', 'value':'true'}";
+                options += "{\"name\":\"use-opensfm-dense\", \"value\":\"true\"}";
             }
             if (opensfmDepthmapMinConsistentViews != _mappingSettings->opensfmDepthmapMinConsistentViews()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'opensfm-depthmap-min-consistent-views', 'value':" + std::to_string(opensfmDepthmapMinConsistentViews) + "}";
+                options += "{\"name\":\"opensfm-depthmap-min-consistent-views\", \"value\":" + std::to_string(opensfmDepthmapMinConsistentViews) + "}";
             }
             if (texturingSkipLocalSeamLeveling != _mappingSettings->texturingSkipLocalSeamLeveling()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-skip-local-seam-leveling', 'value':'true'}";
+                options += "{\"name\":\"texturing-skip-local-seam-leveling\", \"value\":\"true\"}";
             }
             if (texturingKeepUnseenFaces != _mappingSettings->texturingKeepUnseenFaces()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-keep-unseen-faces', 'value':'true'}";
+                options += "{\"name\":\"texturing-keep-unseen-faces\", \"value\":\"true\"}";
             }
             if (debug != _mappingSettings->debug()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'debug', 'value':'true'}";
+                options += "{\"name\":\"debug\", \"value\":\"true\"}";
             }
             if (useExif != _mappingSettings->useExif()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'use-exif', 'value':'true'}";
+                options += "{\"name\":\"use-exif\", \"value\":\"true\"}";
             }
             if (meshSamples != _mappingSettings->meshSamples()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'mesh-samples', 'value':" + std::to_string(meshSamples) + "}";
+                options += "{\"name\":\"mesh-samples\", \"value\":" + std::to_string(meshSamples) + "}";
             }
             if (pcSample != _mappingSettings->pcSample()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-sample', 'value':" + std::to_string(pcSample) + "}";
+                options += "{\"name\":\"pc-sample\", \"value\":" + std::to_string(pcSample) + "}";
             }
             if (matcherDistance != _mappingSettings->matcherDistance()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'matcher-distance', 'value':" + std::to_string(matcherDistance) + "}";
+                options += "{\"name\":\"matcher-distance\", \"value\":" + std::to_string(matcherDistance) + "}";
             }
             if (splitOverlap != _mappingSettings->splitOverlap()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'split-overlap', 'value':" + std::to_string(splitOverlap) + "}";
+                options += "{\"name\":\"split-overlap\", \"value\":" + std::to_string(splitOverlap) + "}";
             }
             if (demDecimation != _mappingSettings->demDecimation()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dem-decimation', 'value':" + std::to_string(demDecimation) + "}";
+                options += "{\"name\":\"dem-decimation\", \"value\":" + std::to_string(demDecimation) + "}";
             }
             if (orthophotoCutline != _mappingSettings->orthophotoCutline()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'orthophoto-cutline', 'value':'true'}";
+                options += "{\"name\":\"orthophoto-cutline\", \"value\":\"true\"}";
             }
             if (pcFilter != _mappingSettings->pcFilter()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-filter', 'value':" + std::to_string(pcFilter) + "}";
+                options += "{\"name\":\"pc-filter\", \"value\":" + std::to_string(pcFilter) + "}";
             }
             if (split != _mappingSettings->split()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'split', 'value':" + std::to_string(split) + "}";
+                options += "{\"name\":\"split\", \"value\":" + std::to_string(split) + "}";
             }
             if (fastOrthophoto != _mappingSettings->fastOrthophoto()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'fast-orthophoto', 'value':'true'}";
+                options += "{\"name\":\"fast-orthophoto\", \"value\":\"true\"}";
             }
             if (pcEpt != _mappingSettings->pcEpt()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-ept', 'value':'true'}";
+                options += "{\"name\":\"pc-ept\", \"value\":\"true\"}";
             }
             if (crop != _mappingSettings->crop()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'crop', 'value':" + std::to_string(crop) + "}";
+                options += "{\"name\":\"crop\", \"value\":" + std::to_string(crop) + "}";
             }
             if (pcLas != _mappingSettings->pcLas()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-las', 'value':'true'}";
+                options += "{\"name\":\"pc-las\", \"value\":\"true\"}";
             }
             if (merge != _mappingSettings->merge()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'merge', 'value':'" + _mappingSettings->merge()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"merge\", \"value\":\"" + _mappingSettings->merge()->enumStringValue().toStdString() + "\"}";
             }
             if (dsm != _mappingSettings->dsm()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dsm', 'value':'true'}";
+                options += "{\"name\":\"dsm\", \"value\":\"true\"}";
             }
             if (demGapfillSteps != _mappingSettings->demGapfillSteps()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dem-gapfill-steps', 'value':" + std::to_string(demGapfillSteps) + "}";
+                options += "{\"name\":\"dem-gapfill-steps\", \"value\":" + std::to_string(demGapfillSteps) + "}";
             }
             if (meshPointWeight != _mappingSettings->meshPointWeight()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'mesh-point-weight', 'value':" + std::to_string(meshPointWeight) + "}";
+                options += "{\"name\":\"mesh-point-weight\", \"value\":" + std::to_string(meshPointWeight) + "}";
             }
             if (maxConcurrency != _mappingSettings->maxConcurrency()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'max-concurrency', 'value':" + std::to_string(maxConcurrency) + "}";
+                options += "{\"name\":\"max-concurrency\", \"value\":" + std::to_string(maxConcurrency) + "}";
             }
             if (texturingToneMapping != _mappingSettings->texturingToneMapping()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-tone-mapping', 'value':'" + _mappingSettings->texturingToneMapping()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"texturing-tone-mapping\", \"value\":\"" + _mappingSettings->texturingToneMapping()->enumStringValue().toStdString() + "\"}";
             }
             if (demEuclidianMap != _mappingSettings->demEuclidianMap()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'dem-euclidean-map', 'value':'true'}";
+                options += "{\"name\":\"dem-euclidean-map\", \"value\":\"true\"}";
             }
             if (cameraLens != _mappingSettings->cameraLens()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'camera-lens', 'value':'" + _mappingSettings->cameraLens()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"camera-lens\", \"value\":\"" + _mappingSettings->cameraLens()->enumStringValue().toStdString() + "\"}";
             }
             if (skip3dmodel != _mappingSettings->skip3dmodel()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'skip-3dmodel', 'value':'true'}";
+                options += "{\"name\":\"skip-3dmodel\", \"value\":\"true\"}";
             }
             if (matchNeighbours != _mappingSettings->matchNeighbours()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'matcher-neighbors', 'value':" + std::to_string(matchNeighbours) + "}";
+                options += "{\"name\":\"matcher-neighbors\", \"value\":" + std::to_string(matchNeighbours) + "}";
             }
             if (pcCsv != _mappingSettings->pcCsv()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'pc-csv', 'value':'true'}";
+                options += "{\"name\":\"pc-csv\", \"value\":\"true\"}";
             }
             if (endWith != _mappingSettings->endWith()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'end-with', 'value':'" + _mappingSettings->endWith()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"end-with\", \"value\":\"" + _mappingSettings->endWith()->enumStringValue().toStdString() + "\"}";
             }
             if (depthmapResolution != _mappingSettings->depthmapResolution()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'depthmap-resolution', 'value':" + std::to_string(depthmapResolution) + "}";
+                options += "{\"name\":\"depthmap-resolution\", \"value\":" + std::to_string(depthmapResolution) + "}";
             }
             if (texturingDataTerm != _mappingSettings->texturingDataTerm()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-data-term', 'value':'" + _mappingSettings->texturingDataTerm()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"texturing-data-term\", \"value\":\"" + _mappingSettings->texturingDataTerm()->enumStringValue().toStdString() + "\"}";
             }
             if (texturingSkipVisibilityTest != _mappingSettings->texturingSkipVisibilityTest()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'texturing-skip-visibility-test', 'value':'true'}";
+                options += "{\"name\":\"texturing-skip-visibility-test\", \"value\":\"true\"}";
             }
             if (opensfmDepthmapMethod != _mappingSettings->opensfmDepthmapMethod()->rawDefaultValue().toInt()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'opensfm-depthmap-method', 'value':'" + _mappingSettings->opensfmDepthmapMethod()->enumStringValue().toStdString() + "'}";
+                options += "{\"name\":\"opensfm-depthmap-method\", \"value\":\"" + _mappingSettings->opensfmDepthmapMethod()->enumStringValue().toStdString() + "\"}";
             }
             if (useFixedCameraParams != _mappingSettings->useFixedCameraParams()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'use-fixed-camera-params', 'value':'true'}";
+                options += "{\"name\":\"use-fixed-camera-params\", \"value\":\"true\"}";
             }
             if (smrfThreshold != _mappingSettings->smrfThreshold()->rawDefaultValue().toDouble()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'smrf-threshold', 'value':" + std::to_string(smrfThreshold) + "}";
+                options += "{\"name\":\"smrf-threshold\", \"value\":" + std::to_string(smrfThreshold) + "}";
             }
             if (verbose != _mappingSettings->verbose()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'verbose', 'value':'true'}";
+                options += "{\"name\":\"verbose\", \"value\":\"true\"}";
             }
             if (useHybridBundleAdjustment != _mappingSettings->useHybridBundleAdjustment()->rawDefaultValue().toBool()) {
                 if (options != "[") { options += ","; }
-                options += "{'name':'use-hybrid-bundle-adjustment', 'value':'true'}";
+                options += "{\"name\":\"use-hybrid-bundle-adjustment\", \"value\":\"true\"}";
             }
         }
     options += "]";
