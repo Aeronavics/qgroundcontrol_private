@@ -300,7 +300,7 @@ ReleaseBuild {
 #
 # Build-specific settings
 #
-CONFIG += console
+
 DebugBuild {
 !iOSBuild {
     CONFIG += console

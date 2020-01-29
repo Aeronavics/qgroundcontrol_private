@@ -146,13 +146,13 @@ Rectangle {
                                 QGCLabel {
                                     width:             _labelWidth
                                     anchors.baseline:  usernameField.baseline
-                                    text:              qsTr("WebODM Email: ")
+                                    text:              qsTr("WebODM Username: ")
                                 }
                                 FactTextField {
                                     id: usernameField
                                     width: _comboFieldWidth
                                     anchors.verticalCenter: parent.verticalCenter
-                                    fact: CustomQuickInterface.customMappingSettings.email
+                                    fact: CustomQuickInterface.customMappingSettings.username
                                 }
                             }
                             Row {
@@ -174,7 +174,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                visible: Qt.platform.os !== "windows" && Qt.platform.os !== "winrt"
+                                visible: Qt.platform.os !== "windows" && Qt.platform.os !== "winrt" && Qt.platform.os !== "android"
 
                                 QGCLabel {
                                     width:             _labelWidth
