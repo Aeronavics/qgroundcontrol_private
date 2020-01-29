@@ -174,7 +174,7 @@ Rectangle {
                             }
                             Row {
                                 spacing: ScreenTools.defaultFontPixelWidth
-                                visible: Qt.platform.os !== "windows" && Qt.platform.os !== "winrt"
+                                visible: Qt.platform.os !== "windows" && Qt.platform.os !== "winrt" && Qt.platform.os !== "android"
 
                                 QGCLabel {
                                     width:             _labelWidth

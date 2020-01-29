@@ -137,9 +137,8 @@ void CustomQuickInterface::login(QString password, QString compPassword) {
     QString email = _mapping->email()->rawValue().toString();
     long res = _webodmManager->queryLoginCredientials(email.toStdString(), password.toStdString());
     if (res == (long)200){
-        setCorrectCredentials(true);
         std::string type = QSysInfo::productType().toStdString();
-        if (type != "winrt" && type != "windows"){
+        if (type != "winrt" && type != "windows" && type != "android") {
             std::string testPass = "echo " + compPassword.toStdString() + " | sudo -S -v ";
             int pass = system(testPass.c_str());
             qDebug() << QString::number(pass);
@@ -149,6 +148,9 @@ void CustomQuickInterface::login(QString password, QString compPassword) {
             } else {
                 setCorrectCredentials(false);
             }
+        } else {
+            _webodmManager->webodm(compPassword.toStdString());
+            setCorrectCredentials(true);
         }
     } else {
         setCorrectCredentials(false);
