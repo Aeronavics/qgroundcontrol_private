@@ -20,6 +20,7 @@
 #include "CustomVideoManager.h"
 #include "CustomLogManager.h"
 
+
 #include "MultiVehicleManager.h"
 #include "QGCApplication.h"
 #include "SettingsManager.h"
@@ -148,6 +149,10 @@ CustomPlugin::settingsPages()
         addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
         addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",    "qrc:/res/waves.svg");
         addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",      "qrc:/res/waves.svg");
+        std::string type = QSysInfo::productType().toStdString();
+        if (type != "android") {
+            addSettingsEntry(tr("Aeronavics Mapping"), "qrc:/custom/CustomAeronavicsMapping.qml");
+        }
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif

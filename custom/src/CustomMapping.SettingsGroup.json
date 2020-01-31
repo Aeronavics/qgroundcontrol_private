@@ -1,0 +1,542 @@
+[
+{
+    "name":             "server",
+    "shortDescription": "Chocolate Eclair Server address",
+    "longDescription":  "Server address for Chocolate Eclair server",
+    "type":             "string",
+    "defaultValue":     "http://localhost:5000"
+},
+{
+    "name":             "email",
+    "shortDescription": "WebODM Email address",
+    "longDescription":  "Email address to login to WebODM",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
+    "name":             "projectName",
+    "shortDescription": "Project Name",
+    "longDescription":  "Name of the project that the mapping task to be saved under.",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
+    "name":             "taskName",
+    "shortDescription": "Task Name",
+    "longDescription":  "Name of the task on WebODM.",
+    "type":             "string",
+    "defaultValue":     ""
+},
+{
+    "name":               "smrfScalar",
+    "shortDescription":   "smrf elavation scalar",
+    "longDescription":    "Simple Morphological Filter elevation scalar parameter.",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       1.25
+},
+{
+    "name":               "opensfmDepthmapMinPatchSd",
+    "shortDescription":   "opensfm depthmap minimum patch standard deviation",
+    "longDescription":    "When using PATCH_MATCH or PATCH_MATCH_SAMPLE, controls the standard deviation threshold to include patched. Patches with lower standard deviation are ignored.",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       1
+},
+{
+    "name":               "pcClassify",
+    "shortDescription":   "Point cloud classification",
+    "longDescription":    "Classify the point cloud outputs using a Simple Morphological Filter. You can control the behaviour of this option by tweaking the --dem-* parameters.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "smrfWindow",
+    "shortDescription":   "smrf window",
+    "longDescription":    "Simple Morphological Filter window raduis parameter.",
+    "type":               "double",
+    "min":                0,
+    "units":              "m",
+    "decimalPlaces":      2,
+    "defaultValue":       18
+},
+{
+    "name":               "meshOctreeDepth",
+    "shortDescription":   "Mesh octree depth",
+    "longDescription":    "Oct-tree depth used in the mesh reconstruction, increase to get more vertices recommended values are 8-12.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       9
+},
+{
+    "name":               "minNumFeatures",
+    "shortDescription":   "Minimum number of features",
+    "longDescription":    "Minimum number of features to extract per image. More features leads to better results but slower execution.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       8000
+},
+{
+    "name":               "resizeTo",
+    "shortDescription":   "Resize to",
+    "longDescription":    "Resizes images by the largest side for feature extraction purposes only. Set to -1 to disable. this does not affest the final orthophoto resolution quality and will not resize the original images.",
+    "type":               "uint32",
+    "min":                -1,
+    "defaultValue":       2048
+},
+{
+    "name":               "smrfSlope",
+    "shortDescription":   "smrf slope",
+    "longDescription":    "Simple Morphological Filter slope parameter (rise over run).",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       0.15
+},
+{
+    "name":               "rerunFrom",
+    "shortDescription":   "Rerun from",
+    "longDescription":    "Can be one of: none | dataset | split | merge | opensfm | mve | odm_filterpoints | odm_meshing | mvs_texturing | odm_georeferencing | odm_dem | odm_orthophoto",
+    "type":               "uint32",
+    "enumStrings":        "none, dataset,split,merge,opensfm,mve,odm_filterpoints,odm_meshing,mvs_texturing,odm_georeferencing,odm_dem,odm_orthophoto",
+    "enumValues":         "0,1,2,3,4,5,6,7,8,9,10,11",
+    "defaultValue":       0
+},
+{
+    "name":               "use3dmesh",
+    "shortDescription":   "Use 3d Mesh",
+    "longDescription":    "Use a fill 3D mesh to compute the orthophoto instead of a 2.5D mesh. This option is a bit faster and provides similar results in planar areas.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "orthophotoCompression",
+    "shortDescription":   "Orthophoto compression",
+    "longDescription":    "Set the compression to use. Note that this could break gdal_translate if you don't know what you are doing.",
+    "type":               "uint32",
+    "enumStrings":        "deflate,JPEG,LZW,Packbits,LZMA,none",
+    "enumValues":         "0,1,2,3,4,5",
+    "defaultValue":       0
+},
+{
+    "name":               "mveConfidence",
+    "shortDescription":   "MVE confidence",
+    "longDescription":    "Dicard points that have les than a certain confidence threshold. This only affects dense reconstructions performed with MVE. Higher values discard more points.",
+    "type":               "double",
+    "min":                0,
+    "max":                1,
+    "decimalPlaces":      2, 
+    "defaultValue":       0.6
+},
+{
+    "name":               "texturingSkipHoleFilling",
+    "shortDescription":   "Texturing skip hole filling",
+    "longDescription":    "Skip filling holes in the mesh.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "texturingSkipGlobalSeamLeveling",
+    "shortDescription":   "Texturing skip global seam leveling",
+    "longDescription":    "Skip global seam leveling. Useful for IR data.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "texturingNadirWeight",
+    "shortDescription":   "Texturing nadir weight",
+    "longDescription":    "Affects orthophotos only. Higher values result in sharper corners, but it can affect colour distribution and blurriness. Use lower values for planar areas and higher values for urban areas. The default value works well for most scenarios.",
+    "type":               "uint32",
+    "min":                0,
+    "max":                32,
+    "defaultValue":       16
+},
+{
+    "name":               "texturingOutlierRemovalType",
+    "shortDescription":   "Texturing outlier removal type",
+    "longDescription":    "Type of photometric outlier removal method.",
+    "type":               "uint32",
+    "enumStrings":        "gauss clamping,gauss damping,none",
+    "enumValues":         "0,1,2",
+    "defaultValue":       0
+},
+{
+    "name":               "othrophotoResolution",
+    "shortDescription":   "Othrophoto resolution",
+    "longDescription":    "Orthophoto resoultion in cm/pixel.",
+    "type":               "double",
+    "units":              "cm/px",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       5
+},
+{
+    "name":               "dtm",
+    "shortDescription":   "DTM",
+    "longDescription":    "Use this tag to build a DTM (Digital Terrain Model, ground only) using a simple morphological filter. Check the --dem* and --smrf* parameters for finer tuning.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "orthophotoNoTiled",
+    "shortDescription":   "Orthophoto no tiled",
+    "longDescription":    "Set this parameter if you want a stripped geoTIFF.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "demResolution",
+    "shortDescription":   "DEM resolution",
+    "longDescription":    "DSM/DTM resoultion in cm/pixel.",
+    "type":               "double",
+    "units":              "cm/px",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       5
+},
+{
+    "name":               "meshSize",
+    "shortDescription":   "Mesh size",
+    "longDescription":    "The maximum vertex count of the output mesh.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       100000
+},
+{
+    "name":               "forceGPS",
+    "shortDescription":   "force GPS",
+    "longDescription":    "Uses images' GPS exif data for reconstruction, even if there are GCPs present. This flag is useful if you have high precision GPS measurements. If there are no GCPs, this flag does nothing.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "ignoreGsd",
+    "shortDescription":   "Ignore GSD",
+    "longDescription":    "Ignore ground sampling distance (GSD). GSD caps the maximum resolution of image outputs and resizes images when necessary, resulting in faster processing and lower memory usage. Since GSD is an estimate, sometimes ignoring it can result in slightly better image output quality.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "buildOverviews",
+    "shortDescription":   "Build overviews",
+    "longDescription":    "Build orthophoto overviews using gdaladdo.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "opensfmDense",
+    "shortDescription":   "Opensfm dense",
+    "longDescription":    "Use opensfm to compute dense point cloud alternatively.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "opensfmDepthmapMinConsistentViews",
+    "shortDescription":   "Opensfm depthmap min consistent views",
+    "longDescription":    "Minimum number of views that should reconstruct a point for it to be valid. Use lower values if your images have less overlap. Lower values result in denser point clouds but with more noise.",
+    "type":               "uint32",
+    "min":                2,
+    "max":                9,
+    "defaultValue":       3
+},
+{
+    "name":               "texturingSkipLocalSeamLeveling",
+    "shortDescription":   "Texturing skip local seam leveling",
+    "longDescription":    "Skip local seam blending.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "texturingKeepUnseenFaces",
+    "shortDescription":   "Texturing keep unseen faces",
+    "longDescription":    "Keep faces in the mesh that are not seen in any camera.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "debug",
+    "shortDescription":   "Debug",
+    "longDescription":    "Print debug messages.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "useExif",
+    "shortDescription":   "Use exif",
+    "longDescription":    "Use this tag when you have a gcp_list.txt but want to use exif geotags instead.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "meshSamples",
+    "shortDescription":   "Mesh samples",
+    "longDescription":    "Number of points per octree node. Recommended and Default: 1",
+    "type":               "double",
+    "min":                1,
+    "decimalPlaces":      2,
+    "defaultValue":       1
+},
+{
+    "name":               "pcSample",
+    "shortDescription":   "Point cloud sample",
+    "longDescription":    "Filters the point cloud by keeping only a single point around a radius N. This can be useful to limit the output resolution of the point cloud. Set to 0 to diable sampling.",
+    "type":               "uint32",
+    "units":              "m",
+    "min":                0,
+    "defaultValue":       0
+},
+{
+    "name":               "matcherDistance",
+    "shortDescription":   "Matcher distance",
+    "longDescription":    "Distance threshold in meters to find pre-matching images based on exif data. Set matcher-neighbors and this to 0 to skip pre-matching.",
+    "type":               "uint32",
+    "units":              "m",
+    "min":                0,
+    "defaultValue":       0
+},
+{
+    "name":               "splitOverlap",
+    "shortDescription":   "Split overlap",
+    "longDescription":    "Radius of the overlap between submodels. After grouping images into clusters, images that are closer that this radius to a cluster are added to the cluster. This is done to ensure that the neighboring submodels overlap.",
+    "type":               "uint32",
+    "units":              "m",
+    "min":                0,
+    "defaultValue":       150
+},
+{
+    "name":               "demDecimation",
+    "shortDescription":   "DEM decimation",
+    "longDescription":    "Decimate the points before generatiing the DEM. 1 is no decimation (full quality). 100 decimates ~99% of the points. Useful for speeding up the generation.",
+    "type":               "uint32",
+    "min":                0,
+    "max":                100,
+    "defaultValue":       1
+},
+{
+    "name":               "orthophotoCutline",
+    "shortDescription":   "Orthophoto cutline",
+    "longDescription":    "Generates a polygon around the cropping area that cuts the orthophoto around the edges of the feature. This polygon can be useful for stitching seamless mosaics with multiple overlapping orthophotos.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "pcFilter",
+    "shortDescription":   "Point cloud filter",
+    "longDescription":    "Filters the point cloud by removing the points that deviate more that N standard deviations from the local mean. Set to 0 to disable filtering.",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       2.5
+},
+{
+    "name":               "split",
+    "shortDescription":   "Split",
+    "longDescription":    "Average number of images per submodel. When splitting a large dataset into smaller submodels, images are grouped into clusters. This value regulates the number of images that each cluster should have on average.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       999999
+},
+{
+    "name":               "fastOrthophoto",
+    "shortDescription":   "Fast orthophoto",
+    "longDescription":    "Skips dense reconsturction and 3D model generation. It generates an orthophoto directly from the sparse reconstruction. If you just need an orthophoto and do nopt need a full 3D model, turn on this option. Experimental.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "pcEpt",
+    "shortDescription":   "Point cloud EPT",
+    "longDescription":    "Export the georeferenced point cloud in the Entwine Point Tile (EPT) format.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "crop",
+    "shortDescription":   "Crop",
+    "longDescription":    "Automatically crop image outputs by creating a smooth buffer around the dataset boundaries, shrunk by N meters. Use 0 to disable cropping.",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       3
+},
+{
+    "name":               "pcLas",
+    "shortDescription":   "Point cloud LAS",
+    "longDescription":    "Export the georeferenced point cloud in LAS format.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "merge",
+    "shortDescription":   "Merge",
+    "longDescription":    "Choose what to merge in the merge step in a split dataset. By default all avaiable outputs are merged.",
+    "type":               "uint32",
+    "enumStrings":        "all,orthophoto,pointcloud,dem",
+    "enumValues":         "0,1,2,3",
+    "defaultValue":       0
+},
+{
+    "name":               "dsm",
+    "shortDescription":   "DSM",
+    "longDescription":    "Use this tag to build a DSM (Digital Surface Model, ground + objects) using a progressive morphological filter. Check the --dem* parameters for finer tuning.",
+    "type":               "bool",
+    "defaultValue":       true
+},
+{
+    "name":               "demGapfillSteps",
+    "shortDescription":   "DEM gapfill steps",
+    "longDescription":    "Number of steps used to fill areas with gaps. Set to 0 to disable gap filling. Starting witha radius equal to the output resulotion, N different DEMs are generated with progressively bigger radius using the inverse distance weighted (IDW) algorthim and merged together. Remaining gaps are then merged using nearest neighbour interpolation.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       3
+},
+{
+    "name":               "meshPointWeight",
+    "shortDescription":   "Mesh point weight",
+    "longDescription":    "This floating point number specifies the importance that interpolation of the point samples is given in the formulation of the screen Poisson equation. The results of the original (unscreened) Poisson Reconstruction can be obtained by setting this value to 0.",
+    "type":               "double",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       4
+},
+{
+    "name":               "maxConcurrency",
+    "shortDescription":   "Maximum concurrency",
+    "longDescription":    "The maximum number of processes to use in the various processes. Peak memory requirement is ~1GB per thread and 2 megapixel image resolution.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       16
+},
+{
+    "name":               "texturingToneMapping",
+    "shortDescription":   "Texturing tone mapping",
+    "longDescription":    "Turn on gamma tone mapping or none for no tone mapping.",
+    "type":               "uint32",
+    "enumStrings":        "none,gamma",
+    "enumValues":         "0,1",
+    "defaultValue":       0
+},
+{
+    "name":               "demEuclidianMap",
+    "shortDescription":   "DEM euclidian map",
+    "longDescription":    "Computes an euclidean raste map for each DEM. The map reports the distance from each cell to to the nearest NODATA value (before any hole filling takes place). This can be useful to isolate the areas that have been filled.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "cameraLens",
+    "shortDescription":   "Camera lens",
+    "longDescription":    "Set a camera projection type. Manually set a value can help improve geometric undistortion. By default the application tries to determine a lens type from the images metedata.",
+    "type":               "uint32",
+    "enumStrings":        "auto,perspective,brown,fisheye,spherical",
+    "enumValues":         "0,1,2,3,4",
+    "defaultValue":       0
+},
+{
+    "name":               "skip3dmodel",
+    "shortDescription":   "Skip 3D model",
+    "longDescription":    "Skips generation of the full 3D model. This can save time if you only need 2D results such as orthophotos and DEMs.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "matchNeighbours",
+    "shortDescription":   "Match neighbours",
+    "longDescription":    "Number of nearest images to pre-match based on GPS exif data. set to 0 to skip pre-matching. Neighbours works together with Distance parameter, set both to 0 to not user pre-matching. OpenSFM uses both parameters at the same time, bundler uses only one which has value, prefering Neighbours parameter.",
+    "type":               "uint32",
+    "min":                0,
+    "defaultValue":       8
+},
+{
+    "name":               "pcCsv",
+    "shortDescription":   "Point cloud CSV",
+    "longDescription":    "Exports the georeferenced point cloud in CSV format.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "endWith",
+    "shortDescription":   "End with",
+    "longDescription":    "Can be one of: dataset, split, merge, opensfm, mve, odm_filterpoints, odm_meshing, mvs_texturing, odm_georeferencing, odm_dem, odm_orthophoto.",
+    "type":               "uint32",
+    "enumStrings":        "dataset,split,merge,opensfm,mve,odm_filterpoints,odm_meshing,mvs_texturing,odm_georeferencing,odm_dem,odm_orthophoto",
+    "enumValues":         "0,1,2,3,4,5,6,7,8,9,10",
+    "defaultValue":       10
+},
+{
+    "name":               "depthmapResolution",
+    "shortDescription":   "Depthmap resolution",
+    "longDescription":    "Controls the density of the point cloud by setting the resolution of the depthmap images. Higher values take longer to compute but produce denser point clouds.",
+    "type":               "float",
+    "min":                0,
+    "decimalPlaces":      2,
+    "defaultValue":       640
+},
+{
+    "name":               "texturingDataTerm",
+    "shortDescription":   "Texturing data term",
+    "longDescription":    "Data term:[area, gmi].",
+    "type":               "uint32",
+    "enumStrings":        "area,gmi",
+    "enumValues":         "0,1",
+    "defaultValue":       1
+},
+{
+    "name":               "texturingSkipVisibilityTest",
+    "shortDescription":   "Texturing skip visibility test",
+    "longDescription":    "Skip geometric visibility test.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "opensfmDepthmapMethod",
+    "shortDescription":   "Opensfm depthmap method",
+    "longDescription":    "Raw depthmap computation algorithm. PATCH_MATCH and PATCH_MATCH_SAMPLE are faster, but might miss some valid points. BRUTE_FORCE takes longer but produces denser reconstuctions.",
+    "type":               "uint32",
+    "enumStrings":        "PATCH_MATCH,PATCH_MATCH_SAMPLE,BRUTE_FORCE",
+    "enumValues":         "0,1,2",
+    "defaultValue":       0
+},
+{
+    "name":               "useFixedCameraParams",
+    "shortDescription":   "Use fixed camera params",
+    "longDescription":    "Turn off camera parameter optimization during bundler.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "smrfThreshold",
+    "shortDescription":   "smrf threshold",
+    "longDescription":    "Simple Morphological Filter elevation threshold parameter.",
+    "type":               "float",
+    "min":                0,
+    "units":              "m",
+    "decimalPlaces":      2,
+    "defaultValue":       0.5
+},
+{
+    "name":               "verbose",
+    "shortDescription":   "Verbose",
+    "longDescription":    "Print additional messages to the console.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "useHybridBundleAdjustment",
+    "shortDescription":   "Use hybrid bundle adjustment",
+    "longDescription":    "Run local bundle adjustment for every image added to the reconstruction and a global adjustment every 100 images. Speeds up reconstruction for very large datasets.",
+    "type":               "bool",
+    "defaultValue":       false
+},
+{
+    "name":               "processingPresets",
+    "shortDescription":   "Processing presets",
+    "longDescription":    "WebODM's preset processing options",
+    "type":               "uint32",
+    "enumStrings":        "Default,High Resolution,Fast Orthophoto,DSM + DTM,Forest,Point of Interest,Buildings,3D Model,Volume Analysis,Custom",
+    "enumValues":         "0,1,2,3,4,5,6,7,8,9",
+    "defaultValue":       0
+}
+]

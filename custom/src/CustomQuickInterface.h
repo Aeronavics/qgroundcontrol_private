@@ -13,6 +13,8 @@
 #pragma once
 
 #include "Vehicle.h"
+#include "CustomMappingSettings.h"
+#include "CustomWebODMManager.h"
 
 #include <QColor>
 #include <QGeoPositionInfo>
@@ -36,6 +38,11 @@ class CustomQuickInterface : public QObject {
                    NOTIFY serialNumberChanged)
     Q_PROPERTY(bool enableAutoUpload READ enableAutoUpload WRITE
                    setEnableAutoUpload NOTIFY enableAutoUploadChanged)
+    Q_PROPERTY(QString password READ password WRITE setPassword NOTIFY passwordChanged)
+    Q_PROPERTY(bool correctCredentials READ correctCredentials WRITE setCorrectCredentials NOTIFY correctCredentialsChanged)
+    Q_PROPERTY(bool advancedSettings READ advancedSettings WRITE setAdvancedSettings NOTIFY advancedSettingsChanged)
+    Q_PROPERTY(bool mapSurvey READ mapSurvey WRITE setMapSurvey NOTIFY mapSurveyChanged)
+    Q_PROPERTY(QObject* customMappingSettings         READ customMappingSettings        CONSTANT)
 
     // bool showGimbalControl() { return _showGimbalControl; }
     // void setShowGimbalControl(bool set);
@@ -45,20 +52,38 @@ class CustomQuickInterface : public QObject {
 
     QString          networkId() { return _networkId; }
     QString          serialNumber() { return _serialNumber; }
+    QString          password() { return _password; }
     bool             enableAutoUpload() { return _enableAutoUpload; }
     Q_INVOKABLE bool test_connection(QString networkId);
+    Q_INVOKABLE void login(QString password, QString compPassword);
+    bool             correctCredentials() { return _correctCredentials; }
+    bool             advancedSettings()   { return _advancedSettings; }
+    bool             mapSurvey()          { return _mapSurvey;        }
+    CustomMappingSettings* customMappingSettings(void) { return _mapping; }
+
 
     // Setters
 
     void setNetworkId(QString networkId);
     void setSerialNumber(QString serialNumber);
+    void setPassword(QString password);
     void setEnableAutoUpload(bool enable);
+    void setCorrectCredentials(bool correctCredentials);
+    Q_INVOKABLE void setAdvancedSettings(bool advancedSettings);
+    Q_INVOKABLE void setMapSurvey(bool mapSurvey);
+    Q_INVOKABLE void setCustom();
+    Q_INVOKABLE void presetChanged();
+    
   signals:
     // void showGimbalControlChanged();
 
     void networkIdChanged();
     void serialNumberChanged();
     void enableAutoUploadChanged();
+    void passwordChanged();
+    void correctCredentialsChanged();
+    void advancedSettingsChanged();
+    void mapSurveyChanged();
 
   private:
     // bool _showGimbalControl = true;
@@ -66,4 +91,21 @@ class CustomQuickInterface : public QObject {
     QString _serialNumber;
     QString _logPath;
     bool    _enableAutoUpload;
+    QString _password;
+    bool    _correctCredentials;
+    bool    _advancedSettings;
+    CustomMappingSettings* _mapping;
+    CustomWebODMManager* _webodmManager;
+    bool _mapSurvey;
+
+    void dsmdtm();
+    void returnToDefault();
+    void forest();
+    void fastOrtho();
+    void model();
+    void highRes();
+    void buildings();
+    void pointOfInterest();
+    void volumeAnalysis();
+
 };

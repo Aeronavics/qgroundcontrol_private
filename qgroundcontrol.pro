@@ -239,6 +239,7 @@ DebugBuild {
     CONFIG -= qtquickcompiler
 } else {
     CONFIG += qtquickcompiler
+    CONFIG -= console
 }
 
 contains(DEFINES, ENABLE_VERBOSE_OUTPUT) {
