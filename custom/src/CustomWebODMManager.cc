@@ -539,9 +539,6 @@ void CustomWebODMManager::uploadImages(){
             if (type == "winrt" || type == "windows"){
                 mount = "net use q: \\\\10.10."+sid+".2\\airside_shared";
                 _mountpath = QString("q:\\payload\\SonyCamera\\DCIM");
-            } else if (type == "android") {
-                mount = "mkdir -p -m777 /tmp/images; mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /sdcard/mount";
-                _mountpath = QString("/sdcard/mount/payload/SonyCamera/DCIM");
             } else {
                 mount = "echo " + _userPassword + " | sudo -S mkdir -p -m777 /tmp/images; echo " + _userPassword + " | sudo -S mount -v -t cifs -o user=guest,password=,uid=1000,gid=1000 //10.10."+sid+".2/airside_shared /tmp/images";
                 _mountpath = QString("/tmp/images/payload/SonyCamera/DCIM");

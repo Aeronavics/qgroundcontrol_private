@@ -149,7 +149,10 @@ CustomPlugin::settingsPages()
         addSettingsEntry(tr("General"),     "qrc:/qml/GeneralSettings.qml", "qrc:/res/gear-white.svg");
         addSettingsEntry(tr("Comm Links"),  "qrc:/qml/LinkSettings.qml",    "qrc:/res/waves.svg");
         addSettingsEntry(tr("Offline Maps"),"qrc:/qml/OfflineMap.qml",      "qrc:/res/waves.svg");
-        addSettingsEntry(tr("Aeronavics Mapping"), "qrc:/custom/CustomAeronavicsMapping.qml");
+        std::string type = QSysInfo::productType().toStdString();
+        if (type != "android") {
+            addSettingsEntry(tr("Aeronavics Mapping"), "qrc:/custom/CustomAeronavicsMapping.qml");
+        }
 #if defined(QGC_AIRMAP_ENABLED)
         addSettingsEntry(tr("AirMap"),      "qrc:/qml/AirmapSettings.qml");
 #endif
