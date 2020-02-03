@@ -2722,27 +2722,52 @@ void Vehicle::_imageReady(UASInterface*)
 
 void Vehicle::_remoteControlRSSIChanged(uint8_t rssi)
 {
-    //-- 0 <= rssi <= 100 - 255 means "invalid/unknown"
-    if(rssi > 100) { // Anything over 100 doesn't make sense
-        if(_rcRSSI != 255) {
-            _rcRSSI = 255;
+    if (px4Firmware()) {
+        //-- 0 <= rssi <= 100 - 255 means "invalid/unknown"
+        if(rssi > 100) { // Anything over 100 doesn't make sense
+            if(_rcRSSI != 255) {
+                _rcRSSI = 255;
+                emit rcRSSIChanged(_rcRSSI);
+            }
+            return;
+        }
+        //-- Initialize it
+        if(_rcRSSIstore == 255.) {
+            _rcRSSIstore = (double)rssi;
+        }
+        // Low pass to git rid of jitter
+        _rcRSSIstore = (_rcRSSIstore * 0.9f) + ((float)rssi * 0.1);
+        uint8_t filteredRSSI = (uint8_t)ceil(_rcRSSIstore);
+        if(_rcRSSIstore < 0.1) {
+            filteredRSSI = 0;
+        }
+        if(_rcRSSI != filteredRSSI) {
+            _rcRSSI = filteredRSSI;
             emit rcRSSIChanged(_rcRSSI);
         }
-        return;
-    }
-    //-- Initialize it
-    if(_rcRSSIstore == 255.) {
-        _rcRSSIstore = (double)rssi;
-    }
-    // Low pass to git rid of jitter
-    _rcRSSIstore = (_rcRSSIstore * 0.9f) + ((float)rssi * 0.1);
-    uint8_t filteredRSSI = (uint8_t)ceil(_rcRSSIstore);
-    if(_rcRSSIstore < 0.1) {
-        filteredRSSI = 0;
-    }
-    if(_rcRSSI != filteredRSSI) {
-        _rcRSSI = filteredRSSI;
-        emit rcRSSIChanged(_rcRSSI);
+    } else {
+        //-- 0 <= rssi <= 255 - 0 means "invalid/unknown"
+        if(rssi == 0) { // this means that rssi cannot be found
+            if(_rcRSSI != 0) {
+                _rcRSSI = 0; 
+                emit rcRSSIChanged(_rcRSSI);
+            }
+            return;
+        }    
+        //-- Initialize it
+        if(_rcRSSIstore == 255.) {
+            _rcRSSIstore = (double)rssi;
+        }    
+        // Low pass to git rid of jitter
+        _rcRSSIstore = (_rcRSSIstore * 0.9f) + ((float)rssi * 0.1);
+        uint8_t filteredRSSI = (uint8_t)ceil(_rcRSSIstore);
+        if(_rcRSSIstore < 0.1) {
+            filteredRSSI = 0; 
+        }    
+        if(_rcRSSI != filteredRSSI) {
+            _rcRSSI = filteredRSSI;
+            emit rcRSSIChanged(_rcRSSI);
+        } 
     }
 }
 

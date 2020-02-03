@@ -27,7 +27,7 @@ Item {
     property bool showIndicator: _activeVehicle.supportsRadio
 
     property var    _activeVehicle:     QGroundControl.multiVehicleManager.activeVehicle
-    property bool   _rcRSSIAvailable:   activeVehicle ? activeVehicle.rcRSSI > 0 && activeVehicle.rcRSSI <= 100 : false
+    property bool   _rcRSSIAvailable:   activeVehicle.px4Firmware ? activeVehicle.rcRSSI > 0 && activeVehicle.rcRSSI <= 100 : activeVehicle.rcRSSI > 0 && activeVehicle.rcRSSI <= 255
 
     Component {
         id: rcRSSIInfo
@@ -48,7 +48,7 @@ Item {
 
                 QGCLabel {
                     id:             rssiLabel
-                    text:           activeVehicle ? (activeVehicle.rcRSSI !== 255 ? qsTr("RC RSSI Status") : qsTr("RC RSSI Data Unavailable")) : qsTr("N/A", "No data available")
+                    text:           activeVehicle ? (activeVehicle.px4Firmware ? (activeVehicle.rcRSSI !== 255 ? activeVehicle.rcRSSI : qsTr("RC RSSI Data Unavailable")) : (activeVehicle.rcRSSI !== 0 ? activeVehicle.rcRSSI : qsTr("RC RSSI Data Unavailable"))) : qsTr("N/A", "No data available")
                     font.family:    ScreenTools.demiboldFontFamily
                     anchors.horizontalCenter: parent.horizontalCenter
                 }
