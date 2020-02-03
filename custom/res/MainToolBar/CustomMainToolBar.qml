@@ -94,16 +94,6 @@ Item {
                 }
 
                 QGCToolBarButton {
-                    id:                 planButton
-                    Layout.fillHeight:  true
-                    icon.source:        "/qmlimages/Plan.svg"
-                    onClicked: {
-                        checked = true
-                        mainWindow.showPlanView()
-                    }
-                }
-
-                QGCToolBarButton {
                     id:                 flyButton
                     Layout.fillHeight:  true
                     icon.source:        "/qmlimages/PaperPlane.svg"
