@@ -122,6 +122,7 @@ void
 CustomPlugin::_advancedChanged(bool changed)
 {
     //-- We are now in "Advanced Mode" (or not)
+    qgcApp()->toolbox()->settingsManager()->autoConnectSettings()->setVisible(changed);
     emit _pOptions->showFirmwareUpgradeChanged(changed);
 }
 
