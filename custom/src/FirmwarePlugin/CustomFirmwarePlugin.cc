@@ -15,6 +15,21 @@
 //-----------------------------------------------------------------------------
 CustomFirmwarePlugin::CustomFirmwarePlugin(): ArduCopterFirmwarePlugin()
 {
+    setSupportedModes({
+        APMCopterMode(APMCopterMode::STABILIZE,     true),
+        APMCopterMode(APMCopterMode::ALT_HOLD,      true),
+        APMCopterMode(APMCopterMode::AUTO,          true),
+        APMCopterMode(APMCopterMode::GUIDED,        true),
+        APMCopterMode(APMCopterMode::LOITER,        true),
+        APMCopterMode(APMCopterMode::RTL,           true),
+        APMCopterMode(APMCopterMode::CIRCLE,        true),
+        APMCopterMode(APMCopterMode::LAND,          true),
+        APMCopterMode(APMCopterMode::AUTOTUNE,      true),
+        APMCopterMode(APMCopterMode::POS_HOLD,      true),
+        APMCopterMode(APMCopterMode::BRAKE,         true),
+        APMCopterMode(APMCopterMode::GUIDED_NOGPS,  true),
+        APMCopterMode(APMCopterMode::SMART_RTL,     true),
+    });
 }
 
 //-----------------------------------------------------------------------------

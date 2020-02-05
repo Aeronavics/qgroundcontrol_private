@@ -7,6 +7,7 @@
         <file alias="CustomLogSettings.qml">res/SettingsPage/LogSettings.qml</file>
         <file alias="CustomFlightDisplayView.qml">res/MainWindow/CustomFlightDisplayView.qml</file>
         <file alias="CustomMainRootWindow.qml">res/MainWindow/CustomMainRootWindow.qml</file>
+        <file alias="CustomMainToolBar.qml">res/MainToolBar/CustomMainToolBar.qml</file>
     </qresource>
     <qresource prefix="custom/img">
         <file alias="aeronavics.svg">res/Images/aeronavics.svg</file>
