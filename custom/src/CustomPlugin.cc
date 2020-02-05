@@ -270,3 +270,13 @@ CustomPlugin::paletteOverride(QString colorName, QGCPalette::PaletteColorInfo_t&
         colorInfo[QGCPalette::Light][QGCPalette::ColorGroupDisabled] = QColor("#000000");
     }
 }
+
+QQmlApplicationEngine* CustomPlugin::createRootWindow(QObject *parent)
+{
+    QQmlApplicationEngine* pEngine = new QQmlApplicationEngine(parent);
+    pEngine->addImportPath("qrc:/qml");
+    pEngine->rootContext()->setContextProperty("joystickManager", qgcApp()->toolbox()->joystickManager());
+    pEngine->rootContext()->setContextProperty("debugMessageModel", AppMessages::getModel());
+    pEngine->load(QUrl(QStringLiteral("qrc:/custom/CustomMainRootWindow.qml")));
+    return pEngine;
+}

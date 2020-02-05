@@ -80,6 +80,8 @@ public:
     QString                 brandImageIndoor                () const final;
     QString                 brandImageOutdoor               () const final;
     bool                    overrideSettingsGroupVisibility (QString name) final;
+    QQmlApplicationEngine*  createRootWindow                (QObject* parent) final;
+    
     //VideoManager*           createVideoManager              (QGCApplication* app, QGCToolbox* toolbox) final;
     //VideoReceiver*          createVideoReceiver             (QObject* parent) final;
     //QQmlApplicationEngine*  createRootWindow                (QObject* parent) final;
