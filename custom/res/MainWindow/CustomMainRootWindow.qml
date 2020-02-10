@@ -319,7 +319,7 @@ ApplicationWindow {
         id:             planViewLoader
         anchors.fill:   parent
         visible:        false
-        source:         "/qml/PlanView.qml"
+        source:         "/custom/CustomPlanView.qml"
     }
 
     //-------------------------------------------------------------------------
