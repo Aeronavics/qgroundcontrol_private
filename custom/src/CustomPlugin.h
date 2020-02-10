@@ -48,7 +48,7 @@ public:
     //QUrl        flyViewOverlay                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomFlyView.qml"); }
     //QUrl        preFlightChecklistUrl           () const final { return QUrl::fromUserInput("qrc:/custom/PreFlightCheckList.qml"); }
     //-- We have our own toolbar
-    //QUrl        mainToolbarUrl                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomMainToolBar.qml"); }
+    QUrl        mainToolbarUrl                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomMainToolBar.qml"); }
    // QUrl        planToolbarUrl                  () const final { return QUrl::fromUserInput("qrc:/custom/CustomMainToolBar.qml"); }
     //-- Don't show instrument widget
     //CustomInstrumentWidget* instrumentWidget    () final { return nullptr; }
@@ -80,6 +80,8 @@ public:
     QString                 brandImageIndoor                () const final;
     QString                 brandImageOutdoor               () const final;
     bool                    overrideSettingsGroupVisibility (QString name) final;
+    QQmlApplicationEngine*  createRootWindow                (QObject* parent) final;
+    
     //VideoManager*           createVideoManager              (QGCApplication* app, QGCToolbox* toolbox) final;
     //VideoReceiver*          createVideoReceiver             (QObject* parent) final;
     //QQmlApplicationEngine*  createRootWindow                (QObject* parent) final;

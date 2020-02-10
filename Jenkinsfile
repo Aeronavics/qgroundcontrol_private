@@ -8,7 +8,7 @@ pipeline {
                     environment {
                         CCACHE_BASEDIR = "${env.WORKSPACE}"
                         QGC_CONFIG = 'release'
-                        QMAKE_VER = "5.11.0/android_armv7/bin/qmake"
+                        QMAKE_VER = "5.12.6/android_armv7/bin/qmake"
                         GSTREAMER_ROOT_ANDROID = "/qgroundcontrol/gstreamerr"
                         QGC_REGISTRY_CREDS = credentials('qgc_uploader')
                     }
@@ -144,7 +144,6 @@ pipeline {
                     env.QGC_CONFIG = 'release'
                     env.VERSION_NAME = getVersion()
                     env.HASH_NAME = getHash()
-                    env.TAG_NAME = getTag()
                 }
 
                 sh "wget --user=${QGC_REGISTRY_CREDS_USR} --password=${QGC_REGISTRY_CREDS_PSW} http://pelardon.aeronavics.com:8086/nexus/repository/nexus_tools/remove_latest.py"
@@ -161,7 +160,7 @@ pipeline {
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
                 [artifactId: 'QGroundControl', classifier: "${env.VERSION_NAME}", file: 'build/release/QGroundControl-installer.exe', type: 'exe']
                 ])
-                nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'stable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: "${env.TAG_NAME}", artifacts: [
+                nexusArtifactUploader(credentialsId: 'qgc_uploader', groupId: 'stable', nexusUrl: 'pelardon.aeronavics.com:8086/nexus', nexusVersion: 'nexus3', protocol: 'http', repository: 'qgroundcontrol', version: "${env.VERSION_NAME}", artifacts: [
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.AppImage', type: 'AppImage'],
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl.deb', type: 'DEB'],
                 [artifactId: 'QGroundControl', classifier: "${env.HASH_NAME}", file: 'build/release/package/QGroundControl32.apk', type: 'apk'],
@@ -186,7 +185,6 @@ pipeline {
                     env.QGC_CONFIG = 'release'
                     env.VERSION_NAME = getVersion()
                     env.HASH_NAME = getHash()
-                    env.TAG_NAME = getTag()
                 }
 
                 sh "wget --user=${QGC_REGISTRY_CREDS_USR} --password=${QGC_REGISTRY_CREDS_PSW} http://pelardon.aeronavics.com:8086/nexus/repository/nexus_tools/remove_latest.py"
@@ -217,13 +215,6 @@ pipeline {
         CCACHE_DIR = '/tmp/ccache'
         QT_FATAL_WARNINGS = '1'
     }
-}
-
-def getTag()
-{
-    tags = sh(returnStdout: true, script: "git tag").trim()
-    print tags
-    return tags
 }
 
 def getVersion()
